@@ -8,3 +8,6 @@ dependencyResolutionManagement {
 }
 rootProject.name = "PrimeClinic"
 include ':app'
+include ':data'
+include ':core'
+include ':network'
