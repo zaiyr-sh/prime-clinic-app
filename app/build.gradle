@@ -48,4 +48,7 @@ dependencies {
 
     // Gif drawable
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.17'
+
+    // Country Code Picker
+    implementation 'com.hbb20:ccp:2.5.0'
 }

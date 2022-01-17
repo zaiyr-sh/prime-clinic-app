@@ -5,7 +5,10 @@
       <map>
         <entry key="app/src/main/res/drawable/ic_app_logo.xml" value="0.14010416666666667" />
         <entry key="app/src/main/res/layout/activity_authorization.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.165" />
+        <entry key="core/src/main/res/drawable/edit_text_border.xml" value="0.2518518518518518" />
+        <entry key="core/src/main/res/drawable/rounded_button.xml" value="0.1" />
+        <entry key="core/src/main/res/layout/activity_main.xml" value="0.1" />
       </map>
     </option>
   </component>
