@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import kg.iaau.diploma.core.startActivity
+import dagger.hilt.android.AndroidEntryPoint
+import kg.iaau.diploma.core.utils.startActivity
 import kg.iaau.diploma.primeclinic.databinding.ActivitySplashBinding
 import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationActivity
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding

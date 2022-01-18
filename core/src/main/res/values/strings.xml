@@ -3,6 +3,7 @@
     <string name="app_enter_text">Вход в Primedoc</string>
     <string name="phone_number_hint_text">Номер телефона</string>
     <string name="password_hint_text">Пароль</string>
-    <string name="action_sign_in">Зарегестрироваться</string>
+    <string name="action_sign_in">Войти</string>
+    <string name="action_register">Зарегестрироваться</string>
     <string name="code_send_phone">На указаный номер телефона будет отправлен SMS-код подтверждения</string>
 </resources>

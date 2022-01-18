@@ -82,6 +82,7 @@
         android:layout_marginTop="@dimen/size_4dp"
         android:clickable="true"
         android:focusable="true"
+        android:visibility="gone"
         android:fontFamily="normal"
         android:gravity="center"
         android:text="@string/code_send_phone"
@@ -97,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/size_16dp"
         android:layout_marginRight="@dimen/size_16dp"
-        android:layout_marginTop="@dimen/size_36dp"
+        android:layout_marginTop="@dimen/size_16dp"
         android:background="@drawable/edit_text_border"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -120,8 +121,26 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/tv_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:fontFamily="normal"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:clickable="true"
+        android:text="@string/action_register"
+        android:textColor="@color/teal"
+        android:textSize="14sp"
+        android:typeface="normal"
+        app:layout_constraintBottom_toTopOf="@+id/btn_enter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:focusable="true" />
+
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/registerButton"
+        android:id="@+id/btn_enter"
         style="@style/ButtonStyle"
         android:layout_marginBottom="@dimen/size_128dp"
         android:inputType="textCapSentences"

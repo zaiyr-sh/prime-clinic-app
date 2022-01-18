@@ -1,4 +1,4 @@
-package kg.iaau.diploma.core
+package kg.iaau.diploma.core.utils
 
 import android.app.Activity
 import android.content.Context
