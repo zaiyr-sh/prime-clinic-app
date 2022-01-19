@@ -1,30 +1,37 @@
 package kg.iaau.diploma.primeclinic.ui.splash
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.core.utils.startActivity
 import kg.iaau.diploma.primeclinic.databinding.ActivitySplashBinding
 import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationActivity
+import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationVM
+import kg.iaau.diploma.primeclinic.ui.pin.PinActivity
 
 @AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
+    private val vm: AuthorizationVM by viewModels()
     private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        startAuthorizationActivityWithDelay()
+        startActivityWithDelay()
     }
 
-    private fun startAuthorizationActivityWithDelay() {
+    private fun startActivityWithDelay() {
         Handler(Looper.getMainLooper()).postDelayed({
-            startActivity<AuthorizationActivity>()
+            if (vm.isUserSignIn())
+                PinActivity.startActivity(this)
+            else
+                AuthorizationActivity.startActivity(this)
             finish()
-        }, 2000)
+        }, 1000)
     }
+
 }

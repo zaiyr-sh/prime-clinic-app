@@ -11,9 +11,9 @@ interface ApiAuth {
     suspend fun auth(@Body authorization: Authorization): AccessToken
 
     @POST("api/v1/register")
-    suspend fun register(@Body user: User): Void
+    suspend fun register(@Body user: User)
 
     @POST("api/v1/verify/{code}")
-    suspend fun verify(@Path("code") code: String): Void
+    suspend fun verify(@Path("code") code: String)
 
 }

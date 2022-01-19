@@ -1,9 +1,34 @@
 <resources>
     <string name="app_name">PrimeClinic</string>
-    <string name="app_enter_text">Вход в Primedoc</string>
-    <string name="phone_number_hint_text">Номер телефона</string>
-    <string name="password_hint_text">Пароль</string>
+    <string name="app_enter">Вход в PrimeClinic</string>
+    <string name="app_register">Регистрация в PrimeClinic</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="password_hint">Пароль</string>
     <string name="action_sign_in">Войти</string>
     <string name="action_register">Зарегестрироваться</string>
     <string name="code_send_phone">На указаный номер телефона будет отправлен SMS-код подтверждения</string>
+    <string name="forgot_pin">Забыли PIN-код?</string>
+    <string name="pin_confirm">Подтвердите PIN-код</string>
+    <string name="pin_enter">Введите PIN-код</string>
+    <string name="entered_wrong_pin">Вы ввели неверный код, пожалуйста введите код еще раз</string>
+    <string name="pin_creation">Для безопасного входа, необходимо придумать код</string>
+    <string name="sent_code_to_number">Мы отправили SMS код на номер %s</string>
+    <string name="sent_code_to_number_again">Мы повторно отправили SMS код на номер ********** %s</string>
+    <string name="code_confirmation">Код подтверждения</string>
+    <string name="enter_code_from_sms">Введите код подтверждения из полученного SMS-сообщения</string>
+    <string name="next">Далее</string>
+    <string name="code_not_received">Я не получил(а) код</string>
+    <string name="send_code_again">Код будет заново отправлен!</string>
+    <string name="send_code_duration">В течение 1 минуты 30 секунд вы получите СМС код</string>
+
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="zero">0</string>
 </resources>

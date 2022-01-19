@@ -4,7 +4,7 @@ import okhttp3.ResponseBody
 
 open class Event
 open class CoreEvent : Event() {
-    class Success(val data: Unit) : CoreEvent()
+    class Success : CoreEvent()
     class Notification(val message: String) : CoreEvent()
     class Error(val isNetworkError: Boolean,
                 val errorCode: Int?,

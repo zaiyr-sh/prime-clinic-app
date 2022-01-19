@@ -8,10 +8,67 @@ import javax.inject.Inject
 @HiltViewModel
 class AuthorizationVM @Inject constructor(private val repository: AuthRepository) : CoreVM() {
 
+    var pin: StringBuilder = StringBuilder()
+    var dotPosition: Int = 0
+
+    var isFirstTimePinCreating = repository.pin.isNullOrEmpty()
+
+    fun isUserSignIn(): Boolean {
+        return !repository.token.isNullOrEmpty()
+    }
+
     fun auth(phone: String, password: String) {
-        safeLaunch {
-            repository.auth(phone, password)
-        }
+        safeLaunch(
+            action = {
+                repository.auth(phone, password)
+            }
+        )
+    }
+
+    fun register(phone: String, password: String) {
+        safeLaunch(
+            action = {
+                repository.register(phone, password)
+            }
+        )
+    }
+
+    fun verify(code: String) {
+        safeLaunch(
+            action = {
+                repository.verify(code)
+            }
+        )
+    }
+
+    fun fillPin(digit: Int) {
+        dotPosition++
+        pin.append(digit)
+    }
+
+    fun deleteLastDigit() {
+        dotPosition--
+        pin.deleteCharAt(dotPosition)
+    }
+
+    fun clearPin() {
+        dotPosition = 0
+        pin.clear()
+    }
+
+    fun savePin() {
+        repository.pin = pin.toString()
+    }
+
+    fun restorePin() {
+        repository.pin = null
+    }
+
+    fun isPinVerified() = repository.pin == pin.toString()
+
+    fun savePhoneWithDeviceId(phone: String?, deviceId: String?) {
+        repository.phone = phone
+        repository.deviceId = deviceId
     }
 
 }

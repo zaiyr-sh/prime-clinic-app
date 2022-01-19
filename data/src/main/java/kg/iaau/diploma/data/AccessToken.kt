@@ -4,10 +4,10 @@ import androidx.room.Entity
 
 @Entity
 data class AccessToken(
-    var id: Int,
-    var accessToken: String,
-    var chatToken: String,
-    var tokenExpirationTime: String,
-    var refreshToken: String,
-    var refreshExpirationTime: String
+    var id: Int? = null,
+    var userId: Int? = null,
+    var accessToken: String? = null,
+    var tokenExpirationTime: String? = null,
+    var refreshToken: String? = null,
+    var refreshExpirationTime: String? = null
 )

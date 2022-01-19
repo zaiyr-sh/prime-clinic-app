@@ -8,7 +8,7 @@ class HeaderInterceptor(val prefs: StoragePreferences) : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
 
-        if (prefs.token.isEmpty())
+        if (prefs.token.isNullOrEmpty())
             return chain.proceed(request)
 
         return chain.proceed(

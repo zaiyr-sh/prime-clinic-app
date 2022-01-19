@@ -5,10 +5,10 @@ import androidx.room.Entity
 @Entity
 class User(
     val authorities: List<String> = listOf("USER"),
-    var birthDate: String,
-    var firstName: String,
-    var lastName: String,
-    var password: String,
-    var patronymic: String,
-    var username: String
+    var birthDate: String? = null,
+    var firstName: String? = null,
+    var lastName: String? = null,
+    var password: String? = null,
+    var patronymic: String? = null,
+    var username: String? = null
 )

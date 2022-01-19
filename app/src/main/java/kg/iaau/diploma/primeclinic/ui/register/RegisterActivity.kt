@@ -1,19 +1,21 @@
-package kg.iaau.diploma.primeclinic.ui.authorization
+package kg.iaau.diploma.primeclinic.ui.register
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.constants.AUTH_ERROR
 import kg.iaau.diploma.core.utils.*
-import kg.iaau.diploma.core.utils.CoreEvent.*
+import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ActivityAuthorizationBinding
-import kg.iaau.diploma.primeclinic.ui.pin.PinActivity
-import kg.iaau.diploma.primeclinic.ui.register.RegisterActivity
+import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationActivity
+import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationVM
 
 @AndroidEntryPoint
-class AuthorizationActivity : AppCompatActivity() {
+class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAuthorizationBinding
     private val vm: AuthorizationVM by viewModels()
@@ -28,19 +30,23 @@ class AuthorizationActivity : AppCompatActivity() {
 
     private fun setupActivityView() {
         binding.apply {
-            tvSign.setOnClickListener { startRegisterActivity() }
-            btnEnter.setOnClickListener { auth() }
+            tvCodeSendPhone.show()
+            tvEnter.text = getString(R.string.app_register)
+            tvSign.text = getString(R.string.action_sign_in)
+            btnEnter.text = getString(R.string.action_register)
+            btnEnter.setOnClickListener { register() }
+            tvSign.setOnClickListener{ startAuthorizationActivity() }
         }
     }
 
-    private fun startRegisterActivity() {
-        RegisterActivity.startActivity(this)
+    private fun startAuthorizationActivity() {
+        AuthorizationActivity.startActivity(this)
         finish()
     }
 
-    private fun auth() {
+    private fun register() {
         val (login, password) = editTextHandler()
-        vm.auth(login, password)
+        vm.register(login, password)
     }
 
     private fun editTextHandler(): Array<String> {
@@ -54,16 +60,22 @@ class AuthorizationActivity : AppCompatActivity() {
     private fun observeLiveData() {
         vm.event.observe(this, { event ->
             when(event) {
-                is Loading -> showLoader()
-                is Success -> successAction()
-                is Error -> errorAction()
+                is CoreEvent.Loading -> showLoader()
+                is CoreEvent.Success -> successAction()
+                is CoreEvent.Error -> errorAction()
             }
         })
     }
 
+    @SuppressLint("HardwareIds")
+    fun getDeviceId(context: Context): String {
+        return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
+    }
+
     private fun successAction() {
         goneLoader()
-        PinActivity.startActivity(this)
+        val phone = editTextHandler()[0]
+        SmsCodeActivity.startActivity(this, phone, getDeviceId(this))
     }
 
     private fun errorAction() {
@@ -81,7 +93,7 @@ class AuthorizationActivity : AppCompatActivity() {
 
     companion object {
         fun startActivity(context: Context) {
-            context.startActivity<AuthorizationActivity>()
+            context.startActivity<RegisterActivity>()
         }
     }
 

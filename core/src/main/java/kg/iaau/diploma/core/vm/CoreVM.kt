@@ -3,6 +3,7 @@ package kg.iaau.diploma.core.vm
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kg.iaau.diploma.core.constants.NETWORK_ERROR
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,11 +17,12 @@ abstract class CoreVM : ViewModel() {
 
     var event: MutableLiveData<Event> = MutableLiveData()
 
-    fun safeLaunch(dispatcher: CoroutineDispatcher = Dispatchers.Main, action: suspend () -> Unit) {
+    fun safeLaunch(dispatcher: CoroutineDispatcher = Dispatchers.IO, action: suspend () -> Unit, fail: (() -> Unit)? = null) {
         viewModelScope.launch(dispatcher) {
             try {
                 event.postValue(Loading(true))
-                event.postValue(Success(action()))
+                action.invoke()
+                event.postValue(Success())
             } catch (throwable: Throwable) {
                 when (throwable) {
                     is HttpException -> {
@@ -28,10 +30,11 @@ abstract class CoreVM : ViewModel() {
                         when(throwable.code()) {
 
                         }
+                        fail?.invoke()
                         event.postValue(Error(false, throwable.code(), throwable.response()?.errorBody(), message))
                     }
                     else -> {
-                        event.postValue(Error(true, null, null, "Ошибка сети. Проверьте интернет соединение"))
+                        event.postValue(Error(true, null, null, NETWORK_ERROR))
                     }
                 }
             }
