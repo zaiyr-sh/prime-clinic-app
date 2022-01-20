@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.constants.SEND_CODE_ERROR
 import kg.iaau.diploma.core.utils.*
@@ -17,34 +18,36 @@ import kg.iaau.diploma.primeclinic.ui.pin.PinActivity
 @AndroidEntryPoint
 class SmsCodeActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivitySmsCodeBinding
+    private lateinit var vb: ActivitySmsCodeBinding
     private val vm: AuthorizationVM by viewModels()
     private val phone by lazy { intent.getStringExtra(PHONE) }
     private val deviceId by lazy { intent.getStringExtra(DEVICE_ID) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySmsCodeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        vb = ActivitySmsCodeBinding.inflate(layoutInflater)
+        setContentView(vb.root)
         setupViewForActivity()
         observeLiveData()
     }
 
     private fun setupViewForActivity() {
-        binding.apply {
+        vb.apply {
+            vb.btnNext.setEnable(false)
             tvSendCodeTitle.text = getString(R.string.sent_code_to_number, phone)
+            etCode.addTextChangedListener { checkSmsCodeFilling(etCode.text.toString()) }
             btnNext.setOnClickListener { verifyCode(etCode.text.toString()) }
             tvResend.setOnClickListener { resendCode(etCode.text.toString()) }
         }
     }
 
     private fun resendCode(code: String) {
-        binding.apply {
+        vb.apply {
+            etCode.text.clear()
             tvCodeSendPhone.text = getString(R.string.send_code_duration)
             tvSendCodeTitle.text = getString(R.string.sent_code_to_number_again, phone)
             tvResend.hide()
         }
-        toast(getString(R.string.send_code_again))
         verifyCode(code)
     }
 
@@ -52,12 +55,16 @@ class SmsCodeActivity : AppCompatActivity() {
         vm.verify(code)
     }
 
+    private fun checkSmsCodeFilling(code: String) {
+        vb.btnNext.setEnable(code.isNotEmpty() && code.length == CODE_LENGTH)
+    }
+
     private fun observeLiveData() {
         vm.event.observe(this, { event ->
             when(event) {
                 is CoreEvent.Loading -> showLoader()
                 is CoreEvent.Success -> successAction()
-                is CoreEvent.Error -> errorAction()
+                is CoreEvent.Error -> errorAction(event)
             }
         })
     }
@@ -69,21 +76,26 @@ class SmsCodeActivity : AppCompatActivity() {
         PinActivity.startActivity(this)
     }
 
-    private fun errorAction() {
+    private fun errorAction(event: CoreEvent.Error) {
+        when (event.isNetworkError) {
+            true -> toast(event.message)
+            false -> toast(SEND_CODE_ERROR)
+        }
         goneLoader()
-        toast(SEND_CODE_ERROR)
     }
 
     private fun showLoader() {
-        binding.progressBar.show()
+        vb.progressBar.show()
     }
 
     private fun goneLoader() {
-        binding.progressBar.gone()
+        vb.progressBar.gone()
     }
 
     companion object {
-        fun startActivity(context: Context, phone: String, deviceId: String) {
+        const val CODE_LENGTH = 6
+
+        fun startActivity(context: Context, phone: String?, deviceId: String?) {
             context.startActivity<SmsCodeActivity> {
                 putExtra(PHONE, phone)
                 putExtra(DEVICE_ID, deviceId)

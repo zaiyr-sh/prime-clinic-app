@@ -15,12 +15,12 @@ import kg.iaau.diploma.primeclinic.ui.pin.PinActivity
 class SplashActivity : AppCompatActivity() {
 
     private val vm: AuthorizationVM by viewModels()
-    private lateinit var binding: ActivitySplashBinding
+    private lateinit var vb: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivitySplashBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        vb = ActivitySplashBinding.inflate(layoutInflater)
+        setContentView(vb.root)
         startActivityWithDelay()
     }
 

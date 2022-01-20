@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.constants.AUTH_ERROR
 import kg.iaau.diploma.core.utils.*
@@ -15,22 +16,30 @@ import kg.iaau.diploma.primeclinic.ui.register.RegisterActivity
 @AndroidEntryPoint
 class AuthorizationActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAuthorizationBinding
+    private lateinit var vb: ActivityAuthorizationBinding
     private val vm: AuthorizationVM by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAuthorizationBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        vb = ActivityAuthorizationBinding.inflate(layoutInflater)
+        setContentView(vb.root)
         setupActivityView()
         observeLiveData()
     }
 
     private fun setupActivityView() {
-        binding.apply {
+        vb.apply {
+            btnEnter.setEnable(false)
+            etPhone.addTextChangedListener { checkEditTextFilling() }
+            etPassword.addTextChangedListener { checkEditTextFilling() }
             tvSign.setOnClickListener { startRegisterActivity() }
             btnEnter.setOnClickListener { auth() }
         }
+    }
+
+    private fun checkEditTextFilling() {
+        val (login, password) = editTextHandler()
+        vb.btnEnter.setEnable(login.isNotEmpty() && password.isNotEmpty())
     }
 
     private fun startRegisterActivity() {
@@ -40,12 +49,12 @@ class AuthorizationActivity : AppCompatActivity() {
 
     private fun auth() {
         val (login, password) = editTextHandler()
-        vm.auth(login, password)
+        vm.auth(login.convertPhoneNumberTo(vb.ccp.selectedCountryCode), password)
     }
 
     private fun editTextHandler(): Array<String> {
-        binding.apply {
-            val login = etPhone.text.trim().toString().convertPhoneNumberTo(ccp.selectedCountryCode)
+        vb.apply {
+            val login = etPhone.text.trim().toString()
             val password = etPassword.text.trim().toString()
             return arrayOf(login, password)
         }
@@ -56,7 +65,7 @@ class AuthorizationActivity : AppCompatActivity() {
             when(event) {
                 is Loading -> showLoader()
                 is Success -> successAction()
-                is Error -> errorAction()
+                is Error -> errorAction(event)
             }
         })
     }
@@ -66,17 +75,20 @@ class AuthorizationActivity : AppCompatActivity() {
         PinActivity.startActivity(this)
     }
 
-    private fun errorAction() {
+    private fun errorAction(event: Error) {
+        when (event.isNetworkError) {
+            true -> toast(event.message)
+            false -> toast(AUTH_ERROR)
+        }
         goneLoader()
-        toast(AUTH_ERROR)
     }
 
     private fun showLoader() {
-        binding.progressBar.show()
+        vb.progressBar.show()
     }
 
     private fun goneLoader() {
-        binding.progressBar.gone()
+        vb.progressBar.gone()
     }
 
     companion object {

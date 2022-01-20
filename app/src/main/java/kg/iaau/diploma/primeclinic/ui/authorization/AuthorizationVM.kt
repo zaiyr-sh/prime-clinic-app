@@ -11,11 +11,9 @@ class AuthorizationVM @Inject constructor(private val repository: AuthRepository
     var pin: StringBuilder = StringBuilder()
     var dotPosition: Int = 0
 
-    var isFirstTimePinCreating = repository.pin.isNullOrEmpty()
+    fun isFirstTimePinCreating() = repository.getPin().isNullOrEmpty()
 
-    fun isUserSignIn(): Boolean {
-        return !repository.token.isNullOrEmpty()
-    }
+    fun isUserSignIn() = !repository.token.isNullOrEmpty()
 
     fun auth(phone: String, password: String) {
         safeLaunch(
@@ -57,14 +55,14 @@ class AuthorizationVM @Inject constructor(private val repository: AuthRepository
     }
 
     fun savePin() {
-        repository.pin = pin.toString()
+        repository.savePin(pin.toString())
     }
 
-    fun restorePin() {
-        repository.pin = null
+    fun restorePinWithTokens() {
+        repository.restorePinWithTokens()
     }
 
-    fun isPinVerified() = repository.pin == pin.toString()
+    fun isPinVerified() = repository.getPin() == pin.toString()
 
     fun savePhoneWithDeviceId(phone: String?, deviceId: String?) {
         repository.phone = phone

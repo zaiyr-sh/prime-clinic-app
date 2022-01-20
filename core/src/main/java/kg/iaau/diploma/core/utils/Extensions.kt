@@ -29,3 +29,8 @@ fun View.hide() {
 fun View.gone() {
     visibility = View.GONE
 }
+
+fun View.setEnable(enabled: Boolean) {
+    isEnabled = enabled
+    alpha = if (enabled) 1f else 0.5f
+}

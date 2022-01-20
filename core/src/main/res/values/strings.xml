@@ -18,7 +18,6 @@
     <string name="enter_code_from_sms">Введите код подтверждения из полученного SMS-сообщения</string>
     <string name="next">Далее</string>
     <string name="code_not_received">Я не получил(а) код</string>
-    <string name="send_code_again">Код будет заново отправлен!</string>
     <string name="send_code_duration">В течение 1 минуты 30 секунд вы получите СМС код</string>
 
     <string name="one">1</string>

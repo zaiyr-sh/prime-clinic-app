@@ -10,8 +10,6 @@ class AuthRepository(
     private val prefs: StoragePreferences,
     private val apiAuth: ApiAuth
 ) {
-
-    var pin: String? = prefs.pin
     var token: String? = prefs.token
     var phone: String? = prefs.phone
     var deviceId: String? = prefs.deviceId
@@ -39,6 +37,18 @@ class AuthRepository(
 
     private fun saveRefreshToken(refreshToken: String?) {
         prefs.refreshToken = refreshToken
+    }
+
+    fun getPin() = prefs.pin
+
+    fun savePin(pin: String) {
+        prefs.pin = pin
+    }
+
+    fun restorePinWithTokens() {
+        prefs.token = ""
+        prefs.refreshToken = ""
+        prefs.pin = ""
     }
 
 }

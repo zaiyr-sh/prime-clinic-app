@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.constants.AUTH_ERROR
 import kg.iaau.diploma.core.utils.*
+import kg.iaau.diploma.core.utils.CoreEvent.*
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ActivityAuthorizationBinding
 import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationActivity
@@ -17,26 +19,34 @@ import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationVM
 @AndroidEntryPoint
 class RegisterActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAuthorizationBinding
+    private lateinit var vb: ActivityAuthorizationBinding
     private val vm: AuthorizationVM by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAuthorizationBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        vb = ActivityAuthorizationBinding.inflate(layoutInflater)
+        setContentView(vb.root)
         setupActivityView()
         observeLiveData()
     }
 
     private fun setupActivityView() {
-        binding.apply {
+        vb.apply {
             tvCodeSendPhone.show()
             tvEnter.text = getString(R.string.app_register)
             tvSign.text = getString(R.string.action_sign_in)
             btnEnter.text = getString(R.string.action_register)
+            btnEnter.setEnable(false)
+            etPhone.addTextChangedListener { checkEditTextFilling() }
+            etPassword.addTextChangedListener { checkEditTextFilling() }
             btnEnter.setOnClickListener { register() }
             tvSign.setOnClickListener{ startAuthorizationActivity() }
         }
+    }
+
+    private fun checkEditTextFilling() {
+        val (login, password) = editTextHandler()
+        vb.btnEnter.setEnable(login.isNotEmpty() && password.isNotEmpty())
     }
 
     private fun startAuthorizationActivity() {
@@ -46,12 +56,12 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun register() {
         val (login, password) = editTextHandler()
-        vm.register(login, password)
+        vm.register(login.convertPhoneNumberTo(vb.ccp.selectedCountryCode), password)
     }
 
     private fun editTextHandler(): Array<String> {
-        binding.apply {
-            val login = etPhone.text.trim().toString().convertPhoneNumberTo(ccp.selectedCountryCode)
+        vb.apply {
+            val login = etPhone.text.trim().toString()
             val password = etPassword.text.trim().toString()
             return arrayOf(login, password)
         }
@@ -60,9 +70,9 @@ class RegisterActivity : AppCompatActivity() {
     private fun observeLiveData() {
         vm.event.observe(this, { event ->
             when(event) {
-                is CoreEvent.Loading -> showLoader()
-                is CoreEvent.Success -> successAction()
-                is CoreEvent.Error -> errorAction()
+                is Loading -> showLoader()
+                is Success -> successAction()
+                is Error -> errorAction(event)
             }
         })
     }
@@ -78,17 +88,20 @@ class RegisterActivity : AppCompatActivity() {
         SmsCodeActivity.startActivity(this, phone, getDeviceId(this))
     }
 
-    private fun errorAction() {
+    private fun errorAction(event: Error) {
+        when (event.isNetworkError) {
+            true -> toast(event.message)
+            false -> toast(AUTH_ERROR)
+        }
         goneLoader()
-        toast(AUTH_ERROR)
     }
 
     private fun showLoader() {
-        binding.progressBar.show()
+        vb.progressBar.show()
     }
 
     private fun goneLoader() {
-        binding.progressBar.gone()
+        vb.progressBar.gone()
     }
 
     companion object {

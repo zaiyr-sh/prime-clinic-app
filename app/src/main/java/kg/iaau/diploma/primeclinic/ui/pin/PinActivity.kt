@@ -20,20 +20,20 @@ import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationVM
 @AndroidEntryPoint
 class PinActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityPinBinding
+    private lateinit var vb: ActivityPinBinding
     private val vm: AuthorizationVM by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityPinBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        vb = ActivityPinBinding.inflate(layoutInflater)
+        setContentView(vb.root)
         setupActivityView()
     }
 
     private fun setupActivityView() {
-        if (vm.isFirstTimePinCreating) setupTvPin(R.string.pin_creation)
+        if (vm.isFirstTimePinCreating()) setupTvPin(R.string.pin_creation)
         else if (vm.isUserSignIn()) setupTvPin(R.string.pin_enter)
-        binding.apply {
+        vb.apply {
             btnZero.setOnClickListener { onEnterPin(0) }
             btnOne.setOnClickListener { onEnterPin(1) }
             btnTwo.setOnClickListener { onEnterPin(2) }
@@ -45,19 +45,19 @@ class PinActivity : AppCompatActivity() {
             btnEight.setOnClickListener { onEnterPin(8) }
             btnNine.setOnClickListener { onEnterPin(9) }
             ibDeleteNumber.setOnClickListener { deleteLastDigit() }
-            tvRestorePin.setOnClickListener { restorePin() }
+            tvRestorePin.setOnClickListener { restorePinWithTokens() }
         }
     }
 
     private fun setupTvPin(@StringRes stringRes: Int) {
-        binding.apply {
+        vb.apply {
             tvPin.text = getString(stringRes)
             tvRestorePin.show()
         }
     }
 
     private fun onEnterPin(digit: Int) {
-        binding.apply {
+        vb.apply {
             llIndicatorDots[vm.dotPosition].setBackgroundResource(R.drawable.shape_filled_dot)
             vm.fillPin(digit)
             ibDeleteNumber.show()
@@ -67,11 +67,11 @@ class PinActivity : AppCompatActivity() {
     }
 
     private fun checkIsPinCompletelyFilled() {
-        binding.apply {
+        vb.apply {
             if(vm.dotPosition == 4) {
                 llIndicatorDots.hide()
                 when {
-                    vm.isFirstTimePinCreating -> startCurrentActivity()
+                    vm.isFirstTimePinCreating() -> startCurrentActivity()
                     vm.isPinVerified() -> startMainActivity()
                     else -> wrongPin()
                 }
@@ -88,19 +88,19 @@ class PinActivity : AppCompatActivity() {
 
     private fun deleteLastDigit() {
         vm.deleteLastDigit()
-        binding.apply {
+        vb.apply {
             llIndicatorDots[vm.dotPosition].setBackgroundResource(R.drawable.shape_empty_dot)
             checkIsPinEmpty()
         }
     }
 
     private fun checkIsPinEmpty() {
-        if(vm.dotPosition == 0) binding.ibDeleteNumber.hide()
+        if(vm.dotPosition == 0) vb.ibDeleteNumber.hide()
     }
 
     private fun wrongPin() {
         vm.clearPin()
-        binding.apply {
+        vb.apply {
             tvWrongPin.show()
             tlKeypad.show()
             ibDeleteNumber.visibility = View.INVISIBLE
@@ -110,7 +110,7 @@ class PinActivity : AppCompatActivity() {
 
     private fun setDotsBackgroundRes(res_id: Int) {
         for (position in 0..3) {
-            binding.llIndicatorDots[position].setBackgroundResource(res_id)
+            vb.llIndicatorDots[position].setBackgroundResource(res_id)
         }
     }
 
@@ -119,8 +119,8 @@ class PinActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun restorePin() {
-        vm.restorePin()
+    private fun restorePinWithTokens() {
+        vm.restorePinWithTokens()
         startActivity<AuthorizationActivity>()
         finish()
     }
