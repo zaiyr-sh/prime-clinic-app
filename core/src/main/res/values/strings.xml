@@ -30,4 +30,13 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="zero">0</string>
+
+    <string name="clinic">Клиника</string>
+    <string name="med_card">Медкарта</string>
+    <string name="faq">FAQ</string>
+    <string name="faq_full">Часто задаваемые вопросы</string>
+    <string name="about">О нас</string>
+    <string name="chat">Чат</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

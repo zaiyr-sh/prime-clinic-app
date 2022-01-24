@@ -115,7 +115,7 @@ class PinActivity : AppCompatActivity() {
     }
 
     private fun startMainActivity() {
-        startActivity<MainActivity>()
+        MainActivity.startActivity(this)
         finish()
     }
 
