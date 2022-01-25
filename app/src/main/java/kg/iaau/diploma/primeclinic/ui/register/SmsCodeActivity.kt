@@ -8,8 +8,8 @@ import androidx.core.widget.addTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.constants.SEND_CODE_ERROR
 import kg.iaau.diploma.core.utils.*
-import kg.iaau.diploma.local_storage.StoragePreferences.Keys.DEVICE_ID
-import kg.iaau.diploma.local_storage.StoragePreferences.Keys.PHONE
+import kg.iaau.diploma.local_storage.prefs.StoragePreferences.Keys.DEVICE_ID
+import kg.iaau.diploma.local_storage.prefs.StoragePreferences.Keys.PHONE
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ActivitySmsCodeBinding
 import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationVM

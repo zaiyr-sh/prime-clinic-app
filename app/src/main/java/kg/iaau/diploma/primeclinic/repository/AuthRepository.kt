@@ -3,8 +3,8 @@ package kg.iaau.diploma.primeclinic.repository
 import kg.iaau.diploma.data.AccessToken
 import kg.iaau.diploma.data.Authorization
 import kg.iaau.diploma.data.User
-import kg.iaau.diploma.local_storage.StoragePreferences
-import kg.iaau.diploma.network.interceptors.ApiAuth
+import kg.iaau.diploma.local_storage.prefs.StoragePreferences
+import kg.iaau.diploma.network.api.ApiAuth
 
 class AuthRepository(
     private val prefs: StoragePreferences,

@@ -1,4 +1,4 @@
-package kg.iaau.diploma.network.interceptors
+package kg.iaau.diploma.network.api
 
 import kg.iaau.diploma.data.AccessToken
 import kg.iaau.diploma.data.Authorization

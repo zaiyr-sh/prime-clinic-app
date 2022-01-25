@@ -1,4 +1,4 @@
-package kg.iaau.diploma.local_storage
+package kg.iaau.diploma.local_storage.prefs
 
 import android.content.Context
 import android.content.SharedPreferences

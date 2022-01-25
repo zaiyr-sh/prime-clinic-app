@@ -6,19 +6,22 @@
         <entry key="../../../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_app_logo.xml" value="0.14010416666666667" />
         <entry key="app/src/main/res/layout/activity_authorization.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.11" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_pin.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_sms_code.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.165" />
-        <entry key="app/src/main/res/layout/fragment_about.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/layout/fragment_about.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_clinic.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_faq.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_med_card.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/layout/list_item_about.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/list_item_doc.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.24322916666666666" />
         <entry key="core/src/main/res/drawable/edit_text_border.xml" value="0.2518518518518518" />
         <entry key="core/src/main/res/drawable/empty_dot_circle.xml" value="0.20462962962962963" />
         <entry key="core/src/main/res/drawable/ic_clinics.xml" value="0.14351851851851852" />
+        <entry key="core/src/main/res/drawable/ic_empty.xml" value="0.1" />
         <entry key="core/src/main/res/drawable/ic_med_card.xml" value="0.14351851851851852" />
         <entry key="core/src/main/res/drawable/ic_remove.xml" value="0.140625" />
         <entry key="core/src/main/res/drawable/keypad_shape.xml" value="0.140625" />
