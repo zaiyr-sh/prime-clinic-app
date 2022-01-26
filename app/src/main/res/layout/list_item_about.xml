@@ -1,27 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/ll_about"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_about"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center"
-    android:layout_height="wrap_content">
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_vertical"
         android:paddingStart="@dimen/size_16dp"
         android:paddingTop="@dimen/size_16dp"
         android:paddingEnd="@dimen/size_16dp"
-        android:theme="@style/TextStyle"
-        android:gravity="center_vertical"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:textSize="@dimen/size_20sp"
         android:textColor="@color/teal"
+        android:textSize="@dimen/size_20sp"
         android:textStyle="bold"
+        android:theme="@style/TextStyle"
         tools:text="Что такое PrimeDoc?" />
 
     <TextView
@@ -29,13 +26,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size_4dp"
-        android:layout_below="@id/tv_title"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
         android:paddingStart="@dimen/size_16dp"
         android:paddingEnd="@dimen/size_16dp"
         android:paddingBottom="@dimen/size_8dp"
         android:textColor="@color/black"
         android:textSize="@dimen/size_16sp"
         tools:text="PrimeDoc - это сервис для удалённых онлайн-консультаций с опытными врачами. Вы можете выбрать нужного врача и проконсультироваться с ним через телефон, планшет или ноутбук. При этом, ваше расположение не имеет значения." />
-</RelativeLayout>
+</LinearLayout>

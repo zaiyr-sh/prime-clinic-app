@@ -5,7 +5,7 @@ import retrofit2.http.GET
 
 interface ApiAbout {
 
-    @GET("api/v1/about/")
+    @GET("about/")
     suspend fun getInfoAboutUs(): List<About>
 
 }

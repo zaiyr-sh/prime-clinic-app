@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import kg.iaau.diploma.data.About
 import kg.iaau.diploma.primeclinic.databinding.ListItemAboutBinding
 
-class AboutAdapter(var listener: AboutListener): ListAdapter<About, AboutViewHolder>(DIFF_CALLBACK) {
+class AboutAdapter : ListAdapter<About, AboutViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AboutViewHolder {
-        return AboutViewHolder.from(parent, listener)
+        return AboutViewHolder.from(parent)
     }
 
     override fun onBindViewHolder(holder: AboutViewHolder, position: Int) {
@@ -33,10 +33,8 @@ class AboutAdapter(var listener: AboutListener): ListAdapter<About, AboutViewHol
 }
 
 class AboutViewHolder (private val vb: ListItemAboutBinding) : RecyclerView.ViewHolder(vb.root) {
-    private lateinit var about: About
 
     fun bind(about: About) {
-        this.about = about
         vb.run {
             tvTitle.text = about.header
             tvDescription.text = about.paragraph
@@ -44,18 +42,10 @@ class AboutViewHolder (private val vb: ListItemAboutBinding) : RecyclerView.View
     }
 
     companion object {
-        fun from(parent: ViewGroup, listener: AboutListener): AboutViewHolder {
+        fun from(parent: ViewGroup): AboutViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val vb = ListItemAboutBinding.inflate(layoutInflater, parent, false)
-            return AboutViewHolder(vb).apply {
-                vb.llAbout.setOnClickListener {
-                    listener.onAboutClick(about)
-                }
-            }
+            return AboutViewHolder(vb)
         }
     }
-}
-
-interface AboutListener {
-    fun onAboutClick(about: About)
 }

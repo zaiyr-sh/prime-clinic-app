@@ -7,13 +7,13 @@ import retrofit2.http.*
 
 interface ApiAuth {
 
-    @POST("api/v1/auth")
+    @POST("auth")
     suspend fun auth(@Body authorization: Authorization): AccessToken
 
-    @POST("api/v1/register")
+    @POST("register")
     suspend fun register(@Body user: User)
 
-    @POST("api/v1/verify/{code}")
+    @POST("verify/{code}")
     suspend fun verify(@Path("code") code: String)
 
 }

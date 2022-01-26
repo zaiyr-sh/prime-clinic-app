@@ -56,7 +56,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/rv_about"
-                tools:listitem="@layout/list_item_doc" />
+                tools:listitem="@layout/list_item_docx" />
 
             <ProgressBar
                 android:id="@+id/progressBar"
@@ -69,7 +69,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/aboutBarLayout"
                 app:layout_constraintStart_toStartOf="parent"
-                android:visibility="visible"/>
+                />
 
             <ImageView
                 android:id="@+id/iv_empty"
