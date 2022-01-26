@@ -14,7 +14,6 @@ import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.data.About
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentAboutBinding
-import kg.iaau.diploma.primeclinic.repository.AboutAdapter
 
 @AndroidEntryPoint
 class AboutFragment : Fragment() {
@@ -39,9 +38,7 @@ class AboutFragment : Fragment() {
     }
 
     private fun setupFragmentView() {
-        vb.run {
-            rvAbout.adapter = aboutAdapter
-        }
+        vb.rvAbout.adapter = aboutAdapter
     }
 
     private fun observeLiveData() {

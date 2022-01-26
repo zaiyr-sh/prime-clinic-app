@@ -1,8 +1,5 @@
 package kg.iaau.diploma.data
 
-import androidx.room.Entity
-
-@Entity
 data class AccessToken(
     var id: Int? = null,
     var userId: Int? = null,

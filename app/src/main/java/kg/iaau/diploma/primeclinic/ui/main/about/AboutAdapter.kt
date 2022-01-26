@@ -1,4 +1,4 @@
-package kg.iaau.diploma.primeclinic.repository
+package kg.iaau.diploma.primeclinic.ui.main.about
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

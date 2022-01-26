@@ -16,7 +16,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {
-    private const val BASE_URL = "http://192.168.15.100:8080/api/v1/"
+    private const val BASE_URL = "http://192.168.15.102:8080/api/v1/"
 
     @Singleton
     @Provides
@@ -52,4 +52,8 @@ object ApiModule {
     @Singleton
     @Provides
     fun provideApiAbout(retrofit: Retrofit): ApiAbout = retrofit.create(ApiAbout::class.java)
+
+    @Singleton
+    @Provides
+    fun provideApiFaq(retrofit: Retrofit): ApiFaq = retrofit.create(ApiFaq::class.java)
 }

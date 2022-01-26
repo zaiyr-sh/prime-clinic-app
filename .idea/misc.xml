@@ -17,9 +17,11 @@
         <entry key="app/src/main/res/layout/fragment_med_card.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/list_item_about.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_item_doc.xml" value="0.17708333333333334" />
+        <entry key="app/src/main/res/layout/list_item_faq.xml" value="0.13768115942028986" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.24322916666666666" />
         <entry key="core/src/main/res/drawable/edit_text_border.xml" value="0.2518518518518518" />
         <entry key="core/src/main/res/drawable/empty_dot_circle.xml" value="0.20462962962962963" />
+        <entry key="core/src/main/res/drawable/ic_arrow_down.xml" value="0.13703703703703704" />
         <entry key="core/src/main/res/drawable/ic_clinics.xml" value="0.14351851851851852" />
         <entry key="core/src/main/res/drawable/ic_empty.xml" value="0.1" />
         <entry key="core/src/main/res/drawable/ic_med_card.xml" value="0.14351851851851852" />

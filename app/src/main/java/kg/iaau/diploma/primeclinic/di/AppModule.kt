@@ -11,11 +11,14 @@ import dagger.hilt.components.SingletonComponent
 import kg.iaau.diploma.core.constants.DATABASE_NAME
 import kg.iaau.diploma.local_storage.db.AboutDao
 import kg.iaau.diploma.local_storage.db.AppDatabase
+import kg.iaau.diploma.local_storage.db.FaqDao
 import kg.iaau.diploma.local_storage.prefs.StoragePreferences
 import kg.iaau.diploma.network.api.ApiAbout
 import kg.iaau.diploma.network.api.ApiAuth
+import kg.iaau.diploma.network.api.ApiFaq
 import kg.iaau.diploma.primeclinic.repository.AboutRepository
 import kg.iaau.diploma.primeclinic.repository.AuthRepository
+import kg.iaau.diploma.primeclinic.repository.FaqRepository
 import javax.inject.Singleton
 
 @Module
@@ -38,6 +41,10 @@ object AppModule {
     @Singleton
     fun provideAboutDao(db: AppDatabase) = db.aboutDao()
 
+    @Provides
+    @Singleton
+    fun provideFaqDao(db: AppDatabase) = db.faqDao()
+
     @Singleton
     @Provides
     fun providesStoragePreferences(@ApplicationContext context: Context) = StoragePreferences(context)
@@ -49,4 +56,8 @@ object AppModule {
     @Singleton
     @Provides
     fun providesAboutRepository(apiAbout: ApiAbout, aboutDao: AboutDao) = AboutRepository(apiAbout, aboutDao)
+
+    @Singleton
+    @Provides
+    fun providesFaqRepository(apiFaq: ApiFaq, faqDao: FaqDao) = FaqRepository(apiFaq, faqDao)
 }
