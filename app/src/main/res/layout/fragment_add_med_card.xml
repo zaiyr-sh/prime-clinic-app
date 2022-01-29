@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:windowBackground"
+    tools:context="ui.main.med_card.AddMedCardFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/size_24dp">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/abl_add_med_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:elevation="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:addStatesFromChildren="false"
+                app:navigationIcon="@drawable/ic_arrow_back"
+                app:title="@string/medical_card"
+                app:titleTextAppearance="@style/ToolbarTheme">
+
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <RelativeLayout
+            android:id="@+id/cl_med_card_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/size_5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/abl_add_med_card">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_user_picture"
+                android:layout_width="@dimen/size_80dp"
+                android:layout_height="@dimen/size_80dp"
+                android:layout_marginStart="@dimen/size_16dp"
+                android:layout_marginTop="@dimen/size_30dp"
+                android:elevation="@dimen/size_12dp"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9"
+                app:cardCornerRadius="@dimen/size_40dp">
+
+                <ImageView
+                    android:id="@+id/iv_user_picture"
+                    android:layout_width="@dimen/size_80dp"
+                    android:layout_height="@dimen/size_80dp"
+                    android:layout_gravity="center_horizontal"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_photo" />
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:id="@+id/ll_surname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/cv_user_picture"
+                android:layout_marginLeft="@dimen/size_16dp"
+                android:layout_marginTop="@dimen/size_21dp"
+                android:layout_marginRight="@dimen/size_16dp"
+                android:background="@drawable/edit_text_border"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView">
+
+                <EditText
+                    android:id="@+id/et_surname"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_56dp"
+                    android:background="@color/transparent"
+                    android:hint="@string/surname_hint"
+                    android:inputType="textCapWords|textCapSentences"
+                    android:paddingLeft="@dimen/size_13dp"
+                    android:paddingRight="@dimen/size_13dp"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_surname"
+                android:layout_marginLeft="@dimen/size_16dp"
+                android:layout_marginTop="@dimen/size_12dp"
+                android:layout_marginRight="@dimen/size_16dp"
+                android:background="@drawable/edit_text_border"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView">
+
+                <EditText
+                    android:id="@+id/et_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_56dp"
+                    android:background="@color/transparent"
+                    android:hint="@string/name_hint"
+                    android:inputType="textCapWords|textCapSentences"
+                    android:paddingLeft="@dimen/size_13dp"
+                    android:paddingRight="@dimen/size_13dp"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_patronymic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_name"
+                android:layout_marginLeft="@dimen/size_16dp"
+                android:layout_marginTop="@dimen/size_12dp"
+                android:layout_marginRight="@dimen/size_16dp"
+                android:background="@drawable/edit_text_border"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView">
+
+                <EditText
+                    android:id="@+id/et_patronymic"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_56dp"
+                    android:background="@color/transparent"
+                    android:hint="@string/patronymic_hint"
+                    android:inputType="textCapWords|textCapSentences"
+                    android:paddingLeft="@dimen/size_13dp"
+                    android:paddingRight="@dimen/size_13dp"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_birthdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_patronymic"
+                android:layout_marginLeft="@dimen/size_16dp"
+                android:layout_marginTop="@dimen/size_12dp"
+                android:layout_marginRight="@dimen/size_16dp"
+                android:background="@drawable/edit_text_border"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView">
+
+                <EditText
+                    android:id="@+id/et_birthdate"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_56dp"
+                    android:background="@color/transparent"
+                    android:drawableEnd="@drawable/ic_calendar"
+                    android:hint="@string/birth_hint"
+                    android:inputType="date"
+                    android:paddingLeft="@dimen/size_13dp"
+                    android:paddingRight="@dimen/size_13dp"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_birthdate"
+                android:layout_marginLeft="@dimen/size_16dp"
+                android:layout_marginTop="@dimen/size_12dp"
+                android:layout_marginRight="@dimen/size_16dp"
+                android:background="@drawable/edit_text_border"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView">
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_56dp"
+                    android:background="@color/transparent"
+                    android:hint="@string/whatsapp_phone_hint"
+                    android:inputType="phone"
+                    android:paddingLeft="@dimen/size_13dp"
+                    android:paddingRight="@dimen/size_13dp"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_check_agreement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_phone"
+                android:layout_marginTop="@dimen/size_12dp"
+                android:gravity="center|start"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@id/ll_phone">
+
+                <CheckBox
+                    android:id="@+id/cb_agreement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/ll_phone"
+                    android:layout_marginStart="@dimen/size_18dp"
+                    android:textColor="@color/grey_dark"
+                    android:textSize="@dimen/size_12sp" />
+
+                <TextView
+                    android:id="@+id/tv_agreement"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/processing_agreement_personal_data"
+                    android:textSize="@dimen/size_12sp" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_send_med_card"
+            android:layout_width="@dimen/size_300dp"
+            android:layout_height="@dimen/size_50dp"
+            android:layout_marginTop="@dimen/size_24dp"
+            android:layout_marginBottom="@dimen/size_24dp"
+            android:inputType="textCapSentences"
+            android:text="@string/send"
+            android:textSize="@dimen/size_18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cl_med_card_form" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

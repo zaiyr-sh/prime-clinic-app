@@ -37,4 +37,26 @@
     <string name="faq_full">Часто задаваемые вопросы</string>
     <string name="about">О нас</string>
     <string name="chat">Чат</string>
+
+    <string name="medical_card">Медицинская карта</string>
+    <string name="add_medical_card">Добавить медицинскую карту</string>
+
+    <string name="surname_hint"><font fgcolor='#ED5168'>*</font>Фамилия</string>
+    <string name="name_hint"><font fgcolor='#ED5168'>*</font>Имя</string>
+    <string name="patronymic_hint">Отчество</string>
+    <string name="birth_hint"><font fgcolor='#ED5168'>*</font>Дата рождения (дд.мм.гггг)</string>
+    <string name="whatsapp_phone_hint">WhatsApp номер</string>
+    <string name="processing_agreement_personal_data">Соглашение на обработку <font fgcolor='#00bdd0'><u>персональных данных</u></font></string>
+    <string name="send">Отправить</string>
+    <string name="agreement_absent">Отсутствует соглашение на обработку данных</string>
+    <string name="agreement">1. Правовые основания обработки персональных данных Правовыми основаниями обработки персональных данных являются, в частности, части 1, 5 пункта 1 статьи 6 закона КР «О персональных данных».\n\n2. Основные понятия и термины Мобильное приложение системы управления очередью ДАМАСК – программное обеспечение, предназначенное для работы на мобильных устройствах, обеспечивающее пользователю возможность использования систем управления очередью организаций — партнеров. Администратором мобильного приложения является ООО</string>
+    <string name="birth_date">Дата рождения: %s</string>
+    <string name="whatsapp_number">WhatsApp номер: %s</string>
+    <string name="undefined_phone_number">не указан</string>
+
+    <string name="enter_valid_name">Введите верное имя</string>
+    <string name="enter_valid_surname">Введите верную фамилию</string>
+    <string name="enter_valid_patronymic">Введите верную фамилию</string>
+    <string name="enter_valid_birthdate">Введите верную дату рождения</string>
+    <string name="enter_valid_data">Введите верные данные!</string>
 </resources>

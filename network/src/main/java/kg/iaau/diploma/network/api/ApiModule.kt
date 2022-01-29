@@ -56,4 +56,8 @@ object ApiModule {
     @Singleton
     @Provides
     fun provideApiFaq(retrofit: Retrofit): ApiFaq = retrofit.create(ApiFaq::class.java)
+
+    @Singleton
+    @Provides
+    fun provideApiMedCard(retrofit: Retrofit): ApiMedCard = retrofit.create(ApiMedCard::class.java)
 }

@@ -17,6 +17,7 @@ class AuthRepository(
     suspend fun auth(phone: String, password: String): AccessToken {
         val authorization = Authorization(phone, password)
         val response = apiAuth.auth(authorization)
+        saveUserId(response.userId)
         saveToken(response.accessToken)
         saveRefreshToken(response.refreshToken)
         return response
@@ -29,6 +30,10 @@ class AuthRepository(
 
     suspend fun verify(code: String) {
         apiAuth.verify(code)
+    }
+
+    private fun saveUserId(userId: Long?) {
+        prefs.userId = userId
     }
 
     private fun saveToken(accessToken: String?) {

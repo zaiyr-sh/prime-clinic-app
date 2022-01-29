@@ -32,9 +32,13 @@ class FaqFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         vb = FragmentFaqBinding.inflate(inflater, container, false)
+        return vb.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupFragmentView()
         observeLiveData()
-        return vb.root
     }
 
     private fun setupFragmentView() {

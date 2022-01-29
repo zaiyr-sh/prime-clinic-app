@@ -11,6 +11,8 @@
         <entry key="app/src/main/res/layout/activity_sms_code.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_about.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_add_med_card.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_agreement_bottom_sheet.xml" value="0.15534420289855072" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_clinic.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_faq.xml" value="0.1503623188405797" />
@@ -21,14 +23,24 @@
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.24322916666666666" />
         <entry key="core/src/main/res/drawable/edit_text_border.xml" value="0.2518518518518518" />
         <entry key="core/src/main/res/drawable/empty_dot_circle.xml" value="0.20462962962962963" />
+        <entry key="core/src/main/res/drawable/ic_add.xml" value="0.14722222222222223" />
+        <entry key="core/src/main/res/drawable/ic_arrow_back.xml" value="0.1" />
         <entry key="core/src/main/res/drawable/ic_arrow_down.xml" value="0.13703703703703704" />
+        <entry key="core/src/main/res/drawable/ic_calendar.xml" value="0.259375" />
         <entry key="core/src/main/res/drawable/ic_clinics.xml" value="0.14351851851851852" />
+        <entry key="core/src/main/res/drawable/ic_close.xml" value="0.25462962962962965" />
+        <entry key="core/src/main/res/drawable/ic_edit.xml" value="0.14722222222222223" />
         <entry key="core/src/main/res/drawable/ic_empty.xml" value="0.1" />
         <entry key="core/src/main/res/drawable/ic_med_card.xml" value="0.14351851851851852" />
+        <entry key="core/src/main/res/drawable/ic_photo.xml" value="0.14722222222222223" />
         <entry key="core/src/main/res/drawable/ic_remove.xml" value="0.140625" />
         <entry key="core/src/main/res/drawable/keypad_shape.xml" value="0.140625" />
         <entry key="core/src/main/res/drawable/rounded_button.xml" value="0.1" />
+        <entry key="core/src/main/res/drawable/shape_background.xml" value="0.25462962962962965" />
         <entry key="core/src/main/res/drawable/shape_filled_dot.xml" value="0.11388888888888889" />
+        <entry key="core/src/main/res/drawable/shape_payment.xml" value="0.25462962962962965" />
+        <entry key="core/src/main/res/drawable/shape_while.xml" value="0.14722222222222223" />
+        <entry key="core/src/main/res/drawable/shape_white.xml" value="0.25462962962962965" />
         <entry key="core/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="core/src/main/res/layout/fragment_blank.xml" value="0.1503623188405797" />
       </map>
