@@ -17,6 +17,7 @@ import kg.iaau.diploma.data.MedCard
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentAddMedCardBinding
 import kg.iaau.diploma.primeclinic.ui.main.med_card.bottom_sheet.AgreementBottomSheetFragment
+import kg.iaau.diploma.primeclinic.ui.main.med_card.bottom_sheet.ProfilePictureBottomSheetFragment
 
 @AndroidEntryPoint
 class AddMedCardFragment : Fragment() {
@@ -46,6 +47,9 @@ class AddMedCardFragment : Fragment() {
             }
             tvAgreement.setOnClickListener {
                 AgreementBottomSheetFragment.show(requireActivity().supportFragmentManager)
+            }
+            ivUserPicture.setOnClickListener {
+                ProfilePictureBottomSheetFragment.show(requireActivity().supportFragmentManager)
             }
             toolbar.setNavigationOnClickListener {
                 view?.findNavController()?.navigateUp()
@@ -91,7 +95,12 @@ class AddMedCardFragment : Fragment() {
     private fun observeLiveData() {
         vm.medCardLiveData.observe(viewLifecycleOwner, { medCard ->
             medCard?.let {
-                setupMedCardFields(medCard)
+                setupMedCardFields(it)
+            }
+        })
+        vm.imageUriLiveData.observe(viewLifecycleOwner, { imageUri ->
+            imageUri?.let {
+                Glide.with(requireContext()).load(Uri.parse(it)).into(vb.ivUserPicture)
             }
         })
     }

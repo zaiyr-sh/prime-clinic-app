@@ -61,7 +61,7 @@ class MedCardFragment : Fragment() {
             medCard.image?.let { image ->
                 Glide.with(requireContext()).load(Uri.parse(image)).into(ivUser)
             }
-            tvName.text = (medCard.lastName + " " + medCard.firstName + " " + medCard.patronymic)
+            tvName.text = getString(R.string.full_name, medCard.lastName, medCard.firstName, medCard.patronymic)
             tvBirthday.text = getString(R.string.birth_date, medCard.birthDate)
             medCard.phone.let {
                 if(it.isNullOrEmpty())

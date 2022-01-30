@@ -16,9 +16,13 @@ class MedCardVM @Inject constructor(private val repository: MedCardRepository) :
         get() = _medCardLiveData
     private val _medCardLiveData = MutableLiveData<MedCard?>()
 
+    val imageUriLiveData: LiveData<String?>
+        get() = _imageUriLiveData
+    private val _imageUriLiveData = MutableLiveData<String?>()
+
     fun uploadMedCard(firstName: String?, lastName: String?, patronymic: String?, birth: String?, phone: String?) {
         val medCard = MedCard(
-            image = null,
+            image = imageUriLiveData.value,
             firstName = firstName,
             lastName = lastName,
             patronymic = patronymic,
@@ -48,5 +52,9 @@ class MedCardVM @Inject constructor(private val repository: MedCardRepository) :
                 _medCardLiveData.postValue(repository.getMedCard())
             }
         )
+    }
+
+    fun setProfilePicture(imageUri: String) {
+        _imageUriLiveData.value = imageUri
     }
 }

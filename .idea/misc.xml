@@ -17,6 +17,7 @@
         <entry key="app/src/main/res/layout/fragment_clinic.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_faq.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_med_card.xml" value="0.1503623188405797" />
+        <entry key="app/src/main/res/layout/fragment_profile_picture_bottom_sheet.xml" value="0.17889492753623187" />
         <entry key="app/src/main/res/layout/list_item_about.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_item_doc.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/list_item_faq.xml" value="0.13768115942028986" />
@@ -35,6 +36,7 @@
         <entry key="core/src/main/res/drawable/ic_photo.xml" value="0.14722222222222223" />
         <entry key="core/src/main/res/drawable/ic_remove.xml" value="0.140625" />
         <entry key="core/src/main/res/drawable/keypad_shape.xml" value="0.140625" />
+        <entry key="core/src/main/res/drawable/provider_paths.xml" value="0.11851851851851852" />
         <entry key="core/src/main/res/drawable/rounded_button.xml" value="0.1" />
         <entry key="core/src/main/res/drawable/shape_background.xml" value="0.25462962962962965" />
         <entry key="core/src/main/res/drawable/shape_filled_dot.xml" value="0.11388888888888889" />

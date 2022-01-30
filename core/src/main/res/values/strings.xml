@@ -53,6 +53,9 @@
     <string name="birth_date">Дата рождения: %s</string>
     <string name="whatsapp_number">WhatsApp номер: %s</string>
     <string name="undefined_phone_number">не указан</string>
+    <string name="full_name">%s %s %s</string>
+    <string name="add_picture">Добавить фото</string>
+    <string name="download_from_gallery">Загрузить из галереи</string>
 
     <string name="enter_valid_name">Введите верное имя</string>
     <string name="enter_valid_surname">Введите верную фамилию</string>
