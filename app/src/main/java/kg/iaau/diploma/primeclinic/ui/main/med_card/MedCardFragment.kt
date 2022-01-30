@@ -52,6 +52,11 @@ class MedCardFragment : Fragment() {
                 setupMedCardFields(medCard)
             }
         })
+        vm.imageUriLiveData.observe(viewLifecycleOwner, { imageUri ->
+            imageUri?.let {
+                Glide.with(requireContext()).load(Uri.parse(it)).into(vb.ivUser)
+            }
+        })
     }
 
     private fun setupMedCardFields(medCard: MedCard) {

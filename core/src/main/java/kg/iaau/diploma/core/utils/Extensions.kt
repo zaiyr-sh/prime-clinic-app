@@ -5,6 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import kg.iaau.diploma.core.R
+import kg.iaau.diploma.core.constants.CHANNEL_ID
+import kg.iaau.diploma.core.constants.NOTIFICATION_ID
 
 inline fun <reified T : Activity> Context.startActivity(noinline extra: Intent.() -> Unit = {}) {
     val intent = Intent(this, T::class.java)
@@ -50,4 +55,18 @@ fun String.convertToUTC(): String {
     val month = substring(3,5)
     val year = substring(6)
     return year+"-"+month+"-"+day+"T11:00:00.320Z"
+}
+
+fun Context.pushNotification(title: String?, message: String?) {
+    val builder = NotificationCompat.Builder(this, CHANNEL_ID)
+        .setSmallIcon(R.drawable.ic_heart)
+        .setContentTitle(title)
+        .setContentText(message)
+        .setDefaults(NotificationCompat.DEFAULT_VIBRATE)
+        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        .setCategory(NotificationCompat.CATEGORY_NAVIGATION)
+        .setAutoCancel(true)
+    with(NotificationManagerCompat.from(this)) {
+        notify(NOTIFICATION_ID, builder.build())
+    }
 }

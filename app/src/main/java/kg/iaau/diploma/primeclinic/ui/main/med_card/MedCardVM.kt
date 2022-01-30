@@ -3,6 +3,10 @@ package kg.iaau.diploma.primeclinic.ui.main.med_card
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kg.iaau.diploma.core.constants.MED_CARD_CREATED_SUCCESSFULLY
+import kg.iaau.diploma.core.constants.MED_CARD_CREATED_UNSUCCESSFULLY
+import kg.iaau.diploma.core.constants.TRY_AGAIN
+import kg.iaau.diploma.core.utils.CoreEvent
 import kg.iaau.diploma.core.utils.convertToUTC
 import kg.iaau.diploma.core.vm.CoreVM
 import kg.iaau.diploma.data.MedCard
@@ -34,6 +38,12 @@ class MedCardVM @Inject constructor(private val repository: MedCardRepository) :
                 repository.uploadMedCard(medCard)
                 medCard.birthDate = birth
                 saveMedCardInDb(medCard)
+                event.postValue(CoreEvent.Notification(message = MED_CARD_CREATED_SUCCESSFULLY))
+            },
+            fail = {
+                event.postValue(CoreEvent.Notification(
+                    title = MED_CARD_CREATED_UNSUCCESSFULLY, message = TRY_AGAIN
+                ))
             }
         )
     }

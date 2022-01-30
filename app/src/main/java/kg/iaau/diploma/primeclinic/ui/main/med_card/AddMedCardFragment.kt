@@ -2,17 +2,15 @@ package kg.iaau.diploma.primeclinic.ui.main.med_card
 
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.navGraphViewModels
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.core.utils.isNotField
-import kg.iaau.diploma.core.utils.isDateNotField
-import kg.iaau.diploma.core.utils.toast
+import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.MedCard
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentAddMedCardBinding
@@ -87,7 +85,6 @@ class AddMedCardFragment : Fragment() {
             }
             if (isDataValid) {
                 vm.uploadMedCard(name, surname, patronymic, birth, phone)
-                view?.findNavController()?.navigateUp()
             }
         }
     }
@@ -101,6 +98,14 @@ class AddMedCardFragment : Fragment() {
         vm.imageUriLiveData.observe(viewLifecycleOwner, { imageUri ->
             imageUri?.let {
                 Glide.with(requireContext()).load(Uri.parse(it)).into(vb.ivUserPicture)
+            }
+        })
+        vm.event.observe(this, { event ->
+            when(event) {
+                is CoreEvent.Notification -> {
+                    requireActivity().pushNotification(event.title, event.message)
+                    view?.findNavController()?.navigateUp()
+                }
             }
         })
     }

@@ -19,7 +19,6 @@ import kg.iaau.diploma.primeclinic.databinding.FragmentProfilePictureBottomSheet
 import kg.iaau.diploma.primeclinic.ui.main.med_card.MedCardVM
 import java.io.File
 
-
 class ProfilePictureBottomSheetFragment : BottomSheetDialogFragment() {
 
     private lateinit var vb: FragmentProfilePictureBottomSheetBinding

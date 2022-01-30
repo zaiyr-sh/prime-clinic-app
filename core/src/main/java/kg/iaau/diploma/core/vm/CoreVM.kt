@@ -30,8 +30,8 @@ abstract class CoreVM : ViewModel() {
                         when(throwable.code()) {
 
                         }
-                        fail?.invoke()
                         event.postValue(Error(false, throwable.code(), throwable.response()?.errorBody(), message))
+                        fail?.invoke()
                     }
                     else -> {
                         event.postValue(Error(true, null, null, NETWORK_ERROR))

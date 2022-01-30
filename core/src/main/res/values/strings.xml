@@ -59,7 +59,10 @@
 
     <string name="enter_valid_name">Введите верное имя</string>
     <string name="enter_valid_surname">Введите верную фамилию</string>
-    <string name="enter_valid_patronymic">Введите верную фамилию</string>
+    <string name="enter_valid_patronymic">Введите верное отчество</string>
     <string name="enter_valid_birthdate">Введите верную дату рождения</string>
     <string name="enter_valid_data">Введите верные данные!</string>
+
+    <string name="channel_name">Payment verification</string>
+    <string name="channel_description">The notification message that describes that the payment was carried successfully</string>
 </resources>
