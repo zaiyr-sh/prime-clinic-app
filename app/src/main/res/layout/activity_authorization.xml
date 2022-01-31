@@ -142,7 +142,7 @@
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_enter"
         style="@style/ButtonStyle"
-        android:layout_marginBottom="@dimen/size_80dp"
+        android:layout_marginBottom="@dimen/size_20dp"
         android:inputType="textCapSentences"
         android:text="@string/action_sign_in"
         app:layout_constraintBottom_toTopOf="@id/progressBar"

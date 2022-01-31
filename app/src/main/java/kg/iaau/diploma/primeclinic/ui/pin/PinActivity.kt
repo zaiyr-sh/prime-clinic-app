@@ -31,8 +31,8 @@ class PinActivity : AppCompatActivity() {
     }
 
     private fun setupActivityView() {
-        if (vm.isFirstTimePinCreating()) setupTvPin(R.string.pin_creation)
-        else if (vm.isUserSignIn()) setupTvPin(R.string.pin_enter)
+        if (vm.isFirstTimePinCreating()) setupTvPin(R.string.pin_creation, false)
+        else if (vm.isUserSignIn()) setupTvPin(R.string.pin_enter, true)
         vb.apply {
             btnZero.setOnClickListener { onEnterPin(0) }
             btnOne.setOnClickListener { onEnterPin(1) }
@@ -49,10 +49,13 @@ class PinActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupTvPin(@StringRes stringRes: Int) {
+    private fun setupTvPin(@StringRes stringRes: Int, isRestorePinVisible: Boolean) {
         vb.apply {
             tvPin.text = getString(stringRes)
-            tvRestorePin.show()
+            if(isRestorePinVisible)
+                tvRestorePin.show()
+            else
+                tvRestorePin.hide()
         }
     }
 
@@ -104,6 +107,7 @@ class PinActivity : AppCompatActivity() {
             tvWrongPin.show()
             tlKeypad.show()
             ibDeleteNumber.visibility = View.INVISIBLE
+            llIndicatorDots.show()
             setDotsBackgroundRes(R.drawable.shape_empty_dot)
         }
     }

@@ -51,11 +51,14 @@ class FaqViewHolder(private val vb: ListItemFaqBinding) : RecyclerView.ViewHolde
             return FaqViewHolder(vb).apply {
                 vb.run {
                     clFaq.setOnClickListener {
-                        if(tvAnswer.isVisible)
+                        if(tvAnswer.isVisible){
+                            ivArrowDown.animate().rotationBy(90F).duration = 1
                             tvAnswer.gone()
-                        else
+                        }
+                        else{
+                            ivArrowDown.animate().rotationBy(-90F).duration = 1
                             tvAnswer.show()
-
+                        }
                     }
                 }
             }
