@@ -68,7 +68,7 @@ class MedCardFragment : Fragment() {
             }
             tvName.text = getString(R.string.full_name, medCard.lastName, medCard.firstName, medCard.patronymic)
             tvBirthday.text = getString(R.string.birth_date, medCard.birthDate)
-            medCard.phone.let {
+            medCard.medCardPhoneNumber.let {
                 if(it.isNullOrEmpty())
                     tvPhone.text = getString(R.string.whatsapp_number, getString(R.string.undefined_phone_number))
                 else

@@ -21,12 +21,12 @@ data class Doctor(
     var firstName: String? = null,
     var lastName: String? = null,
     var patronymic: String? = null,
-    var information: List<Information>? = null,
+    var information: List<Education>? = null,
     var position: String? = null
 )
 
 @Entity
-data class Information(
+data class Education(
     var end: String? = null,
     var name: String? = null,
     var organizationName: String? = null,

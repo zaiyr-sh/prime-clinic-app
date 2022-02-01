@@ -60,6 +60,19 @@
         <argument
             android:name="id"
             app:argType="long" />
+        <action
+            android:id="@+id/from_clinic_to_about_doctor"
+            app:destination="@id/nav_about_doctor" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_about_doctor"
+        android:name="kg.iaau.diploma.primeclinic.ui.main.clinic.doctor.AboutDoctorFragment"
+        android:label="LABEL"
+        tools:layout="@layout/fragment_about_doctor">
+        <argument
+            android:name="id"
+            app:argType="long" />
     </fragment>
 
 </navigation>

@@ -13,6 +13,7 @@
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_about.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_about_clinic_category.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_about_doctor.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_add_med_card.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_agreement_bottom_sheet.xml" value="0.15534420289855072" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.1503623188405797" />
@@ -25,6 +26,7 @@
         <entry key="app/src/main/res/layout/list_item_category.xml" value="0.20697463768115942" />
         <entry key="app/src/main/res/layout/list_item_doc.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/list_item_doctor.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/list_item_education.xml" value="0.17481884057971014" />
         <entry key="app/src/main/res/layout/list_item_faq.xml" value="0.13768115942028986" />
         <entry key="app/src/main/res/layout/list_item_specialists.xml" value="0.12537993920972645" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.24322916666666666" />

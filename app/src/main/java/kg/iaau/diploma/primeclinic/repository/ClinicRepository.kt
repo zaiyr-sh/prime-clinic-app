@@ -10,4 +10,6 @@ class ClinicRepository(
 
     suspend fun getSpecialistsCategoryDetailInfo(id: Long) = apiClinic.getSpecialistsCategoryDetailInfo(id)
 
+    suspend fun getDoctorProfileById(id: Long) = apiClinic.getDoctorProfileById(id)
+
 }

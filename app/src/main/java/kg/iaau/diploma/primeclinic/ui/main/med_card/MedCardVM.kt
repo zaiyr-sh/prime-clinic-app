@@ -31,7 +31,7 @@ class MedCardVM @Inject constructor(private val repository: MedCardRepository) :
             lastName = lastName,
             patronymic = patronymic,
             birthDate = birth?.convertToUTC(),
-            phone = phone
+            medCardPhoneNumber = phone
         )
         safeLaunch(
             action = {

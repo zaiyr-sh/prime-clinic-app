@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kg.iaau.diploma.core.vm.CoreVM
+import kg.iaau.diploma.data.Doctor
 import kg.iaau.diploma.data.Faq
 import kg.iaau.diploma.data.SpecialistCategory
 import kg.iaau.diploma.primeclinic.repository.ClinicRepository
@@ -22,6 +23,10 @@ class ClinicVM @Inject constructor(val repository: ClinicRepository) : CoreVM() 
         get() = _specialistLiveData
     private val _specialistLiveData = MutableLiveData<SpecialistCategory?>()
 
+    val doctorLiveData: LiveData<Doctor?>
+        get() = _doctorLiveData
+    private val _doctorLiveData = MutableLiveData<Doctor?>()
+
     fun getSpecialistCategories() {
         safeLaunch(
             action = {
@@ -36,6 +41,14 @@ class ClinicVM @Inject constructor(val repository: ClinicRepository) : CoreVM() 
         safeLaunch(
             action = {
                 _specialistLiveData.postValue(repository.getSpecialistsCategoryDetailInfo(id))
+            }
+        )
+    }
+
+    fun getDoctorProfileById(id: Long) {
+        safeLaunch(
+            action = {
+                _doctorLiveData.postValue(repository.getDoctorProfileById(id))
             }
         )
     }

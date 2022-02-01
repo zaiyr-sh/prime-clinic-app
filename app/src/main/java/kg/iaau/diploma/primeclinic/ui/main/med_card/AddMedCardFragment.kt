@@ -116,7 +116,7 @@ class AddMedCardFragment : Fragment() {
             etSurname.setText(medCard.lastName)
             etPatronymic.setText(medCard.patronymic)
             etBirthdate.setText(medCard.birthDate)
-            etPhone.setText(medCard.phone)
+            etPhone.setText(medCard.medCardPhoneNumber)
             cbAgreement.isChecked = medCard.agreed == true
             medCard.image?.let { image ->
                 Glide.with(requireContext()).load(Uri.parse(image)).into(ivUserPicture)

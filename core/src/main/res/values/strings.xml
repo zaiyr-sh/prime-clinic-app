@@ -69,4 +69,8 @@
     <string name="online_consultation">Онлайн-консультация</string>
     <string name="our_specialists">Наши специалисты</string>
 
+    <string name="education_period">%s - %s</string>
+    <string name="education_information">%s. %s</string>
+
+
 </resources>
