@@ -14,6 +14,7 @@ import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.data.Faq
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentFaqBinding
+import kg.iaau.diploma.primeclinic.ui.main.faq.adapter.FaqAdapter
 
 @AndroidEntryPoint
 class FaqFragment : Fragment() {

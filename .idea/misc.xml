@@ -12,16 +12,21 @@
         <entry key="app/src/main/res/layout/activity_sms_code.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_about.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_about_clinic_category.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_add_med_card.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_agreement_bottom_sheet.xml" value="0.15534420289855072" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_clinic.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_clinic_category.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_faq.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_med_card.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_profile_picture_bottom_sheet.xml" value="0.17889492753623187" />
         <entry key="app/src/main/res/layout/list_item_about.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/list_item_category.xml" value="0.20697463768115942" />
         <entry key="app/src/main/res/layout/list_item_doc.xml" value="0.17708333333333334" />
+        <entry key="app/src/main/res/layout/list_item_doctor.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_item_faq.xml" value="0.13768115942028986" />
+        <entry key="app/src/main/res/layout/list_item_specialists.xml" value="0.12537993920972645" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.24322916666666666" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.11666666666666667" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.11666666666666667" />
@@ -30,9 +35,11 @@
         <entry key="core/src/main/res/drawable/ic_add.xml" value="0.14722222222222223" />
         <entry key="core/src/main/res/drawable/ic_arrow_back.xml" value="0.1" />
         <entry key="core/src/main/res/drawable/ic_arrow_down.xml" value="0.13703703703703704" />
+        <entry key="core/src/main/res/drawable/ic_arrow_right.xml" value="0.25925925925925924" />
         <entry key="core/src/main/res/drawable/ic_calendar.xml" value="0.259375" />
         <entry key="core/src/main/res/drawable/ic_clinics.xml" value="0.14351851851851852" />
         <entry key="core/src/main/res/drawable/ic_close.xml" value="0.25462962962962965" />
+        <entry key="core/src/main/res/drawable/ic_doctor.xml" value="0.15833333333333333" />
         <entry key="core/src/main/res/drawable/ic_edit.xml" value="0.14722222222222223" />
         <entry key="core/src/main/res/drawable/ic_empty.xml" value="0.1" />
         <entry key="core/src/main/res/drawable/ic_heart.xml" value="0.2553846153846154" />
@@ -40,6 +47,7 @@
         <entry key="core/src/main/res/drawable/ic_photo.xml" value="0.14722222222222223" />
         <entry key="core/src/main/res/drawable/ic_remove.xml" value="0.140625" />
         <entry key="core/src/main/res/drawable/keypad_shape.xml" value="0.140625" />
+        <entry key="core/src/main/res/drawable/outline_shape.xml" value="0.16458333333333333" />
         <entry key="core/src/main/res/drawable/provider_paths.xml" value="0.11851851851851852" />
         <entry key="core/src/main/res/drawable/rounded_button.xml" value="0.1" />
         <entry key="core/src/main/res/drawable/shape_background.xml" value="0.25462962962962965" />

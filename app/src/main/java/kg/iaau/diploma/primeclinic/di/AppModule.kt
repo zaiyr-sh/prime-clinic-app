@@ -14,14 +14,8 @@ import kg.iaau.diploma.local_storage.db.AppDatabase
 import kg.iaau.diploma.local_storage.db.FaqDao
 import kg.iaau.diploma.local_storage.db.MedCardDao
 import kg.iaau.diploma.local_storage.prefs.StoragePreferences
-import kg.iaau.diploma.network.api.ApiAbout
-import kg.iaau.diploma.network.api.ApiAuth
-import kg.iaau.diploma.network.api.ApiFaq
-import kg.iaau.diploma.network.api.ApiMedCard
-import kg.iaau.diploma.primeclinic.repository.AboutRepository
-import kg.iaau.diploma.primeclinic.repository.AuthRepository
-import kg.iaau.diploma.primeclinic.repository.FaqRepository
-import kg.iaau.diploma.primeclinic.repository.MedCardRepository
+import kg.iaau.diploma.network.api.*
+import kg.iaau.diploma.primeclinic.repository.*
 import javax.inject.Singleton
 
 @Module
@@ -71,4 +65,9 @@ object AppModule {
     @Singleton
     @Provides
     fun providesMedCardRepository(storagePreferences: StoragePreferences, apiMedCard: ApiMedCard, medCardDao: MedCardDao) = MedCardRepository(storagePreferences, apiMedCard, medCardDao)
+
+
+    @Singleton
+    @Provides
+    fun providesClinicRepository(apiClinic: ApiClinic) = ClinicRepository(apiClinic)
 }

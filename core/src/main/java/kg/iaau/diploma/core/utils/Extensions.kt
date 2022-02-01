@@ -3,6 +3,11 @@ package kg.iaau.diploma.core.utils
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.util.Base64
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
@@ -69,4 +74,14 @@ fun Context.pushNotification(title: String?, message: String?) {
     with(NotificationManagerCompat.from(this)) {
         notify(NOTIFICATION_ID, builder.build())
     }
+}
+
+fun String.convertBase64ToBitmap(): Bitmap {
+    val imageAsBytes = Base64.decode(toByteArray(), Base64.DEFAULT)
+    return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.size)
+}
+
+fun String.convertBase64ToDrawable(context: Context): Drawable {
+    val bitmap = this.convertBase64ToBitmap()
+    return BitmapDrawable(context.resources, bitmap)
 }

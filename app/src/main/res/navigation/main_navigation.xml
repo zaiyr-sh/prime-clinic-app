@@ -7,9 +7,12 @@
 
     <fragment
         android:id="@+id/nav_clinic"
-        android:name="kg.iaau.diploma.primeclinic.ui.main.clinic.ClinicFragment"
+        android:name="kg.iaau.diploma.primeclinic.ui.main.clinic.ClinicCategoryFragment"
         android:label="LABEL"
-        tools:layout="@layout/fragment_clinic" >
+        tools:layout="@layout/fragment_clinic_category" >
+        <action
+            android:id="@+id/from_clinic_to_about_clinic_category"
+            app:destination="@id/nav_about_clinic_category" />
     </fragment>
 
     <fragment
@@ -48,5 +51,15 @@
         android:name="kg.iaau.diploma.primeclinic.ui.main.med_card.AddMedCardFragment"
         android:label="LABEL"
         tools:layout="@layout/fragment_add_med_card" />
+
+    <fragment
+        android:id="@+id/nav_about_clinic_category"
+        android:name="kg.iaau.diploma.primeclinic.ui.main.clinic.specialist.AboutClinicCategoryFragment"
+        android:label="LABEL"
+        tools:layout="@layout/fragment_about_clinic_category">
+        <argument
+            android:name="id"
+            app:argType="long" />
+    </fragment>
 
 </navigation>

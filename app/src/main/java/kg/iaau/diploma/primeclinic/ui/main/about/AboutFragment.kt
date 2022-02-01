@@ -14,6 +14,7 @@ import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.data.About
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentAboutBinding
+import kg.iaau.diploma.primeclinic.ui.main.about.adapter.AboutAdapter
 
 @AndroidEntryPoint
 class AboutFragment : Fragment() {

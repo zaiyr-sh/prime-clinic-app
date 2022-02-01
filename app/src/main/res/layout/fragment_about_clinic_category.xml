@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?android:windowBackground"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.main.clinic.specialist.AboutClinicCategoryFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/abr_about_clinic"
+                app:elevation="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_230dp"
+                    android:background="@drawable/ic_specialist"
+                    app:navigationIcon="@drawable/ic_arrow_back"
+                    android:addStatesFromChildren="false"
+                    app:titleTextAppearance="@style/ToolbarTheme"
+                    android:visibility="invisible">
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <RelativeLayout
+                android:id="@+id/cl_description"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/abr_about_clinic">
+
+                <TextView
+                    android:id="@+id/tv_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_15dp"
+                    android:layout_marginStart="@dimen/size_10dp"
+                    android:textColor="@color/black"
+                    tools:text="Терапевт"
+                    android:textSize="@dimen/size_26sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tv_job_position"
+                    android:layout_below="@id/tv_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_8dp"
+                    android:layout_marginStart="@dimen/size_10dp"
+                    android:textColor="@color/teal"
+                    android:text="Что лечит"
+                    android:textSize="@dimen/size_20sp"
+                    android:textStyle="bold"/>
+
+                <TextView
+                    android:id="@+id/tv_position_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_13dp"
+                    android:paddingLeft="@dimen/size_10dp"
+                    android:paddingRight="@dimen/size_10dp"
+                    android:layout_below="@id/tv_job_position"
+                    tools:text="К терапевту можно обратиться с любой медицинской проблемой- если он не разберется сам,то направит к узкому специалисту. Чаще всего терапевт имеет дело с насморком, кашлем, температурой, дискомфортом в животе и проблемами со стулом."
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_14sp" />
+
+                <TextView
+                    android:id="@+id/tv_our_specialists"
+                    android:layout_below="@id/tv_position_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="24dp"
+                    android:layout_marginTop="20dp"
+                    android:paddingStart="@dimen/size_10dp"
+                    android:paddingEnd="@dimen/size_10dp"
+                    android:textColor="@color/teal"
+                    android:text="Наши специалисты"
+                    android:textSize="@dimen/size_20sp"
+                    android:textStyle="bold"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_specialists"
+                    android:layout_below="@id/tv_our_specialists"
+                    android:layout_alignParentStart="true"
+                    android:nestedScrollingEnabled="false"
+                    android:layout_alignParentEnd="true"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:listitem="@layout/list_item_doctor"/>
+            </RelativeLayout>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size_100dp"
+                android:indeterminateTint="@color/teal"
+                android:progressTint="@color/teal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/abr_about_clinic"
+                app:layout_constraintStart_toStartOf="parent"
+                android:visibility="visible"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</FrameLayout>

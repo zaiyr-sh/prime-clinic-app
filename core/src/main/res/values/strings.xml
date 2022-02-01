@@ -65,4 +65,8 @@
 
     <string name="channel_name">Payment verification</string>
     <string name="channel_description">The notification message that describes that the payment was carried successfully</string>
+
+    <string name="online_consultation">Онлайн-консультация</string>
+    <string name="our_specialists">Наши специалисты</string>
+
 </resources>
