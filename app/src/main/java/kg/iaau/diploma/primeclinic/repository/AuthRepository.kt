@@ -20,6 +20,7 @@ class AuthRepository(
         saveUserId(response.userId)
         saveToken(response.accessToken)
         saveRefreshToken(response.refreshToken)
+        savePhone(phone)
         return response
     }
 
@@ -42,6 +43,10 @@ class AuthRepository(
 
     private fun saveRefreshToken(refreshToken: String?) {
         prefs.refreshToken = refreshToken
+    }
+
+    private fun savePhone(phone: String) {
+        prefs.phone = phone
     }
 
     fun getPin() = prefs.pin
