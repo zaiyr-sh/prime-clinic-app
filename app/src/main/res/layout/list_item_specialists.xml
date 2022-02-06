@@ -6,37 +6,38 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/size_18dp"
+    app:cardElevation="@dimen/size_2dp"
     app:cardBackgroundColor="@color/white"
     android:layout_marginBottom="@dimen/size_10dp">
 
-    <RelativeLayout
-        android:orientation="vertical"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/size_100dp"
+        android:layout_height="wrap_content"
         android:padding="@dimen/size_10dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_specialist"
             android:layout_width="@dimen/size_70dp"
             android:layout_height="@dimen/size_70dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="@dimen/size_5dp"
             android:layout_marginStart="@dimen/size_1dp"
+            android:layout_marginTop="@dimen/size_5dp"
             android:layout_marginEnd="@dimen/size_1dp"
+            android:background="@color/teal"
             android:elevation="@dimen/size_12dp"
             android:shape="ring"
-            android:background="@color/teal"
             android:thicknessRatio="1.9"
-            app:cardCornerRadius="@dimen/size_12dp">
+            app:cardCornerRadius="@dimen/size_12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/iv_specialist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
                 android:src="@color/teal" />
 
         </androidx.cardview.widget.CardView>
@@ -45,36 +46,35 @@
             android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/cv_specialist"
-            android:layout_alignParentTop="true"
+            android:layout_marginStart="@dimen/size_16dp"
             android:textColor="@color/black"
-            android:layout_marginStart="@dimen/size_15dp"
-            tools:text="Терапевт"
             android:textSize="@dimen/size_22sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/cv_specialist"
+            app:layout_constraintTop_toTopOf="@id/cv_specialist"
+            tools:text="Терапевт" />
 
         <TextView
             android:id="@+id/tv_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_title"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="@dimen/size_15dp"
-            android:layout_toStartOf="@id/iv_arrow"
-            android:layout_marginTop="@dimen/size_10dp"
-            android:layout_toEndOf="@id/cv_specialist"
+            android:layout_marginStart="@dimen/size_16dp"
+            android:layout_marginTop="@dimen/size_14dp"
             android:maxLines="2"
-            tools:text="Специалист общего профиля"
             android:textColor="@color/grey_dark"
-            android:textSize="@dimen/size_14sp" />
+            android:textSize="@dimen/size_14sp"
+            app:layout_constraintStart_toEndOf="@id/cv_specialist"
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            tools:text="Специалист общего профиля" />
 
         <ImageView
             android:id="@+id/iv_arrow"
             android:layout_width="@dimen/size_30dp"
             android:layout_height="@dimen/size_30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/ic_arrow_right" />
+            android:src="@drawable/ic_arrow_right"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </com.google.android.material.card.MaterialCardView>

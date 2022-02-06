@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
-import kg.iaau.diploma.core.utils.convertBase64ToDrawable
-import kg.iaau.diploma.core.utils.gone
-import kg.iaau.diploma.core.utils.show
+import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.Doctor
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentAboutDoctorBinding
 import kg.iaau.diploma.primeclinic.ui.main.clinic.ClinicVM
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.EducationAdapter
+import kg.iaau.diploma.primeclinic.ui.main.clinic.bottom_sheet.CalendarBottomSheetFragment
 
 class AboutDoctorFragment : Fragment() {
 
@@ -47,12 +46,20 @@ class AboutDoctorFragment : Fragment() {
         vb.run {
             toolbar.setNavigationOnClickListener { parentFragmentManager.popBackStack() }
             rvEducation.adapter = adapter
+            btnMakeAppointment.setOnClickListener { CalendarBottomSheetFragment.show(requireActivity().supportFragmentManager, id) }
         }
     }
 
     private fun observeLiveData() {
         vm.doctorLiveData.observe(viewLifecycleOwner, { doctor ->
             setupDoctorView(doctor)
+        })
+        vm.event.observe(this, { event ->
+            when(event) {
+                is CoreEvent.Loading -> showLoader()
+                is CoreEvent.Success -> goneLoader()
+                is CoreEvent.Error -> errorAction(event)
+            }
         })
     }
 
@@ -68,6 +75,21 @@ class AboutDoctorFragment : Fragment() {
                 ivProfile.setImageDrawable(doctor?.image?.convertBase64ToDrawable(requireContext()))
             adapter.submitList(doctor?.information)
         }
+    }
+
+    private fun errorAction(event: CoreEvent.Error) {
+        when (event.isNetworkError) {
+            true -> requireActivity().toast(event.message)
+        }
+        goneLoader()
+    }
+
+    private fun showLoader() {
+        vb.progressBar.show()
+    }
+
+    private fun goneLoader() {
+        vb.progressBar.gone()
     }
 
 }

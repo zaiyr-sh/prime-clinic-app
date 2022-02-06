@@ -12,4 +12,6 @@ class ClinicRepository(
 
     suspend fun getDoctorProfileById(id: Long) = apiClinic.getDoctorProfileById(id)
 
+    suspend fun getScheduleByDoctorId(id: Long) = apiClinic.getScheduleByDoctorId(id)
+
 }

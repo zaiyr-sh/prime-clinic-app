@@ -12,7 +12,6 @@ import kg.iaau.diploma.core.utils.CoreEvent.*
 import kg.iaau.diploma.core.utils.gone
 import kg.iaau.diploma.core.utils.show
 import kg.iaau.diploma.core.utils.toast
-import kg.iaau.diploma.data.Doctor
 import kg.iaau.diploma.data.SpecialistCategory
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentClinicCategoryBinding
@@ -45,14 +44,20 @@ class ClinicCategoryFragment : Fragment(), ClinicSpecialistListener {
         vb.run {
             rvSpecialists.adapter = adapter
             adapter.submitList(
-                listOf(SpecialistCategory(id = 1, name = "Диетолог", description = "Специалист правильного питания", doctors =
                 listOf(
-                    Doctor(id = 3, firstName = "Анна", lastName = "Маслова", patronymic="Каримовна", position="Высший врач"),
-                    Doctor(id = 4, firstName = "Мира", lastName = "Кайратова", patronymic="Асановна", position="Высший врач"),
-                    Doctor(id = 1, firstName = "Анеля", lastName = "Максимова", patronymic="Максимовна", position="Высший врач"),
-                    Doctor(id = 2, firstName = "Жасмин", lastName = "Аскарова", patronymic="Асановна", position="Высший врач")
-                )
-                )))
+                    SpecialistCategory(id = 1, name = "Диетолог", description = "Специалист правильного питания"),
+                    SpecialistCategory(id = 1, name = "Диетолог", description = "Специалист правильного питания"),
+                    SpecialistCategory(id = 1, name = "Диетолог", description = "Специалист правильного питания"),
+                    SpecialistCategory(id = 1, name = "Диетолог", description = "Специалист правильного питания"),
+                    SpecialistCategory(id = 1, name = "Диетолог", description = "Специалист правильного питания"),
+                    SpecialistCategory(id = 1, name = "Диетолог", description = "Специалист правильного питания"),
+                    SpecialistCategory(id = 1, name = "Диетолог", description = "Специалист правильного питания"),
+                    SpecialistCategory(id = 1, name = "Диетолог", description = "Специалист правильного питания"),
+                    SpecialistCategory(id = 1, name = "Диетолог", description = "Специалист правильного питания"),
+                    SpecialistCategory(id = 1, name = "Диетолог", description = "Специалист правильного питания"),
+                    SpecialistCategory(id = 1, name = "Диетолог", description = "Специалист правильного питания"),
+                    SpecialistCategory(id = 1, name = "Диетолог", description = "Специалист правильного питания"),
+                ))
         }
     }
 

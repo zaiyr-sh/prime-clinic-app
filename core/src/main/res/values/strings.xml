@@ -68,6 +68,13 @@
 
     <string name="online_consultation">Онлайн-консультация</string>
     <string name="our_specialists">Наши специалисты</string>
+    <string name="choose_date">Выберите дату</string>
+    <string name="cancel">отмена</string>
+    <string name="ok">ок</string>
+    <string name="what_heals">Что лечит</string>
+    <string name="about_doctor">О враче</string>
+    <string name="education">Образование</string>
+    <string name="enroll">Забронировать</string>
 
     <string name="education_period">%s - %s</string>
     <string name="education_information">%s. %s</string>

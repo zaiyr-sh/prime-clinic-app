@@ -11,12 +11,9 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.transition.Transition
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.core.utils.CoreEvent.Success
-import kg.iaau.diploma.core.utils.CoreEvent.Error
-import kg.iaau.diploma.core.utils.CoreEvent.Loading
+import kg.iaau.diploma.core.utils.CoreEvent.*
 import kg.iaau.diploma.core.utils.gone
 import kg.iaau.diploma.core.utils.show
 import kg.iaau.diploma.core.utils.toast
@@ -24,10 +21,8 @@ import kg.iaau.diploma.data.SpecialistCategory
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentAboutClinicCategoryBinding
 import kg.iaau.diploma.primeclinic.ui.main.clinic.ClinicVM
-import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.ClinicSpecialistAdapter
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.DoctorAdapter
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.DoctorListener
-import java.util.*
 
 @AndroidEntryPoint
 class AboutClinicCategoryFragment : Fragment(), DoctorListener {

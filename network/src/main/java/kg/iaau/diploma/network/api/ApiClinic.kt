@@ -1,6 +1,7 @@
 package kg.iaau.diploma.network.api
 
 import kg.iaau.diploma.data.Doctor
+import kg.iaau.diploma.data.Interval
 import kg.iaau.diploma.data.Pageable
 import kg.iaau.diploma.data.SpecialistCategory
 import retrofit2.http.GET
@@ -16,5 +17,8 @@ interface ApiClinic {
     suspend fun getSpecialistsCategoryDetailInfo(@Path("id") id: Long): SpecialistCategory
 
     @GET("doctor/profile/{id}")
-    suspend fun getDoctorProfileById(@Path("id") id: Long?): Doctor
+    suspend fun getDoctorProfileById(@Path("id") id: Long): Doctor
+
+    @GET("worktime/relevant/{id}")
+    suspend fun getScheduleByDoctorId(@Path("id") id: Long): List<Interval>
 }

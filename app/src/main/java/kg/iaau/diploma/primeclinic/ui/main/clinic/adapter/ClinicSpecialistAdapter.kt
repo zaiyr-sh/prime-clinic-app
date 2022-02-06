@@ -1,5 +1,6 @@
 package kg.iaau.diploma.primeclinic.ui.main.clinic.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -7,9 +8,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kg.iaau.diploma.data.SpecialistCategory
+import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ListItemSpecialistsBinding
 
-class ClinicSpecialistAdapter(var listener: ClinicSpecialistListener) : ListAdapter<SpecialistCategory, ClinicSpecialistViewHolder>(DIFF_CALLBACK) {
+class ClinicSpecialistAdapter(private var listener: ClinicSpecialistListener) : ListAdapter<SpecialistCategory, ClinicSpecialistViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClinicSpecialistViewHolder {
         return ClinicSpecialistViewHolder.from(parent, listener)
@@ -36,12 +38,16 @@ class ClinicSpecialistViewHolder(private val vb: ListItemSpecialistsBinding) : R
 
     private lateinit var specialist: SpecialistCategory
 
+    @SuppressLint("ResourceAsColor")
     fun bind(specialist: SpecialistCategory) {
         this.specialist = specialist
         vb.run {
             tvDescription.text = specialist.description
             tvTitle.text = specialist.name
-            Glide.with(itemView.context).load(specialist.image).into(ivSpecialist);
+            if (specialist.image.isNullOrEmpty())
+                ivSpecialist.setBackgroundColor(R.color.teal)
+            else
+                Glide.with(itemView.context).load(specialist.image).into(ivSpecialist)
         }
     }
 

@@ -10,7 +10,7 @@ import kg.iaau.diploma.data.Doctor
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ListItemDoctorBinding
 
-class DoctorAdapter(var listener: DoctorListener) : ListAdapter<Doctor, DoctorViewHolder>(DIFF_CALLBACK) {
+class DoctorAdapter(private var listener: DoctorListener) : ListAdapter<Doctor, DoctorViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DoctorViewHolder {
         return DoctorViewHolder.from(parent, listener)
