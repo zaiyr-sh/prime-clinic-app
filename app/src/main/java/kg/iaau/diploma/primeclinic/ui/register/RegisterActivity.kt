@@ -97,11 +97,17 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun showLoader() {
-        vb.progressBar.show()
+        vb.run {
+            progressBar.show()
+            clContainer.setAnimateAlpha(0.5f)
+        }
     }
 
     private fun goneLoader() {
-        vb.progressBar.gone()
+        vb.run {
+            progressBar.gone()
+            clContainer.setAnimateAlpha(1f)
+        }
     }
 
     companion object {

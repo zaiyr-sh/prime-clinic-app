@@ -10,9 +10,9 @@ import kg.iaau.diploma.data.MedCard
 interface MedCardDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveMedCardInDb(medCard: MedCard)
+    suspend fun saveMedCardInDb(medCard: MedCard)
 
     @Query("SELECT * FROM MedCard")
-    fun getMedCardFromDb(): MedCard
+    suspend fun getMedCardFromDb(): MedCard
 
 }

@@ -7,10 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.navGraphViewModels
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.core.utils.CoreEvent
-import kg.iaau.diploma.core.utils.gone
-import kg.iaau.diploma.core.utils.show
-import kg.iaau.diploma.core.utils.toast
+import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.About
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentAboutBinding
@@ -68,11 +65,17 @@ class AboutFragment : Fragment() {
     }
 
     private fun showLoader() {
-        vb.progressBar.show()
+        vb.run {
+            progressBar.show()
+            clContainer.setAnimateAlpha(0.5f)
+        }
     }
 
     private fun goneLoader() {
-        vb.progressBar.gone()
+        vb.run {
+            progressBar.gone()
+            clContainer.setAnimateAlpha(1f)
+        }
     }
 
     private fun setupFragmentViewVisibility(aboutInfo: List<About>?) {

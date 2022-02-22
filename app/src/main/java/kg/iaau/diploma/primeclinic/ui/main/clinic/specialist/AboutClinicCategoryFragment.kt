@@ -15,6 +15,7 @@ import com.bumptech.glide.request.transition.Transition
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.utils.CoreEvent.*
 import kg.iaau.diploma.core.utils.gone
+import kg.iaau.diploma.core.utils.setAnimateAlpha
 import kg.iaau.diploma.core.utils.show
 import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.data.SpecialistCategory
@@ -99,11 +100,17 @@ class AboutClinicCategoryFragment : Fragment(), DoctorListener {
     }
 
     private fun showLoader() {
-        vb.progressBar.show()
+        vb.run {
+            progressBar.show()
+            clContainer.setAnimateAlpha(0.5f)
+        }
     }
 
     private fun goneLoader() {
-        vb.progressBar.gone()
+        vb.run {
+            progressBar.gone()
+            clContainer.setAnimateAlpha(1f)
+        }
     }
 
     override fun onDoctorClick(id: Long?) {

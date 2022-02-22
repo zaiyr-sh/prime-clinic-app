@@ -1,7 +1,9 @@
 package kg.iaau.diploma.primeclinic.ui.main.clinic
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.paging.PagingData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kg.iaau.diploma.core.vm.CoreVM
 import kg.iaau.diploma.data.Doctor
@@ -12,12 +14,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ClinicVM @Inject constructor(val repository: ClinicRepository) : CoreVM() {
-
-    private var page = 0
-
-    val specialistsLiveData: LiveData<List<SpecialistCategory>?>
-        get() = _specialistsLiveData
-    private val _specialistsLiveData = MutableLiveData<List<SpecialistCategory>?>()
 
     val specialistLiveData: LiveData<SpecialistCategory?>
         get() = _specialistLiveData
@@ -31,18 +27,8 @@ class ClinicVM @Inject constructor(val repository: ClinicRepository) : CoreVM() 
         get() = _doctorSchedule
     private val _doctorSchedule = MutableLiveData<List<Interval>?>()
 
-    init {
-        getSpecialistCategories()
-    }
-
-    fun getSpecialistCategories() {
-        safeLaunch(
-            action = {
-                _specialistsLiveData.postValue(repository.getSpecialistCategories(page).content)
-//                page++
-                //todo
-            }
-        )
+    fun getSpecialistCategories(): LiveData<PagingData<SpecialistCategory>> {
+        return repository.getSpecialistCategories()
     }
 
     fun getSpecialistsCategoryDetailInfo(id: Long) {

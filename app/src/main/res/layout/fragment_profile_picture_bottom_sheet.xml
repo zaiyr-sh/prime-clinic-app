@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:background="@drawable/shape_header"
     android:layout_width="match_parent"
-    android:layout_height="140dp"
+    android:layout_height="wrap_content"
     android:gravity="center"
     android:padding="@dimen/size_16dp">
 
@@ -16,10 +16,12 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/size_16sp"
         android:text="@string/add_picture"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/grey_light"/>
+
     <Button
         android:id="@+id/btn_pick_gallery"
         android:background="@drawable/shape_keypad"

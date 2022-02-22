@@ -40,7 +40,7 @@
         android:id="@+id/tv_experience"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
+        android:layout_marginStart="@dimen/size_15dp"
         android:layout_marginTop="@dimen/size_10dp"
         android:maxLines="2"
         android:textColor="@color/grey_dark"

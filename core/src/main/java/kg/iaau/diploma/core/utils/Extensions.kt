@@ -40,6 +40,10 @@ fun View.gone() {
     visibility = View.GONE
 }
 
+fun View.setAnimateAlpha(value: Float) {
+    animate().alpha(value)
+}
+
 fun View.setEnable(enabled: Boolean) {
     isEnabled = enabled
     alpha = if (enabled) 1f else 0.5f

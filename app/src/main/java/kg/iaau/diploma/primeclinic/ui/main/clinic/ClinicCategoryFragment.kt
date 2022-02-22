@@ -4,19 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.navGraphViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.utils.CoreEvent.*
 import kg.iaau.diploma.core.utils.gone
+import kg.iaau.diploma.core.utils.setAnimateAlpha
 import kg.iaau.diploma.core.utils.show
 import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentClinicCategoryBinding
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.ClinicSpecialistAdapter
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.ClinicSpecialistListener
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ClinicCategoryFragment : Fragment(), ClinicSpecialistListener {
@@ -40,20 +42,15 @@ class ClinicCategoryFragment : Fragment(), ClinicSpecialistListener {
     }
 
     private fun setupFragmentView() {
-        vb.run {
-            rvSpecialists.adapter = adapter
-            nsvSpecialists.setOnScrollChangeListener(
-                NestedScrollView.OnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-                    if (scrollY == v.getChildAt(0).measuredHeight - v.measuredHeight)
-                        vm.getSpecialistCategories()
-                })
-        }
+        vb.rvSpecialists.adapter = adapter
     }
 
     private fun observeLiveData() {
-        vm.specialistsLiveData.observe(viewLifecycleOwner, { specialists ->
+        vm.getSpecialistCategories().observe(viewLifecycleOwner, { specialists ->
             specialists?.let {
-                adapter.submitList(it)
+                lifecycleScope.launch {
+                    adapter.submitData(it)
+                }
             }
         })
         vm.event.observe(this, { event ->
@@ -73,11 +70,17 @@ class ClinicCategoryFragment : Fragment(), ClinicSpecialistListener {
     }
 
     private fun showLoader() {
-        vb.progressBar.show()
+        vb.run {
+            progressBar.show()
+            clContainer.setAnimateAlpha(0.5f)
+        }
     }
 
     private fun goneLoader() {
-        vb.progressBar.gone()
+        vb.run {
+            progressBar.gone()
+            clContainer.setAnimateAlpha(1f)
+        }
     }
 
     override fun onSpecialistClick(id: Long?) {

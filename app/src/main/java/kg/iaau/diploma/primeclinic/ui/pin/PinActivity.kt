@@ -106,7 +106,7 @@ class PinActivity : AppCompatActivity() {
         vb.apply {
             tvWrongPin.show()
             tlKeypad.show()
-            ibDeleteNumber.visibility = View.INVISIBLE
+            ibDeleteNumber.hide()
             llIndicatorDots.show()
             setDotsBackgroundRes(R.drawable.shape_empty_dot)
         }

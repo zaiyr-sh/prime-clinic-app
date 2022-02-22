@@ -44,7 +44,7 @@ class CalendarBottomSheetFragment : BottomSheetDialogFragment(), CalendarListene
     private fun setupBottomSheetView() {
         vb.run {
             rvTime.adapter = adapter
-            rvTime.layoutManager = GridLayoutManager(requireContext(), 4)
+            rvTime.layoutManager = GridLayoutManager(requireContext(), COLUMN_NUMBER)
             btnCancel.setOnClickListener { dismiss() }
             btnOk.setOnClickListener {  }
         }
@@ -96,6 +96,7 @@ class CalendarBottomSheetFragment : BottomSheetDialogFragment(), CalendarListene
     }
 
     companion object {
+        private const val COLUMN_NUMBER = 4
         private const val DOCTOR_ID = "DOCTOR_ID"
         private val bottomSheet = CalendarBottomSheetFragment()
         fun show(supportFragmentManager: FragmentManager, id: Long) {

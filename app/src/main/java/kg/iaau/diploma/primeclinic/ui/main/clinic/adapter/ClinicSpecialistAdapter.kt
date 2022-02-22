@@ -3,6 +3,7 @@ package kg.iaau.diploma.primeclinic.ui.main.clinic.adapter
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -11,7 +12,7 @@ import kg.iaau.diploma.data.SpecialistCategory
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ListItemSpecialistsBinding
 
-class ClinicSpecialistAdapter(private var listener: ClinicSpecialistListener) : ListAdapter<SpecialistCategory, ClinicSpecialistViewHolder>(DIFF_CALLBACK) {
+class ClinicSpecialistAdapter(private var listener: ClinicSpecialistListener) : PagingDataAdapter<SpecialistCategory, ClinicSpecialistViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClinicSpecialistViewHolder {
         return ClinicSpecialistViewHolder.from(parent, listener)
@@ -19,7 +20,7 @@ class ClinicSpecialistAdapter(private var listener: ClinicSpecialistListener) : 
 
     override fun onBindViewHolder(holder: ClinicSpecialistViewHolder, position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        item?.let { holder.bind(it) }
     }
 
     companion object {
