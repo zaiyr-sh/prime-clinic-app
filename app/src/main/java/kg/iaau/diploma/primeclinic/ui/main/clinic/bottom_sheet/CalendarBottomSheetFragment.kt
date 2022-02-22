@@ -21,7 +21,7 @@ class CalendarBottomSheetFragment : BottomSheetDialogFragment(), CalendarListene
     private lateinit var vb: FragmentCalendarBottomSheetBinding
     private val vm: ClinicVM by navGraphViewModels(R.id.main_navigation) { defaultViewModelProviderFactory }
     private val adapter = CalendarAdapter(this)
-    private val id by lazy { Bundle().getLong(DOCTOR_ID) }
+    private val id by lazy { arguments?.getLong(DOCTOR_ID) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,12 +66,12 @@ class CalendarBottomSheetFragment : BottomSheetDialogFragment(), CalendarListene
     private fun setupSchedule(schedule: List<Interval>?) {
         vb.run {
             if(schedule.isNullOrEmpty()) {
+                rvTime.hide()
+                ivEmpty.show()
+            } else {
                 rvTime.show()
                 ivEmpty.hide()
                 adapter.submitList(schedule)
-            } else {
-                rvTime.hide()
-                ivEmpty.show()
             }
         }
     }
@@ -92,18 +92,18 @@ class CalendarBottomSheetFragment : BottomSheetDialogFragment(), CalendarListene
     }
 
     override fun onIntervalClick(interval: Interval) {
-        TODO("Not yet implemented")
+
     }
 
     companion object {
-        private const val DOCTOR_ID = "ID"
+        private const val DOCTOR_ID = "DOCTOR_ID"
         private val bottomSheet = CalendarBottomSheetFragment()
         fun show(supportFragmentManager: FragmentManager, id: Long) {
-            bottomSheet.show(supportFragmentManager, bottomSheet.tag).apply {
-                Bundle().apply {
+            bottomSheet.apply {
+                arguments = Bundle().apply {
                     putLong(DOCTOR_ID, id)
                 }
-            }
+            }.show(supportFragmentManager, bottomSheet.tag)
         }
     }
 

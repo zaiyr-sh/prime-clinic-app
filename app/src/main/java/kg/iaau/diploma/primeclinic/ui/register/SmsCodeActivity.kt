@@ -56,7 +56,7 @@ class SmsCodeActivity : AppCompatActivity() {
     }
 
     private fun checkSmsCodeFilling(code: String) {
-        vb.btnNext.setEnable(code.isNotEmpty() && code.length == CODE_LENGTH)
+        vb.btnNext.setEnable(code.isNotEmpty() && code.length >= CODE_LENGTH)
     }
 
     private fun observeLiveData() {
@@ -93,7 +93,7 @@ class SmsCodeActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val CODE_LENGTH = 6
+        const val CODE_LENGTH = 4
 
         fun startActivity(context: Context, phone: String?, deviceId: String?) {
             context.startActivity<SmsCodeActivity> {

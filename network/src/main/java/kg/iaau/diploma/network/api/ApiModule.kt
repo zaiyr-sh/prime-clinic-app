@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ApiModule {
-    const val BASE_URL = "http://192.168.15.103:8080/api/v1/"
+    const val BASE_URL = "https://primegay1.herokuapp.com/api/v1/"
 
     @Singleton
     @Provides

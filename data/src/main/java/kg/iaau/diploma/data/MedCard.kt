@@ -12,6 +12,5 @@ class MedCard(
     var lastName: String? = null,
     var patronymic: String? = null,
     var birthDate: String? = null,
-    var medCardPhoneNumber: String? = null,
-    var agreed: Boolean? = false
+    var medCardPhoneNumber: String? = null
 )

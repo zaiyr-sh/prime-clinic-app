@@ -126,12 +126,10 @@
                 android:id="@+id/tv_bio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/size_6dp"
                 android:paddingLeft="@dimen/size_10dp"
                 android:paddingRight="@dimen/size_10dp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/size_16sp"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_about"
                 tools:text="Максимова Анеля Максимовна- врач терапевт, стаж 25 лет. Проводит диагностику и лечение органов сердечно-сосудистой, дыхательной, ЖКТ, урологической, эндокринной, иммунной систем, спирометрию" />
@@ -161,7 +159,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_education"
-                app:layout_constraintBottom_toTopOf="@id/btn_make_appointment"
                 tools:listitem="@layout/list_item_education" />
 
             <androidx.appcompat.widget.AppCompatButton

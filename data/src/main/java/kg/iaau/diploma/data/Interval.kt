@@ -1,7 +1,5 @@
 package kg.iaau.diploma.data
 
-import androidx.room.PrimaryKey
-
 data class Interval(
     var id: Int? = 0,
     var start: String? = null,

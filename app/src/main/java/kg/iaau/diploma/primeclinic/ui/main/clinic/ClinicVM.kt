@@ -31,11 +31,15 @@ class ClinicVM @Inject constructor(val repository: ClinicRepository) : CoreVM() 
         get() = _doctorSchedule
     private val _doctorSchedule = MutableLiveData<List<Interval>?>()
 
+    init {
+        getSpecialistCategories()
+    }
+
     fun getSpecialistCategories() {
         safeLaunch(
             action = {
                 _specialistsLiveData.postValue(repository.getSpecialistCategories(page).content)
-                page++
+//                page++
                 //todo
             }
         )
@@ -57,7 +61,7 @@ class ClinicVM @Inject constructor(val repository: ClinicRepository) : CoreVM() 
         )
     }
 
-    fun getScheduleByDoctorId(id: Long) {
+    fun getScheduleByDoctorId(id: Long?) {
         safeLaunch(
             action = {
                 _doctorSchedule.postValue(repository.getScheduleByDoctorId(id))

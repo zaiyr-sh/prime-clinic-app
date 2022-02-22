@@ -5,7 +5,7 @@ import android.content.Context
 class StoragePreferences(context: Context) : BasePrefs(context) {
 
     override val prefFileName: String
-        get() = "kg.iaau.diploma.local_storage"
+        get() = "kg.iaau.diploma.local_storage.prefs"
 
     var userId: Long? by PrefDelegate(sharedPreference, Keys.USER_ID, 0)
     var token: String? by PrefDelegate(sharedPreference, Keys.ACCESS_TOKEN, "")

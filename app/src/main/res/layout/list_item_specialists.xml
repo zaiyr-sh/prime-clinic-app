@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -44,7 +45,7 @@
 
         <TextView
             android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/size_16dp"
             android:textColor="@color/black"
@@ -56,23 +57,25 @@
 
         <TextView
             android:id="@+id/tv_description"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/size_16dp"
-            android:layout_marginTop="@dimen/size_14dp"
+            android:layout_marginTop="@dimen/size_4dp"
             android:maxLines="2"
             android:textColor="@color/grey_dark"
             android:textSize="@dimen/size_14sp"
-            app:layout_constraintStart_toEndOf="@id/cv_specialist"
             app:layout_constraintTop_toBottomOf="@id/tv_title"
-            tools:text="Специалист общего профиля" />
+            app:layout_constraintStart_toEndOf="@id/cv_specialist"
+            app:layout_constraintEnd_toStartOf="@id/iv_arrow"
+            tools:text="Специалист по проблемам неврной системы и т.д." />
 
         <ImageView
             android:id="@+id/iv_arrow"
             android:layout_width="@dimen/size_30dp"
             android:layout_height="@dimen/size_30dp"
             android:src="@drawable/ic_arrow_right"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cv_specialist"
+            app:layout_constraintBottom_toBottomOf="@id/cv_specialist"
             app:layout_constraintEnd_toEndOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

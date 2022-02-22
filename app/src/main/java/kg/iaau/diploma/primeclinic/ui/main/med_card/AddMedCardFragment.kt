@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import kg.iaau.diploma.core.constants.MED_CARD_CREATED_UNSUCCESSFULLY
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.MedCard
 import kg.iaau.diploma.primeclinic.R
@@ -22,6 +25,8 @@ class AddMedCardFragment : Fragment() {
 
     private lateinit var vb: FragmentAddMedCardBinding
     private val vm: MedCardVM by navGraphViewModels(R.id.main_navigation) { defaultViewModelProviderFactory }
+    private val args: AddMedCardFragmentArgs by navArgs()
+    private val isAgreementAccepted: Boolean by lazy { args.isAgreementAccepted }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +45,7 @@ class AddMedCardFragment : Fragment() {
 
     private fun setupFragmentView() {
         vb.run {
+            if (isAgreementAccepted) llCheckAgreement.gone()
             btnSendMedCard.setOnClickListener {
                 uploadMedCard()
             }
@@ -63,7 +69,7 @@ class AddMedCardFragment : Fragment() {
             val patronymic = etPatronymic.text.toString()
             val birth = etBirthdate.text.toString()
             val phone = etPhone.text.toString()
-            if (!cbAgreement.isChecked) {
+            if (!cbAgreement.isChecked && llCheckAgreement.isVisible) {
                 requireActivity().toast(getString(R.string.agreement_absent))
                 isDataValid = false
             }
@@ -102,12 +108,16 @@ class AddMedCardFragment : Fragment() {
         })
         vm.event.observe(this, { event ->
             when(event) {
-                is CoreEvent.Notification -> {
-                    requireActivity().pushNotification(event.title, event.message)
-                    view?.findNavController()?.navigateUp()
-                }
+                is CoreEvent.Notification -> notificationAction(event)
             }
         })
+    }
+
+    private fun notificationAction(event: CoreEvent.Notification) {
+        requireActivity().pushNotification(event.title, event.message)
+        if(event.title != MED_CARD_CREATED_UNSUCCESSFULLY) {
+            view?.findNavController()?.navigateUp()
+        }
     }
 
     private fun setupMedCardFields(medCard: MedCard) {
@@ -117,7 +127,6 @@ class AddMedCardFragment : Fragment() {
             etPatronymic.setText(medCard.patronymic)
             etBirthdate.setText(medCard.birthDate)
             etPhone.setText(medCard.medCardPhoneNumber)
-            cbAgreement.isChecked = medCard.agreed == true
             medCard.image?.let { image ->
                 Glide.with(requireContext()).load(Uri.parse(image)).into(ivUserPicture)
             }

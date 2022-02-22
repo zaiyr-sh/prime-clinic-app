@@ -6,6 +6,7 @@
         <entry key="../../../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.11666666666666667" />
         <entry key="app/src/main/res/drawable/ic_app_logo.xml" value="0.14010416666666667" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1398148148148148" />
         <entry key="app/src/main/res/layout/activity_authorization.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_pin.xml" value="0.25" />
@@ -19,7 +20,7 @@
         <entry key="app/src/main/res/layout/fragment_calendar_bottom_sheet.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_chat.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_clinic.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_clinic_category.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_clinic_category.xml" value="0.22962962962962963" />
         <entry key="app/src/main/res/layout/fragment_faq.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_med_card.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_profile_picture_bottom_sheet.xml" value="0.17889492753623187" />
@@ -31,7 +32,7 @@
         <entry key="app/src/main/res/layout/list_item_education.xml" value="0.335" />
         <entry key="app/src/main/res/layout/list_item_faq.xml" value="0.13768115942028986" />
         <entry key="app/src/main/res/layout/list_item_slot.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/list_item_specialists.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/list_item_specialists.xml" value="0.335" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.24322916666666666" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.11666666666666667" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.11666666666666667" />

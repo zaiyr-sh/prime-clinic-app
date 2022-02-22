@@ -20,5 +20,5 @@ interface ApiClinic {
     suspend fun getDoctorProfileById(@Path("id") id: Long): Doctor
 
     @GET("worktime/relevant/{id}")
-    suspend fun getScheduleByDoctorId(@Path("id") id: Long): List<Interval>
+    suspend fun getScheduleByDoctorId(@Path("id") id: Long?): List<Interval>
 }

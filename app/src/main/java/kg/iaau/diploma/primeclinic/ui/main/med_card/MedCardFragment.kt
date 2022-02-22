@@ -39,11 +39,11 @@ class MedCardFragment : Fragment() {
 
     private fun setupFragmentView() {
         vb.llAddMedCard.setOnClickListener { openAddMedCardFragment() }
-        vb.ibEdit.setOnClickListener { openAddMedCardFragment() }
+        vb.ibEdit.setOnClickListener { openAddMedCardFragment(true) }
     }
 
-    private fun openAddMedCardFragment() {
-        view?.findNavController()?.navigate(R.id.nav_add_med_card)
+    private fun openAddMedCardFragment(isAgreementAccepted: Boolean = false) {
+        view?.findNavController()?.navigate(R.id.nav_add_med_card, Bundle().apply { putBoolean("isAgreementAccepted", isAgreementAccepted) })
     }
 
     private fun observeLiveData() {

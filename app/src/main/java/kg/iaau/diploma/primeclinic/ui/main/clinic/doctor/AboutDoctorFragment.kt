@@ -70,7 +70,7 @@ class AboutDoctorFragment : Fragment() {
             }
             tvName.text = getString(R.string.full_name, doctor?.lastName, doctor?.firstName, doctor?.patronymic)
             tvPosition.text = doctor?.position
-            tvBio.text = doctor?.bio
+            tvBio.text = doctor?.bio ?: getString(R.string.absent_information)
             if (!doctor?.image.isNullOrEmpty())
                 ivProfile.setImageDrawable(doctor?.image?.convertBase64ToDrawable(requireContext()))
             adapter.submitList(doctor?.information)
