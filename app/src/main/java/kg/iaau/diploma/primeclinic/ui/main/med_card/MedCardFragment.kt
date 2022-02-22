@@ -38,8 +38,10 @@ class MedCardFragment : Fragment() {
     }
 
     private fun setupFragmentView() {
-        vb.llAddMedCard.setOnClickListener { openAddMedCardFragment() }
-        vb.ibEdit.setOnClickListener { openAddMedCardFragment(true) }
+        vb.run {
+            llAddMedCard.setOnClickListener { openAddMedCardFragment() }
+            ibEdit.setOnClickListener { openAddMedCardFragment(true) }
+        }
     }
 
     private fun openAddMedCardFragment(isAgreementAccepted: Boolean = false) {
