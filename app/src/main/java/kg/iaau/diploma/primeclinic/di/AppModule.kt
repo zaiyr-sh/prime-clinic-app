@@ -69,5 +69,5 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesClinicRepository(apiClinic: ApiClinic) = ClinicRepository(apiClinic)
+    fun providesClinicRepository(storagePreferences: StoragePreferences, apiClinic: ApiClinic) = ClinicRepository(storagePreferences, apiClinic)
 }

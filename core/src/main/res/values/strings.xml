@@ -63,6 +63,7 @@
     <string name="enter_valid_patronymic">Введите верное отчество</string>
     <string name="enter_valid_birthdate">Введите верную дату рождения</string>
     <string name="enter_valid_data">Введите верные данные!</string>
+    <string name="enter_valid_phone_number">Введите верный номер телефона!</string>
 
     <string name="channel_name">Payment verification</string>
     <string name="channel_description">The notification message that describes that the payment was carried successfully</string>
@@ -79,6 +80,18 @@
 
     <string name="education_period">%s - %s</string>
     <string name="education_information">%s. %s</string>
+
+    <string name="enter_message">Введите сообщение…</string>
+    <string name="book_visit">Оформление визита</string>
+    <string name="phone_number_required"><font fgcolor='#ED5168'>*</font>Номер телефона</string>
+    <string name="leave_comment">Оставьте комментарий</string>
+    <string name="book">Забронировать</string>
+
+    <string name="choose_payment">Для подтверждения приема, вам необходимо совершить оплату указанными ниже способами</string>
+    <string name="successfully_booking">Вы записались на прием</string>
+    <string name="consultation_payment">Оплата консультации</string>
+    <string name="payment_via_e_wallet">Оплата через электронный кошелёк</string>
+    <string name="send_payment_check">После оплаты, отправьте чек в чат. Врач-администратор сделает подтверждение приема.</string>
 
 
 </resources>

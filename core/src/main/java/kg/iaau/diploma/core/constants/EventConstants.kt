@@ -6,3 +6,5 @@ const val SEND_CODE_ERROR = "Произошла ошибка при отправ
 const val MED_CARD_CREATED_SUCCESSFULLY = "Медкарта успешно создана"
 const val MED_CARD_CREATED_UNSUCCESSFULLY = "Медкарта не была создана"
 const val TRY_AGAIN = "Попробуйте ещё раз"
+const val DATE_NOT_SELECTED = "Дата не выбрана!"
+const val TIME_NOT_SELECTED = "Время не выбрано!"

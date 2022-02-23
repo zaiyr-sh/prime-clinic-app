@@ -23,7 +23,11 @@
         <entry key="app/src/main/res/layout/fragment_clinic_category.xml" value="0.22962962962962963" />
         <entry key="app/src/main/res/layout/fragment_faq.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_med_card.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_payment.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_payment_method_bottom_sheet.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_profile_picture_bottom_sheet.xml" value="0.17889492753623187" />
+        <entry key="app/src/main/res/layout/fragment_reserve.xml" value="0.1358695652173913" />
+        <entry key="app/src/main/res/layout/fragment_reserve_visit.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_item_about.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_item_category.xml" value="0.20697463768115942" />
         <entry key="app/src/main/res/layout/list_item_channel.xml" value="0.335" />
@@ -31,6 +35,8 @@
         <entry key="app/src/main/res/layout/list_item_doctor.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_item_education.xml" value="0.335" />
         <entry key="app/src/main/res/layout/list_item_faq.xml" value="0.13768115942028986" />
+        <entry key="app/src/main/res/layout/list_item_pay_step.xml" value="0.45" />
+        <entry key="app/src/main/res/layout/list_item_payment.xml" value="0.375" />
         <entry key="app/src/main/res/layout/list_item_slot.xml" value="0.375" />
         <entry key="app/src/main/res/layout/list_item_specialists.xml" value="0.3047091412742382" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.24322916666666666" />
@@ -49,8 +55,10 @@
         <entry key="core/src/main/res/drawable/ic_edit.xml" value="0.14722222222222223" />
         <entry key="core/src/main/res/drawable/ic_empty.xml" value="0.1" />
         <entry key="core/src/main/res/drawable/ic_heart.xml" value="0.2553846153846154" />
+        <entry key="core/src/main/res/drawable/ic_logo_balance.xml" value="0.21574074074074073" />
         <entry key="core/src/main/res/drawable/ic_med_card.xml" value="0.14351851851851852" />
         <entry key="core/src/main/res/drawable/ic_photo.xml" value="0.14722222222222223" />
+        <entry key="core/src/main/res/drawable/ic_pin.xml" value="0.2101851851851852" />
         <entry key="core/src/main/res/drawable/ic_remove.xml" value="0.140625" />
         <entry key="core/src/main/res/drawable/ic_send.xml" value="0.1685185185185185" />
         <entry key="core/src/main/res/drawable/keypad_shape.xml" value="0.140625" />
@@ -62,6 +70,7 @@
         <entry key="core/src/main/res/drawable/shape_calendar.xml" value="0.17407407407407408" />
         <entry key="core/src/main/res/drawable/shape_filled_dot.xml" value="0.11388888888888889" />
         <entry key="core/src/main/res/drawable/shape_free_slot.xml" value="0.17407407407407408" />
+        <entry key="core/src/main/res/drawable/shape_header.xml" value="0.21574074074074073" />
         <entry key="core/src/main/res/drawable/shape_msg_text.xml" value="0.1685185185185185" />
         <entry key="core/src/main/res/drawable/shape_payment.xml" value="0.25462962962962965" />
         <entry key="core/src/main/res/drawable/shape_reserved_slot.xml" value="0.17407407407407408" />

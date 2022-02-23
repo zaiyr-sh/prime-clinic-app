@@ -56,4 +56,9 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="PrimaryTextStyle">
+        <item name="android:textColor">@color/teal</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>

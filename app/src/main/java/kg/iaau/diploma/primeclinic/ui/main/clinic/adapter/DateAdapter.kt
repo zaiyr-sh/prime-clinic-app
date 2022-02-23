@@ -5,16 +5,17 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kg.iaau.diploma.core.utils.switchAlpha
 import kg.iaau.diploma.data.Interval
 import kg.iaau.diploma.primeclinic.databinding.ListItemSlotBinding
 
-class CalendarAdapter(private var listener: CalendarListener): ListAdapter<Interval, CalendarViewHolder>(DIFF_CALLBACK) {
+class DateAdapter(private var listener: DateListener): ListAdapter<Interval, DateViewHolder>(DIFF_CALLBACK) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CalendarViewHolder {
-        return CalendarViewHolder.from(parent, listener)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DateViewHolder {
+        return DateViewHolder.from(parent, listener)
     }
 
-    override fun onBindViewHolder(holder: CalendarViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: DateViewHolder, position: Int) {
         val item = getItem(position)
         holder.bind(item)
     }
@@ -32,7 +33,7 @@ class CalendarAdapter(private var listener: CalendarListener): ListAdapter<Inter
 
 }
 
-class CalendarViewHolder(private val vb: ListItemSlotBinding) : RecyclerView.ViewHolder(vb.root) {
+class DateViewHolder(private val vb: ListItemSlotBinding) : RecyclerView.ViewHolder(vb.root) {
 
     private lateinit var interval: Interval
 
@@ -42,18 +43,20 @@ class CalendarViewHolder(private val vb: ListItemSlotBinding) : RecyclerView.Vie
     }
 
     companion object {
-        fun from(parent: ViewGroup, listener: CalendarListener): CalendarViewHolder {
+        fun from(parent: ViewGroup, listener: DateListener): DateViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val vb = ListItemSlotBinding.inflate(layoutInflater, parent, false)
-            return CalendarViewHolder(vb).apply {
-                itemView.setOnClickListener {
-                    listener.onIntervalClick(interval)
+            return DateViewHolder(vb).apply {
+                itemView.run {
+                    setOnClickListener {
+                        listener.onDateClick(interval)
+                    }
                 }
             }
         }
     }
 }
 
-interface CalendarListener {
-    fun onIntervalClick(interval: Interval)
+interface DateListener {
+    fun onDateClick(interval: Interval)
 }

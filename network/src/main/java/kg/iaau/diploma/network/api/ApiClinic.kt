@@ -1,12 +1,7 @@
 package kg.iaau.diploma.network.api
 
-import kg.iaau.diploma.data.Doctor
-import kg.iaau.diploma.data.Interval
-import kg.iaau.diploma.data.Pageable
-import kg.iaau.diploma.data.SpecialistCategory
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import kg.iaau.diploma.data.*
+import retrofit2.http.*
 
 interface ApiClinic {
 
@@ -21,4 +16,10 @@ interface ApiClinic {
 
     @GET("worktime/relevant/{id}")
     suspend fun getScheduleByDoctorId(@Path("id") id: Long?): List<Interval>
+
+    @PUT("worktime/reserve")
+    suspend fun reserveVisit(@Body reservation: Reservation)
+
+    @GET("payment/")
+    suspend fun getPaymentMethods(): List<Payment>
 }

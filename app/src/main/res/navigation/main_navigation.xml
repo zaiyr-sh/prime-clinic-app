@@ -78,6 +78,26 @@
         <argument
             android:name="id"
             app:argType="long" />
+        <action
+            android:id="@+id/from_about_doctor_to_reserve_visit"
+            app:destination="@id/nav_reserve_visit" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_reserve_visit"
+        android:name="kg.iaau.diploma.primeclinic.ui.main.clinic.reserve.ReserveVisitFragment"
+        android:label="LABEL"
+        tools:layout="@layout/fragment_reserve_visit" >
+        <action
+            android:id="@+id/from_reserve_visit_to_payment"
+            app:destination="@id/nav_payment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_payment"
+        android:name="kg.iaau.diploma.primeclinic.ui.main.clinic.payment.PaymentFragment"
+        android:label="LABEL"
+        tools:layout="@layout/fragment_payment" >
     </fragment>
 
 </navigation>

@@ -8,19 +8,20 @@ import androidx.fragment.app.FragmentManager
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import kg.iaau.diploma.core.constants.DATE_NOT_SELECTED
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.Interval
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentCalendarBottomSheetBinding
 import kg.iaau.diploma.primeclinic.ui.main.clinic.ClinicVM
-import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.CalendarAdapter
-import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.CalendarListener
+import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.DateAdapter
+import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.DateListener
 
-class CalendarBottomSheetFragment : BottomSheetDialogFragment(), CalendarListener {
+class DateBottomSheetFragment : BottomSheetDialogFragment(), DateListener {
 
     private lateinit var vb: FragmentCalendarBottomSheetBinding
     private val vm: ClinicVM by navGraphViewModels(R.id.main_navigation) { defaultViewModelProviderFactory }
-    private val adapter = CalendarAdapter(this)
+    private val adapter = DateAdapter(this)
     private val id by lazy { arguments?.getLong(DOCTOR_ID) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,15 +45,25 @@ class CalendarBottomSheetFragment : BottomSheetDialogFragment(), CalendarListene
     private fun setupBottomSheetView() {
         vb.run {
             rvTime.adapter = adapter
-            rvTime.layoutManager = GridLayoutManager(requireContext(), COLUMN_NUMBER)
             btnCancel.setOnClickListener { dismiss() }
-            btnOk.setOnClickListener {  }
+            btnOk.setOnClickListener { checkChoosingDate() }
+        }
+    }
+
+    private fun checkChoosingDate() {
+        requireActivity().apply {
+            if (vm.scheduleDate != null) {
+                dismiss()
+                TimeBottomSheetFragment.show(supportFragmentManager)
+            } else {
+                toast(DATE_NOT_SELECTED)
+            }
         }
     }
 
     private fun observeLiveData() {
-        vm.doctorSchedule.observe(viewLifecycleOwner, { schedule ->
-            setupSchedule(schedule)
+        vm.doctorScheduleLiveData.observe(viewLifecycleOwner, { schedule ->
+            setupDate(schedule)
         })
         vm.event.observe(this, { event ->
             when(event) {
@@ -63,7 +74,7 @@ class CalendarBottomSheetFragment : BottomSheetDialogFragment(), CalendarListene
         })
     }
 
-    private fun setupSchedule(schedule: List<Interval>?) {
+    private fun setupDate(schedule: List<Interval>?) {
         vb.run {
             if(schedule.isNullOrEmpty()) {
                 rvTime.hide()
@@ -91,14 +102,13 @@ class CalendarBottomSheetFragment : BottomSheetDialogFragment(), CalendarListene
         vb.progressBar.gone()
     }
 
-    override fun onIntervalClick(interval: Interval) {
-
+    override fun onDateClick(interval: Interval) {
+        vm.setDate(interval)
     }
 
     companion object {
-        private const val COLUMN_NUMBER = 4
         private const val DOCTOR_ID = "DOCTOR_ID"
-        private val bottomSheet = CalendarBottomSheetFragment()
+        private val bottomSheet = DateBottomSheetFragment()
         fun show(supportFragmentManager: FragmentManager, id: Long) {
             bottomSheet.apply {
                 arguments = Bundle().apply {
