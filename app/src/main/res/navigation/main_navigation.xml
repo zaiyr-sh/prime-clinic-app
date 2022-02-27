@@ -89,9 +89,19 @@
         android:label="LABEL"
         tools:layout="@layout/fragment_reserve_visit" >
         <action
-            android:id="@+id/from_reserve_visit_to_payment"
-            app:destination="@id/nav_payment" />
+            android:id="@+id/from_reserve_visit_to_payment_method"
+            app:destination="@id/nav_payment_method" />
     </fragment>
+
+    <dialog
+        android:id="@+id/nav_payment_method"
+        android:name="kg.iaau.diploma.primeclinic.ui.main.clinic.bottom_sheet.PaymentMethodBottomSheetFragment"
+        android:label="LABEL"
+        tools:layout="@layout/fragment_payment_method_bottom_sheet">
+        <action
+            android:id="@+id/from_payment_method_to_payment"
+            app:destination="@id/nav_payment" />
+    </dialog>
 
     <fragment
         android:id="@+id/nav_payment"

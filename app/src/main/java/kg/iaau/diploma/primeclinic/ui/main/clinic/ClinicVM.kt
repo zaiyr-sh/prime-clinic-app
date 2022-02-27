@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagingData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kg.iaau.diploma.core.constants.VISIT_RESERVED_SUCCESSFULLY
 import kg.iaau.diploma.core.utils.CoreEvent
 import kg.iaau.diploma.core.vm.CoreVM
 import kg.iaau.diploma.data.*
@@ -89,6 +90,7 @@ class ClinicVM @Inject constructor(val repository: ClinicRepository) : CoreVM() 
         safeLaunch(
             action = {
                 repository.reserveVisit(reservation)
+                event.postValue(CoreEvent.Notification(message = VISIT_RESERVED_SUCCESSFULLY))
             }
         )
     }

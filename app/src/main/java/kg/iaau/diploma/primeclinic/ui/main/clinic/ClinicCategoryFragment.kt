@@ -8,12 +8,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import androidx.navigation.navGraphViewModels
+import androidx.paging.PagingData
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.utils.CoreEvent.*
 import kg.iaau.diploma.core.utils.gone
 import kg.iaau.diploma.core.utils.setAnimateAlpha
 import kg.iaau.diploma.core.utils.show
 import kg.iaau.diploma.core.utils.toast
+import kg.iaau.diploma.data.Doctor
+import kg.iaau.diploma.data.SpecialistCategory
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentClinicCategoryBinding
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.ClinicSpecialistAdapter

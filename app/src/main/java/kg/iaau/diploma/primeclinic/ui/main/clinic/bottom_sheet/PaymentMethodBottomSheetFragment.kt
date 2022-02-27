@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.Payment
 import kg.iaau.diploma.primeclinic.R
@@ -15,6 +17,7 @@ import kg.iaau.diploma.primeclinic.ui.main.clinic.ClinicVM
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.PaymentAdapter
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.PaymentListener
 
+@AndroidEntryPoint
 class PaymentMethodBottomSheetFragment : BottomSheetDialogFragment(), PaymentListener {
 
     private lateinit var vb: FragmentPaymentMethodBottomSheetBinding
@@ -86,14 +89,8 @@ class PaymentMethodBottomSheetFragment : BottomSheetDialogFragment(), PaymentLis
 
     override fun onPaymentClick(payment: Payment) {
         vm.setPaymentMethod(payment)
+        findNavController().navigate(R.id.nav_payment)
         dismiss()
-    }
-
-    companion object {
-        private val bottomSheet = PaymentMethodBottomSheetFragment()
-        fun show(supportFragmentManager: FragmentManager) {
-            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
-        }
     }
 
 }

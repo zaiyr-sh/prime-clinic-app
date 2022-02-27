@@ -78,11 +78,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rv_steps" />
 
-    <TextView
-        android:id="@+id/instruction"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/iv_pin"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/size_16dp"
+        android:layout_marginTop="@dimen/size_10dp"
+        android:src="@drawable/ic_pin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line" />
+
+    <TextView
+        android:id="@+id/instruction"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/size_18dp"
         android:layout_marginTop="@dimen/size_10dp"
         android:layout_marginEnd="@dimen/size_16dp"
         android:layout_marginBottom="@dimen/size_10dp"
@@ -91,10 +101,9 @@
         android:textColor="@color/black"
         android:textSize="@dimen/size_16sp"
         android:textStyle="bold"
-        app:drawableStartCompat="@drawable/ic_pin"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_pin"
         app:layout_constraintTop_toBottomOf="@id/line" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

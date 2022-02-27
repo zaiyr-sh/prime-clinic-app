@@ -23,7 +23,7 @@
         <entry key="app/src/main/res/layout/fragment_clinic_category.xml" value="0.22962962962962963" />
         <entry key="app/src/main/res/layout/fragment_faq.xml" value="0.1503623188405797" />
         <entry key="app/src/main/res/layout/fragment_med_card.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_payment.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_payment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_payment_method_bottom_sheet.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_profile_picture_bottom_sheet.xml" value="0.17889492753623187" />
         <entry key="app/src/main/res/layout/fragment_reserve.xml" value="0.1358695652173913" />

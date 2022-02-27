@@ -38,8 +38,7 @@ class ReserveVisitFragment : Fragment() {
         vb.run {
             toolbar.setNavigationOnClickListener { parentFragmentManager.popBackStack() }
             btnBook.setOnClickListener {
-//                bookVisit()
-                PaymentMethodBottomSheetFragment.show(requireActivity().supportFragmentManager)
+                bookVisit()
             }
         }
     }
@@ -57,22 +56,18 @@ class ReserveVisitFragment : Fragment() {
     }
 
     private fun observeLiveData() {
-        vm.paymentLiveData.observe(viewLifecycleOwner, { payment ->
-            if (payment != null)
-                view?.findNavController()?.navigate(R.id.nav_payment)
-        })
         vm.event.observe(this, { event ->
             when(event) {
                 is CoreEvent.Loading -> showLoader()
-                is CoreEvent.Success -> successAction()
+                is CoreEvent.Success -> goneLoader()
+                is CoreEvent.Notification -> notificationAction()
                 is CoreEvent.Error -> errorAction(event)
             }
         })
     }
 
-    private fun successAction() {
-        goneLoader()
-//        PaymentMethodBottomSheetFragment.show(requireActivity().supportFragmentManager)
+    private fun notificationAction() {
+        view?.findNavController()?.navigate(R.id.nav_payment_method)
     }
 
     private fun errorAction(event: CoreEvent.Error) {

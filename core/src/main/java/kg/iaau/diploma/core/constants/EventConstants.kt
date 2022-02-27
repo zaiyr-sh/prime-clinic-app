@@ -8,3 +8,4 @@ const val MED_CARD_CREATED_UNSUCCESSFULLY = "Медкарта не была со
 const val TRY_AGAIN = "Попробуйте ещё раз"
 const val DATE_NOT_SELECTED = "Дата не выбрана!"
 const val TIME_NOT_SELECTED = "Время не выбрано!"
+const val VISIT_RESERVED_SUCCESSFULLY = "Оформленеие визита успешно забронировано"
