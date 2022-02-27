@@ -114,7 +114,7 @@ class AddMedCardFragment : Fragment() {
     }
 
     private fun notificationAction(event: CoreEvent.Notification) {
-        requireActivity().pushNotification(event.title, event.message)
+        event.title?.let { view?.showSnackBar(requireContext(), it) }
         if(event.title != MED_CARD_CREATED_UNSUCCESSFULLY) {
             findNavController().navigateUp()
         }

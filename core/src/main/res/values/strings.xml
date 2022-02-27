@@ -85,7 +85,7 @@
 
     <string name="enter_message">Введите сообщение…</string>
     <string name="book_visit">Оформление визита</string>
-    <string name="phone_number_required"><font fgcolor='#ED5168'>*</font>Номер телефона</string>
+    <string name="phone_number_required"><font fgcolor='#ED5168'>*</font>Номер телефона (+996)</string>
     <string name="leave_comment">Оставьте комментарий</string>
     <string name="book">Забронировать</string>
 

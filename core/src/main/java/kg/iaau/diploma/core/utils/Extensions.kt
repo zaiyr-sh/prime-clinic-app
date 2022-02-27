@@ -10,11 +10,9 @@ import android.graphics.drawable.Drawable
 import android.util.Base64
 import android.view.View
 import android.widget.Toast
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import kg.iaau.diploma.core.R
-import kg.iaau.diploma.core.constants.CHANNEL_ID
-import kg.iaau.diploma.core.constants.NOTIFICATION_ID
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -28,6 +26,14 @@ fun String.convertPhoneNumberTo(countryCode: String): String = "+$countryCode$th
 
 fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
+}
+
+fun View.showSnackBar(context: Context, message: String) {
+    val snackBar = Snackbar.make(this, message, Snackbar.LENGTH_SHORT)
+    snackBar.setTextColor(ContextCompat.getColor(context, R.color.white))
+    snackBar.setBackgroundTint(ContextCompat.getColor(context, R.color.teal))
+    snackBar.show()
+
 }
 
 fun View.show() {
@@ -46,11 +52,6 @@ fun View.setAnimateAlpha(value: Float) {
     animate().alpha(value)
 }
 
-fun View.switchAlpha() {
-    alpha = if (this.alpha == 0.5f) 1f
-    else 0.5f
-}
-
 fun View.setEnable(enabled: Boolean) {
     isEnabled = enabled
     alpha = if (enabled) 1f else 0.5f
@@ -59,8 +60,8 @@ fun View.setEnable(enabled: Boolean) {
 val String.isNotField: Boolean
     get() = isEmpty() || length == 1
 
-val String.isPhoneNotField: Boolean
-    get() = isEmpty() || length != 13
+val String.isPhoneNotFieldCorrectly: Boolean
+    get() = isEmpty() || length != 13 || !startsWith("+996")
 
 val String.isDateNotField: Boolean
     get() = isEmpty() || length != 10
@@ -71,20 +72,6 @@ fun String.convertToUTC(): String {
     val month = substring(3,5)
     val year = substring(6)
     return year+"-"+month+"-"+day+"T11:00:00.320Z"
-}
-
-fun Context.pushNotification(title: String?, message: String?) {
-    val builder = NotificationCompat.Builder(this, CHANNEL_ID)
-        .setSmallIcon(R.drawable.ic_heart)
-        .setContentTitle(title)
-        .setContentText(message)
-        .setDefaults(NotificationCompat.DEFAULT_VIBRATE)
-        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        .setCategory(NotificationCompat.CATEGORY_NAVIGATION)
-        .setAutoCancel(true)
-    with(NotificationManagerCompat.from(this)) {
-        notify(NOTIFICATION_ID, builder.build())
-    }
 }
 
 fun String.convertBase64ToBitmap(): Bitmap {

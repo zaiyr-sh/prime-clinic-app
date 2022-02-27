@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kg.iaau.diploma.core.constants.MED_CARD_CREATED_SUCCESSFULLY
 import kg.iaau.diploma.core.constants.MED_CARD_CREATED_UNSUCCESSFULLY
-import kg.iaau.diploma.core.constants.TRY_AGAIN
 import kg.iaau.diploma.core.utils.CoreEvent
 import kg.iaau.diploma.core.utils.convertToUTC
 import kg.iaau.diploma.core.vm.CoreVM
@@ -42,7 +41,7 @@ class MedCardVM @Inject constructor(private val repository: MedCardRepository) :
             },
             fail = {
                 event.postValue(CoreEvent.Notification(
-                    title = MED_CARD_CREATED_UNSUCCESSFULLY, message = TRY_AGAIN
+                    title = MED_CARD_CREATED_UNSUCCESSFULLY
                 ))
             }
         )

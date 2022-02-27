@@ -46,7 +46,7 @@ class ReserveVisitFragment : Fragment() {
         vb.run {
             val phoneNumber = etPhone.text.toString()
             val comment = etComment.text.toString()
-            if (phoneNumber.isPhoneNotField) {
+            if (phoneNumber.isPhoneNotFieldCorrectly) {
                 etPhone.error = getString(R.string.enter_valid_phone_number)
                 return
             }
