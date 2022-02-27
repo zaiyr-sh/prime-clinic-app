@@ -1,18 +1,17 @@
 package kg.iaau.diploma.primeclinic.ui.main.clinic.reserve
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentReserveVisitBinding
 import kg.iaau.diploma.primeclinic.ui.main.clinic.ClinicVM
-import kg.iaau.diploma.primeclinic.ui.main.clinic.bottom_sheet.PaymentMethodBottomSheetFragment
 
 @AndroidEntryPoint
 class ReserveVisitFragment : Fragment() {
@@ -67,7 +66,7 @@ class ReserveVisitFragment : Fragment() {
     }
 
     private fun notificationAction() {
-        view?.findNavController()?.navigate(R.id.nav_payment_method)
+        findNavController().navigate(R.id.nav_payment_method)
     }
 
     private fun errorAction(event: CoreEvent.Error) {

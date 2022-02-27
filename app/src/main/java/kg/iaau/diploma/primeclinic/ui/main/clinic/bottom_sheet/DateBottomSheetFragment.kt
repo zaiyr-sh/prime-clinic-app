@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kg.iaau.diploma.core.constants.DATE_NOT_SELECTED
 import kg.iaau.diploma.core.utils.*
@@ -22,7 +22,8 @@ class DateBottomSheetFragment : BottomSheetDialogFragment(), DateListener {
     private lateinit var vb: FragmentCalendarBottomSheetBinding
     private val vm: ClinicVM by navGraphViewModels(R.id.main_navigation) { defaultViewModelProviderFactory }
     private val adapter = DateAdapter(this)
-    private val id by lazy { arguments?.getLong(DOCTOR_ID) }
+    private val args: DateBottomSheetFragmentArgs by navArgs()
+    private val id: Long by lazy { args.id }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +45,7 @@ class DateBottomSheetFragment : BottomSheetDialogFragment(), DateListener {
 
     private fun setupBottomSheetView() {
         vb.run {
+            tvHeader.text = getString(R.string.choose_date)
             rvTime.adapter = adapter
             btnCancel.setOnClickListener { dismiss() }
             btnOk.setOnClickListener { checkChoosingDate() }
@@ -53,8 +55,7 @@ class DateBottomSheetFragment : BottomSheetDialogFragment(), DateListener {
     private fun checkChoosingDate() {
         requireActivity().apply {
             if (vm.scheduleDate != null) {
-                dismiss()
-                TimeBottomSheetFragment.show(supportFragmentManager)
+                findNavController().navigate(R.id.nav_time)
             } else {
                 toast(DATE_NOT_SELECTED)
             }
@@ -102,20 +103,8 @@ class DateBottomSheetFragment : BottomSheetDialogFragment(), DateListener {
         vb.progressBar.gone()
     }
 
-    override fun onDateClick(interval: Interval) {
+    override fun onDateClick(interval: Interval?) {
         vm.setDate(interval)
-    }
-
-    companion object {
-        private const val DOCTOR_ID = "DOCTOR_ID"
-        private val bottomSheet = DateBottomSheetFragment()
-        fun show(supportFragmentManager: FragmentManager, id: Long) {
-            bottomSheet.apply {
-                arguments = Bundle().apply {
-                    putLong(DOCTOR_ID, id)
-                }
-            }.show(supportFragmentManager, bottomSheet.tag)
-        }
     }
 
 }

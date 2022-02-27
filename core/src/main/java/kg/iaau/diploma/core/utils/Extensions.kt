@@ -15,6 +15,8 @@ import androidx.core.app.NotificationManagerCompat
 import kg.iaau.diploma.core.R
 import kg.iaau.diploma.core.constants.CHANNEL_ID
 import kg.iaau.diploma.core.constants.NOTIFICATION_ID
+import java.text.SimpleDateFormat
+import java.util.*
 
 inline fun <reified T : Activity> Context.startActivity(noinline extra: Intent.() -> Unit = {}) {
     val intent = Intent(this, T::class.java)
@@ -24,7 +26,7 @@ inline fun <reified T : Activity> Context.startActivity(noinline extra: Intent.(
 
 fun String.convertPhoneNumberTo(countryCode: String): String = "+$countryCode$this"
 
-fun Context.toast(message: String, duration: Int = Toast.LENGTH_LONG) {
+fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
 }
 
@@ -93,4 +95,13 @@ fun String.convertBase64ToBitmap(): Bitmap {
 fun String.convertBase64ToDrawable(context: Context): Drawable {
     val bitmap = this.convertBase64ToBitmap()
     return BitmapDrawable(context.resources, bitmap)
+}
+
+fun String.formatForCurrentDate(): String {
+    val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:SSS", Locale.getDefault()).parse(this)
+    return SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(format)
+}
+
+fun View.isDrawableEqual(context: Context, drawable: Int): Boolean {
+    return Objects.equals(background.constantState, context.resources.getDrawable(drawable).constantState)
 }

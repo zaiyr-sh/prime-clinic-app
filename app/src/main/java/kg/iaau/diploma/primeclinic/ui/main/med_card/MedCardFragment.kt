@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,7 +45,12 @@ class MedCardFragment : Fragment() {
     }
 
     private fun openAddMedCardFragment(isAgreementAccepted: Boolean = false) {
-        view?.findNavController()?.navigate(R.id.nav_add_med_card, Bundle().apply { putBoolean("isAgreementAccepted", isAgreementAccepted) })
+        findNavController().navigate(
+            R.id.nav_add_med_card,
+            Bundle().apply {
+                putBoolean("isAgreementAccepted", isAgreementAccepted)
+            }
+        )
     }
 
     private fun observeLiveData() {

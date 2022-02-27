@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kg.iaau.diploma.core.constants.DATE_NOT_SELECTED
 import kg.iaau.diploma.core.constants.TIME_NOT_SELECTED
+import kg.iaau.diploma.core.utils.gone
 import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.data.Slot
 import kg.iaau.diploma.primeclinic.R
@@ -43,8 +41,10 @@ class TimeBottomSheetFragment : BottomSheetDialogFragment(), TimeListener {
 
     private fun setupBottomSheetView() {
         vb.run {
+            vb.progressBar.gone()
+            tvHeader.text = getString(R.string.choose_time)
             rvTime.adapter = adapter
-            adapter.submitList(vm.scheduleDate?.reservation)
+            adapter.submitList(vm.scheduleDate?.reservation?.filter { it.id == null })
             btnCancel.setOnClickListener { dismiss() }
             btnOk.setOnClickListener { checkChoosingTime() }
         }
@@ -52,23 +52,15 @@ class TimeBottomSheetFragment : BottomSheetDialogFragment(), TimeListener {
 
     private fun checkChoosingTime() {
         requireActivity().apply {
-            if (vm.slot != null) {
-                dismiss()
-            } else {
+            if (vm.slot != null)
+                findNavController().navigate(R.id.nav_reserve_visit)
+            else
                 toast(TIME_NOT_SELECTED)
-            }
         }
     }
 
-    override fun onTimeClick(slot: Slot) {
+    override fun onTimeClick(slot: Slot?) {
         vm.setSlot(slot)
-    }
-
-    companion object {
-        private val bottomSheet = TimeBottomSheetFragment()
-        fun show(supportFragmentManager: FragmentManager) {
-            bottomSheet.show(supportFragmentManager, bottomSheet.tag)
-        }
     }
 
 }

@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.bumptech.glide.Glide
@@ -56,7 +56,7 @@ class AddMedCardFragment : Fragment() {
                 ProfilePictureBottomSheetFragment.show(requireActivity().supportFragmentManager)
             }
             toolbar.setNavigationOnClickListener {
-                view?.findNavController()?.navigateUp()
+                findNavController().navigateUp()
             }
         }
     }
@@ -116,7 +116,7 @@ class AddMedCardFragment : Fragment() {
     private fun notificationAction(event: CoreEvent.Notification) {
         requireActivity().pushNotification(event.title, event.message)
         if(event.title != MED_CARD_CREATED_UNSUCCESSFULLY) {
-            view?.findNavController()?.navigateUp()
+            findNavController().navigateUp()
         }
     }
 

@@ -23,11 +23,11 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/tv_choose_date"
+            android:id="@+id/tv_header"
             style="@style/TextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/choose_date"
+            tools:text="@string/choose_date"
             android:textSize="@dimen/size_18sp" />
 
     </LinearLayout>
@@ -43,9 +43,8 @@
             android:id="@+id/rv_time"
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_300dp"
-            android:padding="@dimen/size_5dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="4"
+            app:spanCount="3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

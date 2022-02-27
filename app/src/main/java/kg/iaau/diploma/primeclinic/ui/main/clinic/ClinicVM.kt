@@ -70,11 +70,11 @@ class ClinicVM @Inject constructor(val repository: ClinicRepository) : CoreVM() 
         )
     }
 
-    fun setDate(interval: Interval) {
+    fun setDate(interval: Interval?) {
         _scheduleDate = interval
     }
 
-    fun setSlot(slot: Slot) {
+    fun setSlot(slot: Slot?) {
         _slot = slot
     }
 

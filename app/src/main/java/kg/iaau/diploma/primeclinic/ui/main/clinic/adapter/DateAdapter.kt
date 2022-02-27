@@ -2,11 +2,14 @@ package kg.iaau.diploma.primeclinic.ui.main.clinic.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kg.iaau.diploma.core.utils.switchAlpha
+import kg.iaau.diploma.core.utils.formatForCurrentDate
+import kg.iaau.diploma.core.utils.isDrawableEqual
 import kg.iaau.diploma.data.Interval
+import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ListItemSlotBinding
 
 class DateAdapter(private var listener: DateListener): ListAdapter<Interval, DateViewHolder>(DIFF_CALLBACK) {
@@ -39,7 +42,7 @@ class DateViewHolder(private val vb: ListItemSlotBinding) : RecyclerView.ViewHol
 
     fun bind(interval: Interval) {
         this.interval = interval
-        vb.tvTime.text = interval.start?.substring(0, 10)?.replace('-','.')
+        vb.tvTime.text = interval.start?.formatForCurrentDate()
     }
 
     companion object {
@@ -49,7 +52,15 @@ class DateViewHolder(private val vb: ListItemSlotBinding) : RecyclerView.ViewHol
             return DateViewHolder(vb).apply {
                 itemView.run {
                     setOnClickListener {
-                        listener.onDateClick(interval)
+                        if (vb.llSlot.isDrawableEqual(context, R.drawable.shape_free_slot)) {
+                            listener.onDateClick(interval)
+                            vb.llSlot.background = ContextCompat.getDrawable(context, R.drawable.shape_reserved_slot)
+                            vb.tvTime.setTextColor(ContextCompat.getColor(context, R.color.white))
+                        } else {
+                            listener.onDateClick(null)
+                            vb.llSlot.background = ContextCompat.getDrawable(context, R.drawable.shape_free_slot)
+                            vb.tvTime.setTextColor(ContextCompat.getColor(context, R.color.teal))
+                        }
                     }
                 }
             }
@@ -58,5 +69,5 @@ class DateViewHolder(private val vb: ListItemSlotBinding) : RecyclerView.ViewHol
 }
 
 interface DateListener {
-    fun onDateClick(interval: Interval)
+    fun onDateClick(interval: Interval?)
 }

@@ -79,9 +79,32 @@
             android:name="id"
             app:argType="long" />
         <action
-            android:id="@+id/from_about_doctor_to_reserve_visit"
-            app:destination="@id/nav_reserve_visit" />
+            android:id="@+id/from_about_doctor_to_date"
+            app:destination="@id/nav_date" />
     </fragment>
+
+    <dialog
+        android:id="@+id/nav_date"
+        android:name="kg.iaau.diploma.primeclinic.ui.main.clinic.bottom_sheet.DateBottomSheetFragment"
+        android:label="LABEL"
+        tools:layout="@layout/fragment_calendar_bottom_sheet">
+        <argument
+            android:name="id"
+            app:argType="long" />
+        <action
+            android:id="@+id/from_date_to_time"
+            app:destination="@id/nav_time" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/nav_time"
+        android:name="kg.iaau.diploma.primeclinic.ui.main.clinic.bottom_sheet.TimeBottomSheetFragment"
+        android:label="LABEL"
+        tools:layout="@layout/fragment_calendar_bottom_sheet">
+        <action
+            android:id="@+id/from_time_to_reserve_visit"
+            app:destination="@id/nav_reserve_visit" />
+    </dialog>
 
     <fragment
         android:id="@+id/nav_reserve_visit"

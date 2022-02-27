@@ -99,13 +99,13 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:id="@+id/cl_doctor_info"
+            android:id="@+id/ll_doctor_info"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:paddingBottom="@dimen/size_20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_make_appointment"
             app:layout_constraintTop_toBottomOf="@+id/cl_profile"
             android:orientation="vertical">
 
@@ -117,10 +117,7 @@
                 android:text="@string/about_doctor"
                 android:textColor="@color/teal"
                 android:textSize="@dimen/size_22sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/tv_bio"
@@ -130,8 +127,6 @@
                 android:paddingRight="@dimen/size_10dp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/size_16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_about"
                 tools:text="Максимова Анеля Максимовна- врач терапевт, стаж 25 лет. Проводит диагностику и лечение органов сердечно-сосудистой, дыхательной, ЖКТ, урологической, эндокринной, иммунной систем, спирометрию" />
 
             <TextView
@@ -142,10 +137,7 @@
                 android:text="@string/education"
                 android:textColor="@color/teal"
                 android:textSize="@dimen/size_22sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_bio" />
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_education"
@@ -154,29 +146,28 @@
                 android:layout_marginTop="@dimen/size_4dp"
                 android:nestedScrollingEnabled="true"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_education"
                 tools:itemCount="2"
                 tools:listitem="@layout/list_item_education" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_make_appointment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="@dimen/size_16dp"
-                android:paddingBottom="@dimen/size_16dp"
-                android:layout_marginTop="@dimen/size_12dp"
-                android:layout_marginStart="@dimen/size_70dp"
-                android:layout_marginEnd="@dimen/size_70dp"
-                android:layout_marginBottom="@dimen/size_8dp"
-                android:inputType="textCapSentences"
-                android:text="@string/enroll"
-                android:layout_gravity="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent" />
         </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_make_appointment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/size_70dp"
+            android:layout_marginTop="@dimen/size_12dp"
+            android:layout_marginEnd="@dimen/size_70dp"
+            android:layout_marginBottom="@dimen/size_8dp"
+            android:inputType="textCapSentences"
+            android:paddingTop="@dimen/size_16dp"
+            android:paddingBottom="@dimen/size_16dp"
+            android:text="@string/enroll"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ll_doctor_info" />
 
         <ProgressBar
             android:id="@+id/progressBar"

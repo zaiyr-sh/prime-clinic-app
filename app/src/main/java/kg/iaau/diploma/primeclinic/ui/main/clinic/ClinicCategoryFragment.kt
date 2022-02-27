@@ -6,17 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
-import androidx.paging.PagingData
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.utils.CoreEvent.*
 import kg.iaau.diploma.core.utils.gone
 import kg.iaau.diploma.core.utils.setAnimateAlpha
 import kg.iaau.diploma.core.utils.show
 import kg.iaau.diploma.core.utils.toast
-import kg.iaau.diploma.data.Doctor
-import kg.iaau.diploma.data.SpecialistCategory
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentClinicCategoryBinding
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.ClinicSpecialistAdapter
@@ -87,10 +84,12 @@ class ClinicCategoryFragment : Fragment(), ClinicSpecialistListener {
     }
 
     override fun onSpecialistClick(id: Long?) {
-        val args = Bundle()
-        if (id != null)
-            args.putLong("id", id)
-        view?.findNavController()?.navigate(R.id.nav_about_clinic_category, args)
+        findNavController().navigate(
+            R.id.nav_about_clinic_category,
+            Bundle().apply {
+                id?.let { putLong("id", it) }
+            }
+        )
     }
 
 }

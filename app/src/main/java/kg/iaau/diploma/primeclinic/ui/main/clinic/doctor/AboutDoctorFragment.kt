@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import kg.iaau.diploma.core.utils.*
@@ -14,7 +14,6 @@ import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentAboutDoctorBinding
 import kg.iaau.diploma.primeclinic.ui.main.clinic.ClinicVM
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.EducationAdapter
-import kg.iaau.diploma.primeclinic.ui.main.clinic.bottom_sheet.DateBottomSheetFragment
 
 class AboutDoctorFragment : Fragment() {
 
@@ -48,9 +47,12 @@ class AboutDoctorFragment : Fragment() {
             toolbar.setNavigationOnClickListener { parentFragmentManager.popBackStack() }
             rvEducation.adapter = adapter
             btnMakeAppointment.setOnClickListener {
-//                if (vm.scheduleDate != null)
-                    view.findNavController().navigate(R.id.nav_reserve_visit)
-//                DateBottomSheetFragment.show(requireActivity().supportFragmentManager, id)
+                findNavController().navigate(
+                    R.id.nav_date,
+                    Bundle().apply {
+                        putLong("id", id)
+                    }
+                )
             }
         }
     }
@@ -70,9 +72,8 @@ class AboutDoctorFragment : Fragment() {
 
     private fun setupDoctorView(doctor: Doctor?) {
         vb.run {
-            if(doctor != null) {
+            if(doctor != null)
                 progressBar.gone()
-            }
             tvName.text = getString(R.string.full_name, doctor?.lastName, doctor?.firstName, doctor?.patronymic)
             tvPosition.text = doctor?.position
             tvBio.text = doctor?.bio ?: getString(R.string.absent_information)

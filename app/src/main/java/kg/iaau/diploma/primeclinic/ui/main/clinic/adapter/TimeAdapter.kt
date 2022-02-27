@@ -2,10 +2,13 @@ package kg.iaau.diploma.primeclinic.ui.main.clinic.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kg.iaau.diploma.core.utils.isDrawableEqual
 import kg.iaau.diploma.data.Slot
+import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ListItemSlotBinding
 
 class TimeAdapter(private var listener: TimeListener): ListAdapter<Slot, TimeViewHolder>(DIFF_CALLBACK) {
@@ -38,7 +41,11 @@ class TimeViewHolder(private val vb: ListItemSlotBinding) : RecyclerView.ViewHol
 
     fun bind(slot: Slot) {
         this.slot = slot
-        vb.tvTime.text = slot.start?.substring(0, 5).plus("-").plus(slot.end?.substring(0,5))
+        vb.tvTime.text = itemView.resources.getString(
+            R.string.time_period,
+            slot.start?.substring(0, 5),
+            slot.end?.substring(0,5)
+        )
     }
 
     companion object {
@@ -48,7 +55,15 @@ class TimeViewHolder(private val vb: ListItemSlotBinding) : RecyclerView.ViewHol
             return TimeViewHolder(vb).apply {
                 itemView.run {
                     setOnClickListener {
-                        listener.onTimeClick(slot)
+                        if (vb.llSlot.isDrawableEqual(context, R.drawable.shape_free_slot)) {
+                            listener.onTimeClick(slot)
+                            vb.llSlot.background = ContextCompat.getDrawable(context, R.drawable.shape_reserved_slot)
+                            vb.tvTime.setTextColor(ContextCompat.getColor(context, R.color.white))
+                        } else {
+                            listener.onTimeClick(null)
+                            vb.llSlot.background = ContextCompat.getDrawable(context, R.drawable.shape_free_slot)
+                            vb.tvTime.setTextColor(ContextCompat.getColor(context, R.color.teal))
+                        }
                     }
                 }
             }
@@ -57,5 +72,5 @@ class TimeViewHolder(private val vb: ListItemSlotBinding) : RecyclerView.ViewHol
 }
 
 interface TimeListener {
-    fun onTimeClick(slot: Slot)
+    fun onTimeClick(slot: Slot?)
 }

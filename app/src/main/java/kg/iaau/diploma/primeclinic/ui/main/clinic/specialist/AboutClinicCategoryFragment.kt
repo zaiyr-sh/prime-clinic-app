@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.bumptech.glide.Glide
@@ -114,9 +114,12 @@ class AboutClinicCategoryFragment : Fragment(), DoctorListener {
     }
 
     override fun onDoctorClick(id: Long?) {
-        val args = Bundle()
-        if (id != null) { args.putLong("id", id) }
-        view?.findNavController()?.navigate(R.id.nav_about_doctor, args)
+        findNavController().navigate(
+            R.id.nav_about_doctor,
+            Bundle().apply {
+                id?.let { putLong("id", it) }
+            }
+        )
     }
 
 }

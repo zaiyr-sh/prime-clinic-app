@@ -71,6 +71,8 @@
     <string name="online_consultation">Онлайн-консультация</string>
     <string name="our_specialists">Наши специалисты</string>
     <string name="choose_date">Выберите дату</string>
+    <string name="choose_time">Выберите время</string>
+    <string name="time_period">%s - %s</string>
     <string name="cancel">отмена</string>
     <string name="ok">ок</string>
     <string name="what_heals">Что лечит</string>

@@ -3,8 +3,9 @@
     android:id="@+id/ll_slot"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/size_10dp"
-    android:background="@drawable/selector_slot"
+    android:layout_marginTop="@dimen/size_8dp"
+    android:layout_marginStart="@dimen/size_8dp"
+    android:background="@drawable/shape_free_slot"
     android:gravity="center"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -19,8 +20,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        tools:text="11:00"
-        android:textColor="@color/white"
+        tools:text="20:00 - 20:30"
+        android:textColor="@color/teal"
         android:textSize="@dimen/size_13sp"
         android:textStyle="bold" />
 </LinearLayout>
