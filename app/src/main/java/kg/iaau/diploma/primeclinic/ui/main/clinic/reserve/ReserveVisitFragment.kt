@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import dagger.hilt.android.AndroidEntryPoint
+import kg.iaau.diploma.core.constants.VISIT_RESERVED_SUCCESSFULLY
+import kg.iaau.diploma.core.constants.VISIT_RESERVED_UNSUCCESSFULLY
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentReserveVisitBinding
@@ -35,7 +37,9 @@ class ReserveVisitFragment : Fragment() {
 
     private fun setupFragmentView() {
         vb.run {
-            toolbar.setNavigationOnClickListener { parentFragmentManager.popBackStack() }
+            toolbar.setNavigationOnClickListener {
+                parentFragmentManager.popBackStack()
+            }
             btnBook.setOnClickListener {
                 bookVisit()
             }
@@ -59,19 +63,25 @@ class ReserveVisitFragment : Fragment() {
             when(event) {
                 is CoreEvent.Loading -> showLoader()
                 is CoreEvent.Success -> goneLoader()
-                is CoreEvent.Notification -> notificationAction()
+                is CoreEvent.Notification -> notificationAction(event.message)
                 is CoreEvent.Error -> errorAction(event)
             }
         })
     }
 
-    private fun notificationAction() {
-        findNavController().navigate(R.id.nav_payment_method)
+    private fun notificationAction(message: String?) {
+        goneLoader()
+        message?.let {
+            view?.showSnackBar(requireContext(), message)
+            if (it == VISIT_RESERVED_SUCCESSFULLY)
+                findNavController().navigate(R.id.nav_payment_method)
+        }
     }
 
     private fun errorAction(event: CoreEvent.Error) {
         when (event.isNetworkError) {
             true -> requireActivity().toast(event.message)
+            else -> view?.showSnackBar(requireContext(), VISIT_RESERVED_UNSUCCESSFULLY)
         }
         goneLoader()
     }

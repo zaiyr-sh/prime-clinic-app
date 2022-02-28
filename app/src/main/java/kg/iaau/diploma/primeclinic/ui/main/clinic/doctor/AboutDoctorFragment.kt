@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
+import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.Doctor
 import kg.iaau.diploma.primeclinic.R
@@ -15,6 +16,7 @@ import kg.iaau.diploma.primeclinic.databinding.FragmentAboutDoctorBinding
 import kg.iaau.diploma.primeclinic.ui.main.clinic.ClinicVM
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.EducationAdapter
 
+@AndroidEntryPoint
 class AboutDoctorFragment : Fragment() {
 
     private lateinit var vb: FragmentAboutDoctorBinding

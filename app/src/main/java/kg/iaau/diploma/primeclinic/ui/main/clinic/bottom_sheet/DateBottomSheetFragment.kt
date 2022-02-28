@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.constants.DATE_NOT_SELECTED
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.Interval
@@ -17,6 +18,7 @@ import kg.iaau.diploma.primeclinic.ui.main.clinic.ClinicVM
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.DateAdapter
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.DateListener
 
+@AndroidEntryPoint
 class DateBottomSheetFragment : BottomSheetDialogFragment(), DateListener {
 
     private lateinit var vb: FragmentCalendarBottomSheetBinding

@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.constants.MIMETYPE_IMAGES
 import kg.iaau.diploma.primeclinic.BuildConfig
 import kg.iaau.diploma.primeclinic.R
@@ -19,6 +20,7 @@ import kg.iaau.diploma.primeclinic.databinding.FragmentProfilePictureBottomSheet
 import kg.iaau.diploma.primeclinic.ui.main.med_card.MedCardVM
 import java.io.File
 
+@AndroidEntryPoint
 class ProfilePictureBottomSheetFragment : BottomSheetDialogFragment() {
 
     private lateinit var vb: FragmentProfilePictureBottomSheetBinding

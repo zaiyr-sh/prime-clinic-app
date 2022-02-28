@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentAgreementBottomSheetBinding
 
+@AndroidEntryPoint
 class AgreementBottomSheetFragment : BottomSheetDialogFragment() {
 
     private lateinit var vb: FragmentAgreementBottomSheetBinding

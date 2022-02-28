@@ -18,7 +18,7 @@ interface ApiClinic {
     suspend fun getScheduleByDoctorId(@Path("id") id: Long?): List<Interval>
 
     @PUT("worktime/reserve")
-    suspend fun reserveVisit(@Body reservation: Reservation)
+    suspend fun reserveVisit(@Body reservation: Reservation): ReservationInfo
 
     @GET("payment/")
     suspend fun getPaymentMethods(): List<Payment>

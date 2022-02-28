@@ -7,4 +7,5 @@ const val MED_CARD_CREATED_SUCCESSFULLY = "Медкарта успешно со�
 const val MED_CARD_CREATED_UNSUCCESSFULLY = "Ошибка при отправки медкарты! Попробуйте ещё раз"
 const val DATE_NOT_SELECTED = "Дата не выбрана!"
 const val TIME_NOT_SELECTED = "Время не выбрано!"
-const val VISIT_RESERVED_SUCCESSFULLY = "Оформленеие визита успешно забронировано"
+const val VISIT_RESERVED_SUCCESSFULLY = "Оформленеие визита успешно забронировано!"
+const val VISIT_RESERVED_UNSUCCESSFULLY = "Оформленеие визита не было успешно забронировано! Попробуйте еще раз"

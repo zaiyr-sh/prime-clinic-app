@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.constants.TIME_NOT_SELECTED
 import kg.iaau.diploma.core.utils.gone
+import kg.iaau.diploma.core.utils.hide
+import kg.iaau.diploma.core.utils.show
 import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.data.Slot
 import kg.iaau.diploma.primeclinic.R
@@ -17,6 +20,7 @@ import kg.iaau.diploma.primeclinic.ui.main.clinic.ClinicVM
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.TimeAdapter
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.TimeListener
 
+@AndroidEntryPoint
 class TimeBottomSheetFragment : BottomSheetDialogFragment(), TimeListener {
 
     private lateinit var vb: FragmentCalendarBottomSheetBinding
@@ -44,9 +48,22 @@ class TimeBottomSheetFragment : BottomSheetDialogFragment(), TimeListener {
             vb.progressBar.gone()
             tvHeader.text = getString(R.string.choose_time)
             rvTime.adapter = adapter
-            adapter.submitList(vm.scheduleDate?.reservation?.filter { it.id == null })
+            setupDate(vm.scheduleDate?.reservation?.filter { it.id == null })
             btnCancel.setOnClickListener { dismiss() }
             btnOk.setOnClickListener { checkChoosingTime() }
+        }
+    }
+
+    private fun setupDate(slots: List<Slot>?) {
+        vb.run {
+            if(slots.isNullOrEmpty()) {
+                rvTime.hide()
+                ivEmpty.show()
+            } else {
+                rvTime.show()
+                ivEmpty.hide()
+                adapter.submitList(slots)
+            }
         }
     }
 
