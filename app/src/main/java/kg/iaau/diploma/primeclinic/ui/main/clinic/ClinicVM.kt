@@ -44,7 +44,7 @@ class ClinicVM @Inject constructor(val repository: ClinicRepository) : CoreVM() 
     private val _paymentLiveData = MutableLiveData<Payment?>()
 
     fun getSpecialistCategories(): LiveData<PagingData<SpecialistCategory>> {
-        return repository.getSpecialistCategories()
+        return repository.getSpecialistCategories(event)
     }
 
     fun getSpecialistsCategoryDetailInfo(id: Long) {

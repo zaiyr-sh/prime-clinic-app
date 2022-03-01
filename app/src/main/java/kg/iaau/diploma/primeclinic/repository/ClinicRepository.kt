@@ -1,11 +1,13 @@
 package kg.iaau.diploma.primeclinic.repository
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import kg.iaau.diploma.core.constants.DEFAULT_PAGE_SIZE
+import kg.iaau.diploma.core.utils.Event
 import kg.iaau.diploma.data.Reservation
 import kg.iaau.diploma.data.SpecialistCategory
 import kg.iaau.diploma.local_storage.prefs.StoragePreferences
@@ -19,10 +21,10 @@ class ClinicRepository(
 
     var userId: Long? = prefs.userId
 
-    fun getSpecialistCategories(pagingConfig: PagingConfig = getDefaultPageConfig()): LiveData<PagingData<SpecialistCategory>> {
+    fun getSpecialistCategories(event: MutableLiveData<Event>, pagingConfig: PagingConfig = getDefaultPageConfig()): LiveData<PagingData<SpecialistCategory>> {
         return Pager(
             config = pagingConfig,
-            pagingSourceFactory = { ClinicSpecialistsDS(apiClinic) }
+            pagingSourceFactory = { ClinicSpecialistsDS(event, apiClinic) }
         ).liveData
     }
 

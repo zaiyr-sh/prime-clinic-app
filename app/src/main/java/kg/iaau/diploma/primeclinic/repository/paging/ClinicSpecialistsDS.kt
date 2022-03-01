@@ -1,14 +1,18 @@
 package kg.iaau.diploma.primeclinic.repository.paging
 
+import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kg.iaau.diploma.core.constants.DEFAULT_PAGE_INDEX
+import kg.iaau.diploma.core.constants.NETWORK_ERROR
+import kg.iaau.diploma.core.utils.CoreEvent
+import kg.iaau.diploma.core.utils.Event
 import kg.iaau.diploma.data.SpecialistCategory
 import kg.iaau.diploma.network.api.ApiClinic
 import retrofit2.HttpException
 import java.io.IOException
 
-class ClinicSpecialistsDS(private val apiClinic: ApiClinic) : PagingSource<Int, SpecialistCategory>() {
+class ClinicSpecialistsDS(private var event: MutableLiveData<Event>, private val apiClinic: ApiClinic) : PagingSource<Int, SpecialistCategory>() {
 
     override fun getRefreshKey(state: PagingState<Int, SpecialistCategory>): Int? = null
 
@@ -21,15 +25,26 @@ class ClinicSpecialistsDS(private val apiClinic: ApiClinic) : PagingSource<Int, 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SpecialistCategory> {
         val page = params.key ?: DEFAULT_PAGE_INDEX
         return try {
+            event.postValue(CoreEvent.Loading(true))
             val response = apiClinic.getSpecialistCategories(page).content ?: listOf()
+            event.postValue(CoreEvent.Success())
             LoadResult.Page(
                 response,
                 prevKey = if (page == DEFAULT_PAGE_INDEX) null else page - 1,
                 nextKey = if (response.isEmpty()) null else page + 1
             )
         } catch (exception: IOException) {
+            event.postValue(CoreEvent.Error(true, null, null, NETWORK_ERROR))
             return LoadResult.Error(exception)
         } catch (exception: HttpException) {
+            event.postValue(
+                CoreEvent.Error(
+                    false,
+                    exception.code(),
+                    exception.response()?.errorBody(),
+                    exception.message.toString()
+                )
+            )
             return LoadResult.Error(exception)
         }
     }
