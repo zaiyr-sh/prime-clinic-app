@@ -95,5 +95,7 @@
     <string name="payment_via_e_wallet">Оплата через электронный кошелёк</string>
     <string name="send_payment_check">После оплаты, отправьте чек в чат. Врач-администратор сделает подтверждение приема.</string>
 
+    <string name="unexpected_error">Случилась непредвиденная ошибка.</string>
+
 
 </resources>

@@ -10,8 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.core.utils.gone
-import kg.iaau.diploma.core.utils.show
+import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.MedCard
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentMedCardBinding
@@ -64,6 +63,13 @@ class MedCardFragment : Fragment() {
                 Glide.with(requireContext()).load(Uri.parse(it)).into(vb.ivUser)
             }
         })
+        vm.event.observe(this, { event ->
+            when(event) {
+                is CoreEvent.Loading -> showLoader()
+                is CoreEvent.Success -> goneLoader()
+                is CoreEvent.Error -> errorAction(event)
+            }
+        })
     }
 
     private fun setupMedCardFields(medCard: MedCard) {
@@ -81,6 +87,28 @@ class MedCardFragment : Fragment() {
                 else
                     tvPhone.text = getString(R.string.whatsapp_number, it)
             }
+        }
+    }
+
+    private fun errorAction(event: CoreEvent.Error) {
+        when (event.isNetworkError) {
+            true -> requireActivity().toast(event.message)
+            else -> requireActivity().toast(getString(R.string.unexpected_error))
+        }
+        goneLoader()
+    }
+
+    private fun showLoader() {
+        vb.run {
+            progressBar.show()
+            clContainer.setAnimateAlpha(0.5f)
+        }
+    }
+
+    private fun goneLoader() {
+        vb.run {
+            progressBar.gone()
+            clContainer.setAnimateAlpha(1f)
         }
     }
 

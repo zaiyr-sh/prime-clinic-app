@@ -75,6 +75,7 @@ class PaymentMethodBottomSheetFragment : BottomSheetDialogFragment(), PaymentLis
     private fun errorAction(event: CoreEvent.Error) {
         when (event.isNetworkError) {
             true -> requireActivity().toast(event.message)
+            else -> requireActivity().toast(getString(R.string.unexpected_error))
         }
         goneLoader()
     }

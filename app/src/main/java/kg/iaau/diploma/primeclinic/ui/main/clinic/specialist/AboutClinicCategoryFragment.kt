@@ -95,6 +95,7 @@ class AboutClinicCategoryFragment : Fragment(), DoctorListener {
     private fun errorAction(event: Error) {
         when (event.isNetworkError) {
             true -> requireActivity().toast(event.message)
+            else -> requireActivity().toast(getString(R.string.unexpected_error))
         }
         goneLoader()
     }
