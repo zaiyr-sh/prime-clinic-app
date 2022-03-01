@@ -1,5 +1,6 @@
 package kg.iaau.diploma.primeclinic.ui.main.med_card
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +14,9 @@ import kg.iaau.diploma.primeclinic.repository.MedCardRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class MedCardVM @Inject constructor(private val repository: MedCardRepository) : CoreVM() {
+class MedCardVM @Inject constructor(
+    private val repository: MedCardRepository
+) : CoreVM() {
 
     val medCardLiveData: LiveData<MedCard?>
         get() = _medCardLiveData

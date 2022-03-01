@@ -83,6 +83,7 @@
                 android:layout_height="wrap_content"
                 android:background="@color/teal"
                 android:gravity="end|center"
+                android:paddingVertical="@dimen/size_8dp"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/cv_image"
                 app:layout_constraintStart_toStartOf="parent"

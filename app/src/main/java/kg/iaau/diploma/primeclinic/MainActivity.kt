@@ -4,7 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.utils.startActivity
@@ -24,13 +24,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupNavController() {
-        navController = (supportFragmentManager.findFragmentById(R.id.nav_host_fragment_container) as NavHostFragment).navController
-        vb.navView.apply {
-            setupWithNavController(navController)
-            setOnNavigationItemReselectedListener {
-                // Do nothing to ignore the reselection
-            }
-        }
+        navController = findNavController(R.id.nav_host_fragment_container)
+        vb.navView.setupWithNavController(navController)
     }
 
     companion object {
