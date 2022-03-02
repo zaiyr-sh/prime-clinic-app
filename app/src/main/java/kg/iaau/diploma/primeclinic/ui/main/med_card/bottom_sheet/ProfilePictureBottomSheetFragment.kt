@@ -1,5 +1,6 @@
 package kg.iaau.diploma.primeclinic.ui.main.med_card.bottom_sheet
 
+import android.Manifest
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -29,8 +30,9 @@ class ProfilePictureBottomSheetFragment : BottomSheetDialogFragment() {
     private var imageUri: Uri? = null
 
     private lateinit var pickImage: ActivityResultLauncher<String>
-
     private lateinit var takeImage: ActivityResultLauncher<Uri>
+    private lateinit var requestPickImagePermission: ActivityResultLauncher<String>
+    private lateinit var requestTakeImagePermissions: ActivityResultLauncher<Array<String>>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,11 +48,24 @@ class ProfilePictureBottomSheetFragment : BottomSheetDialogFragment() {
                 dismiss()
             }
         }
+        requestPickImagePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) pickImage.launch(MIMETYPE_IMAGES)
+            else dismiss()
+        }
+        requestTakeImagePermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            permissions.entries.forEach {
+                if (!it.value) {
+                    dismiss()
+                    return@registerForActivityResult
+                }
+            }
+            takeImage()
+        }
         setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
         setHasOptionsMenu(false)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         vb = FragmentProfilePictureBottomSheetBinding.inflate(inflater, container, false)
         return vb.root
     }
@@ -58,10 +73,10 @@ class ProfilePictureBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         vb.btnPickGallery.setOnClickListener {
-            pickImage.launch(MIMETYPE_IMAGES)
+            requestPickImagePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
         vb.btnTakePicture.setOnClickListener {
-            takeImage()
+            requestTakeImagePermissions.launch(permissions)
         }
     }
 
@@ -83,6 +98,11 @@ class ProfilePictureBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     companion object {
+        private val permissions = arrayOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+        )
+
         private val bottomSheet = ProfilePictureBottomSheetFragment()
         fun show(supportFragmentManager: FragmentManager) {
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
