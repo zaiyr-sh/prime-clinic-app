@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tv_question"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="@dimen/size_70dp"
         android:gravity="center_vertical"
         android:paddingStart="@dimen/size_16dp"
@@ -20,7 +20,7 @@
         app:layout_constraintEnd_toStartOf="@id/iv_arrow_down"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Это официальный сервис?" />
+        tools:text="Никак не могу зарегестрироваться к вам на прием" />
 
     <TextView
         android:id="@+id/tv_answer"

@@ -23,6 +23,7 @@
             android:addStatesFromChildren="false"
             app:title="@string/online_consultation"
             app:titleMarginStart="@dimen/size_16dp"
+            app:menu="@menu/menu"
             app:titleTextAppearance="@style/ToolbarTheme" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -72,6 +73,7 @@
         android:layout_height="wrap_content"
         android:indeterminateTint="@color/teal"
         android:progressTint="@color/teal"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

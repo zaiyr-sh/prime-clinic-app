@@ -44,4 +44,8 @@ class AboutVM @Inject constructor(private val repository: AboutRepository) : Cor
         )
     }
 
+    fun logout() {
+        repository.restorePinWithTokens()
+    }
+
 }

@@ -72,8 +72,8 @@ class SmsCodeActivity : AppCompatActivity() {
     private fun successAction() {
         goneLoader()
         vm.savePhoneWithDeviceId(phone, deviceId)
-        finish()
         PinActivity.startActivity(this)
+        finish()
     }
 
     private fun errorAction(event: CoreEvent.Error) {

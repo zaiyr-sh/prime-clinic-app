@@ -1,6 +1,5 @@
 package kg.iaau.diploma.primeclinic.ui.main.med_card
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel

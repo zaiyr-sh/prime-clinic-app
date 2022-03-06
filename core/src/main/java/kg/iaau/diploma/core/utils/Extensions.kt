@@ -1,6 +1,7 @@
 package kg.iaau.diploma.core.utils
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -10,6 +11,7 @@ import android.graphics.drawable.Drawable
 import android.util.Base64
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import kg.iaau.diploma.core.R
@@ -55,6 +57,25 @@ fun View.setAnimateAlpha(value: Float) {
 fun View.setEnable(enabled: Boolean) {
     isEnabled = enabled
     alpha = if (enabled) 1f else 0.5f
+}
+
+fun Context.showDialog(
+    @StringRes title: Int,
+    positiveCallback: (() -> Unit)? = null,
+    negativeCallback: (() -> Unit)? = null
+) {
+    AlertDialog.Builder(this, R.style.AlertDialogTheme)
+        .setTitle(getString(title))
+        .setCancelable(false)
+        .setPositiveButton(R.string.ok) { dialog, _ ->
+            positiveCallback?.invoke()
+            dialog.cancel()
+        }
+        .setNegativeButton(R.string.cancel) { dialog, _ ->
+            negativeCallback?.invoke()
+            dialog.cancel()
+        }
+        .show()
 }
 
 val String.isNotField: Boolean

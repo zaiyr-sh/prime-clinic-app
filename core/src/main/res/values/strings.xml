@@ -96,6 +96,8 @@
     <string name="send_payment_check">После оплаты, отправьте чек в чат. Врач-администратор сделает подтверждение приема.</string>
 
     <string name="unexpected_error">Случилась непредвиденная ошибка.</string>
+    <string name="exit_confirmation">Вы уверены что хотите выйти?</string>
+    <string name="exit">Выход</string>
 
 
 </resources>

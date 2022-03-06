@@ -21,7 +21,7 @@ class AgreementBottomSheetFragment : BottomSheetDialogFragment() {
         setHasOptionsMenu(false)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         vb = FragmentAgreementBottomSheetBinding.inflate(inflater, container, false)
         return vb.root
     }

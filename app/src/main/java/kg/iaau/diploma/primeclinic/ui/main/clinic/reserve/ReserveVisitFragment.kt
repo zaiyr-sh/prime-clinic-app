@@ -90,6 +90,7 @@ class ReserveVisitFragment : Fragment() {
         vb.run {
             progressBar.show()
             clContainer.setAnimateAlpha(0.5f)
+            btnBook.setEnable(false)
         }
     }
 
@@ -97,6 +98,7 @@ class ReserveVisitFragment : Fragment() {
         vb.run {
             progressBar.gone()
             clContainer.setAnimateAlpha(1f)
+            btnBook.setEnable(true)
         }
     }
 

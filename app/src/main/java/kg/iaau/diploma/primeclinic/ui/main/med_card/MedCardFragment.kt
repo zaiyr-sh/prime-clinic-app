@@ -53,23 +53,23 @@ class MedCardFragment : Fragment() {
     }
 
     private fun observeLiveData() {
-        vm.medCardLiveData.observe(viewLifecycleOwner, { medCard ->
+        vm.medCardLiveData.observe(viewLifecycleOwner) { medCard ->
             medCard?.let {
                 setupMedCardFields(medCard)
             }
-        })
-        vm.imageUriLiveData.observe(viewLifecycleOwner, { imageUri ->
+        }
+        vm.imageUriLiveData.observe(viewLifecycleOwner) { imageUri ->
             imageUri?.let {
                 Glide.with(requireContext()).load(Uri.parse(it)).into(vb.ivUser)
             }
-        })
-        vm.event.observe(this, { event ->
-            when(event) {
+        }
+        vm.event.observe(viewLifecycleOwner) { event ->
+            when (event) {
                 is CoreEvent.Loading -> showLoader()
                 is CoreEvent.Success -> goneLoader()
                 is CoreEvent.Error -> errorAction(event)
             }
-        })
+        }
     }
 
     private fun setupMedCardFields(medCard: MedCard) {

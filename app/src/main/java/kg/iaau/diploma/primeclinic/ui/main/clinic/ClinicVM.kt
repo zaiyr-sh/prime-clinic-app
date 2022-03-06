@@ -107,4 +107,8 @@ class ClinicVM @Inject constructor(val repository: ClinicRepository) : CoreVM() 
         _paymentLiveData.postValue(payment)
     }
 
+    fun logout() {
+        repository.restorePinWithTokens()
+    }
+
 }

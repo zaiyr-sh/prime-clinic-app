@@ -100,6 +100,7 @@ class RegisterActivity : AppCompatActivity() {
         vb.run {
             progressBar.show()
             clContainer.setAnimateAlpha(0.5f)
+            btnEnter.setEnable(false)
         }
     }
 
@@ -107,6 +108,7 @@ class RegisterActivity : AppCompatActivity() {
         vb.run {
             progressBar.gone()
             clContainer.setAnimateAlpha(1f)
+            btnEnter.setEnable(true)
         }
     }
 

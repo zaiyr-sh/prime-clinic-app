@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
@@ -15,6 +14,7 @@ import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.constants.MED_CARD_CREATED_UNSUCCESSFULLY
 import kg.iaau.diploma.core.utils.*
+import kg.iaau.diploma.core.utils.CoreEvent.*
 import kg.iaau.diploma.data.MedCard
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentAddMedCardBinding
@@ -97,26 +97,45 @@ class AddMedCardFragment : Fragment() {
     }
 
     private fun observeLiveData() {
-        vm.medCardLiveData.observe(viewLifecycleOwner, { medCard ->
+        vm.medCardLiveData.observe(viewLifecycleOwner) { medCard ->
             medCard?.let {
                 setupMedCardFields(it)
             }
-        })
-        vm.imageUriLiveData.observe(viewLifecycleOwner, { imageUri ->
+        }
+        vm.imageUriLiveData.observe(viewLifecycleOwner) { imageUri ->
             imageUri?.let {
                 Glide.with(requireContext()).load(Uri.parse(it)).into(vb.ivUserPicture)
             }
-        })
-        vm.event.observe(this, { event ->
-            when(event) {
-                is CoreEvent.Notification -> notificationAction(event)
+        }
+        vm.event.observe(viewLifecycleOwner) { event ->
+            when (event) {
+                is Loading -> showLoader()
+                is Success, is Error -> goneLoader()
+                is Notification -> notificationAction(event)
             }
-        })
+        }
     }
 
-    private fun notificationAction(event: CoreEvent.Notification) {
+    private fun showLoader() {
+        vb.run {
+            progressBar.show()
+            clContainer.setAnimateAlpha(0.5f)
+            btnSendMedCard.setEnable(false)
+        }
+    }
+
+    private fun goneLoader() {
+        vb.run {
+            progressBar.gone()
+            clContainer.setAnimateAlpha(1f)
+            btnSendMedCard.setEnable(true)
+        }
+    }
+
+    private fun notificationAction(event: Notification) {
+        goneLoader()
         event.title?.let { view?.showSnackBar(requireContext(), it) }
-        if(event.title != MED_CARD_CREATED_UNSUCCESSFULLY) {
+        if (event.title != MED_CARD_CREATED_UNSUCCESSFULLY) {
             findNavController().navigateUp()
         }
     }

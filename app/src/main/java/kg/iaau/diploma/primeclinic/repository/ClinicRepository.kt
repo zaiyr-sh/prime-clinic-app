@@ -41,4 +41,10 @@ class ClinicRepository(
 
     suspend fun getPaymentMethods() = apiClinic.getPaymentMethods()
 
+    fun restorePinWithTokens() {
+        prefs.token = ""
+        prefs.refreshToken = ""
+        prefs.pin = ""
+    }
+
 }

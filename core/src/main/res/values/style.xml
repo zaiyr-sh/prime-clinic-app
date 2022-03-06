@@ -61,4 +61,8 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/teal</item>
+    </style>
+
 </resources>
