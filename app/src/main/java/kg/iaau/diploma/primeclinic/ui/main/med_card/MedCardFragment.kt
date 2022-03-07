@@ -102,6 +102,7 @@ class MedCardFragment : Fragment() {
         vb.run {
             progressBar.show()
             clContainer.setAnimateAlpha(0.5f)
+            llAddMedCard.setEnable(false)
         }
     }
 
@@ -109,6 +110,7 @@ class MedCardFragment : Fragment() {
         vb.run {
             progressBar.gone()
             clContainer.setAnimateAlpha(1f)
+            llAddMedCard.setEnable(true)
         }
     }
 

@@ -84,6 +84,7 @@ class ClinicCategoryFragment : Fragment(), ClinicSpecialistListener {
             else -> requireActivity().toast(getString(R.string.unexpected_error))
         }
         goneLoader()
+        vb.ivEmpty.show()
     }
 
     private fun showLoader() {

@@ -45,11 +45,11 @@ class PaymentFragment : Fragment() {
     }
 
     private fun observeLiveData() {
-        vm.paymentLiveData.observe(viewLifecycleOwner, { payment ->
+        vm.paymentLiveData.observe(viewLifecycleOwner) { payment ->
             payment?.let {
                 setupPaymentSteps(payment)
             }
-        })
+        }
     }
 
     private fun setupPaymentSteps(payment: Payment) {

@@ -2,7 +2,6 @@ package kg.iaau.diploma.primeclinic.ui.pin
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity

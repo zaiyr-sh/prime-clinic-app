@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kg.iaau.diploma.core.utils.formatForCurrentDate
 import kg.iaau.diploma.core.utils.isDrawableEqual
+import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.data.Interval
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ListItemSlotBinding
@@ -53,9 +54,14 @@ class DateViewHolder(private val vb: ListItemSlotBinding) : RecyclerView.ViewHol
                 itemView.run {
                     setOnClickListener {
                         if (vb.llSlot.isDrawableEqual(context, R.drawable.shape_free_slot)) {
-                            listener.onDateClick(interval)
-                            vb.llSlot.background = ContextCompat.getDrawable(context, R.drawable.shape_reserved_slot)
-                            vb.tvTime.setTextColor(ContextCompat.getColor(context, R.color.white))
+                            if (listener.onDateClick(interval)){
+                                vb.llSlot.background = ContextCompat.getDrawable(context, R.drawable.shape_reserved_slot)
+                                vb.tvTime.setTextColor(ContextCompat.getColor(context, R.color.white))
+                            } else {
+                                itemView.apply {
+                                    context.toast(resources.getString(R.string.error_several_items_choosing))
+                                }
+                            }
                         } else {
                             listener.onDateClick(null)
                             vb.llSlot.background = ContextCompat.getDrawable(context, R.drawable.shape_free_slot)
@@ -69,5 +75,5 @@ class DateViewHolder(private val vb: ListItemSlotBinding) : RecyclerView.ViewHol
 }
 
 interface DateListener {
-    fun onDateClick(interval: Interval?)
+    fun onDateClick(interval: Interval?): Boolean
 }

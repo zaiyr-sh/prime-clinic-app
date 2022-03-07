@@ -65,16 +65,16 @@ class DateBottomSheetFragment : BottomSheetDialogFragment(), DateListener {
     }
 
     private fun observeLiveData() {
-        vm.doctorScheduleLiveData.observe(viewLifecycleOwner, { schedule ->
+        vm.doctorScheduleLiveData.observe(viewLifecycleOwner) { schedule ->
             setupDate(schedule)
-        })
-        vm.event.observe(this, { event ->
-            when(event) {
+        }
+        vm.event.observe(this) { event ->
+            when (event) {
                 is CoreEvent.Loading -> showLoader()
                 is CoreEvent.Success -> goneLoader()
                 is CoreEvent.Error -> errorAction(event)
             }
-        })
+        }
     }
 
     private fun setupDate(schedule: List<Interval>?) {
@@ -106,8 +106,11 @@ class DateBottomSheetFragment : BottomSheetDialogFragment(), DateListener {
         vb.progressBar.gone()
     }
 
-    override fun onDateClick(interval: Interval?) {
-        vm.setDate(interval)
+    override fun onDateClick(interval: Interval?): Boolean {
+        if (interval != null && vm.scheduleDate != null) return false
+        else vm.setDate(interval)
+        return true
     }
+
 
 }

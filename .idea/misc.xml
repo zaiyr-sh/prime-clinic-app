@@ -34,7 +34,7 @@
         <entry key="app/src/main/res/layout/list_item_doc.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/list_item_doctor.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_item_education.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/list_item_faq.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/list_item_faq.xml" value="0.165" />
         <entry key="app/src/main/res/layout/list_item_pay_step.xml" value="0.45" />
         <entry key="app/src/main/res/layout/list_item_payment.xml" value="0.375" />
         <entry key="app/src/main/res/layout/list_item_slot.xml" value="0.375" />

@@ -76,8 +76,10 @@ class TimeBottomSheetFragment : BottomSheetDialogFragment(), TimeListener {
         }
     }
 
-    override fun onTimeClick(slot: Slot?) {
-        vm.setSlot(slot)
+    override fun onTimeClick(slot: Slot?): Boolean {
+        if (slot != null && vm.slot != null) return false
+        else vm.setSlot(slot)
+        return true
     }
 
 }

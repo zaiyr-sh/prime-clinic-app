@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kg.iaau.diploma.core.utils.isDrawableEqual
+import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.data.Slot
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ListItemSlotBinding
@@ -56,9 +57,14 @@ class TimeViewHolder(private val vb: ListItemSlotBinding) : RecyclerView.ViewHol
                 itemView.run {
                     setOnClickListener {
                         if (vb.llSlot.isDrawableEqual(context, R.drawable.shape_free_slot)) {
-                            listener.onTimeClick(slot)
-                            vb.llSlot.background = ContextCompat.getDrawable(context, R.drawable.shape_reserved_slot)
-                            vb.tvTime.setTextColor(ContextCompat.getColor(context, R.color.white))
+                            if (listener.onTimeClick(slot)){
+                                vb.llSlot.background = ContextCompat.getDrawable(context, R.drawable.shape_reserved_slot)
+                                vb.tvTime.setTextColor(ContextCompat.getColor(context, R.color.white))
+                            } else {
+                                itemView.apply {
+                                    context.toast(resources.getString(R.string.error_several_items_choosing))
+                                }
+                            }
                         } else {
                             listener.onTimeClick(null)
                             vb.llSlot.background = ContextCompat.getDrawable(context, R.drawable.shape_free_slot)
@@ -72,5 +78,5 @@ class TimeViewHolder(private val vb: ListItemSlotBinding) : RecyclerView.ViewHol
 }
 
 interface TimeListener {
-    fun onTimeClick(slot: Slot?)
+    fun onTimeClick(slot: Slot?): Boolean
 }

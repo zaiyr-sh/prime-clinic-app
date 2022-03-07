@@ -59,14 +59,14 @@ class ReserveVisitFragment : Fragment() {
     }
 
     private fun observeLiveData() {
-        vm.event.observe(this, { event ->
-            when(event) {
+        vm.event.observe(viewLifecycleOwner) { event ->
+            when (event) {
                 is CoreEvent.Loading -> showLoader()
                 is CoreEvent.Success -> goneLoader()
                 is CoreEvent.Notification -> notificationAction(event.message)
                 is CoreEvent.Error -> errorAction(event)
             }
-        })
+        }
     }
 
     private fun notificationAction(message: String?) {
