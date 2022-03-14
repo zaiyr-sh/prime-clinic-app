@@ -56,17 +56,17 @@ class SmsCodeActivity : AppCompatActivity() {
     }
 
     private fun checkSmsCodeFilling(code: String) {
-        vb.btnNext.setEnable(code.isNotEmpty() && code.length >= CODE_LENGTH)
+        vb.btnNext.setEnable(code.isNotEmpty())
     }
 
     private fun observeLiveData() {
-        vm.event.observe(this, { event ->
-            when(event) {
+        vm.event.observe(this) { event ->
+            when (event) {
                 is CoreEvent.Loading -> showLoader()
                 is CoreEvent.Success -> successAction()
                 is CoreEvent.Error -> errorAction(event)
             }
-        })
+        }
     }
 
     private fun successAction() {
@@ -99,7 +99,6 @@ class SmsCodeActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val CODE_LENGTH = 4
 
         fun startActivity(context: Context, phone: String?, deviceId: String?) {
             context.startActivity<SmsCodeActivity> {

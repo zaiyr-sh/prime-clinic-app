@@ -31,6 +31,7 @@ class ClinicRepository(
     private fun getDefaultPageConfig(): PagingConfig {
         return PagingConfig(pageSize = DEFAULT_PAGE_SIZE, enablePlaceholders = true)
     }
+
     suspend fun getSpecialistsCategoryDetailInfo(id: Long) = apiClinic.getSpecialistsCategoryDetailInfo(id)
 
     suspend fun getDoctorProfileById(id: Long) = apiClinic.getDoctorProfileById(id)

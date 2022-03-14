@@ -30,11 +30,14 @@
         <entry key="app/src/main/res/layout/fragment_reserve_visit.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_item_about.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_item_category.xml" value="0.20697463768115942" />
-        <entry key="app/src/main/res/layout/list_item_channel.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/list_item_channel.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/list_item_chat_user.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_item_doc.xml" value="0.17708333333333334" />
         <entry key="app/src/main/res/layout/list_item_doctor.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/list_item_docx.xml" value="0.161231884057971" />
         <entry key="app/src/main/res/layout/list_item_education.xml" value="0.335" />
         <entry key="app/src/main/res/layout/list_item_faq.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/list_item_message.xml" value="0.10643115942028986" />
         <entry key="app/src/main/res/layout/list_item_pay_step.xml" value="0.45" />
         <entry key="app/src/main/res/layout/list_item_payment.xml" value="0.375" />
         <entry key="app/src/main/res/layout/list_item_slot.xml" value="0.375" />

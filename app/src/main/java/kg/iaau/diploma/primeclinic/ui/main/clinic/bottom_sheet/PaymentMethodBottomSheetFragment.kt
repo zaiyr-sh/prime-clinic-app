@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -47,16 +46,16 @@ class PaymentMethodBottomSheetFragment : BottomSheetDialogFragment(), PaymentLis
     }
 
     private fun observeLiveData() {
-        vm.paymentMethodsLiveData.observe(viewLifecycleOwner, { paymentMethods ->
+        vm.paymentMethodsLiveData.observe(viewLifecycleOwner) { paymentMethods ->
             setupPaymentMethods(paymentMethods)
-        })
-        vm.event.observe(this, { event ->
-            when(event) {
+        }
+        vm.event.observe(this) { event ->
+            when (event) {
                 is CoreEvent.Loading -> showLoader()
                 is CoreEvent.Success -> goneLoader()
                 is CoreEvent.Error -> errorAction(event)
             }
-        })
+        }
     }
 
     private fun setupPaymentMethods(paymentMethods: List<Payment>?) {
@@ -91,7 +90,6 @@ class PaymentMethodBottomSheetFragment : BottomSheetDialogFragment(), PaymentLis
     override fun onPaymentClick(payment: Payment) {
         vm.setPaymentMethod(payment)
         findNavController().navigate(R.id.nav_payment)
-        dismiss()
     }
 
 }
