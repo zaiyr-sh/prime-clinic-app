@@ -95,6 +95,16 @@
     <string name="payment_via_e_wallet">Оплата через электронный кошелёк</string>
     <string name="send_payment_check">После оплаты, отправьте чек в чат. Врач-администратор сделает подтверждение приема.</string>
 
+
+    <string name="administrator">Администратор</string>
+    <string name="your_message">Вы: %s</string>
+    <string name="doctor_message">Доктор: %s</string>
+    <string name="admin_message">Админ: %s</string>
+    <string name="send_message_hint">Введите сообщение…</string>
+    <string name="chat_started">Чат начался, теперь вы можете задавать свои вопросы</string>
+    <string name="video_call">Видеозвонок</string>
+    <string name="photo">Фото</string>
+
     <string name="unexpected_error">Случилась непредвиденная ошибка.</string>
     <string name="error_several_items_choosing">Вы не можете выбрать несколько одновременно!</string>
     <string name="exit_confirmation">Вы уверены что хотите выйти?</string>

@@ -56,7 +56,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun register() {
         val (login, password) = editTextHandler()
-        vm.register(login.convertPhoneNumberTo(vb.ccp.selectedCountryCode), password)
+        vm.register(login.convertPhoneNumberWithCode(vb.ccp.selectedCountryCode), password)
     }
 
     private fun editTextHandler(): Array<String> {
@@ -68,13 +68,13 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun observeLiveData() {
-        vm.event.observe(this, { event ->
-            when(event) {
+        vm.event.observe(this) { event ->
+            when (event) {
                 is Loading -> showLoader()
                 is Success -> successAction()
                 is Error -> errorAction(event)
             }
-        })
+        }
     }
 
     @SuppressLint("HardwareIds")

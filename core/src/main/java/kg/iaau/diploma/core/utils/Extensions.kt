@@ -10,9 +10,11 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.util.Base64
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 import kg.iaau.diploma.core.R
 import java.text.SimpleDateFormat
@@ -24,7 +26,9 @@ inline fun <reified T : Activity> Context.startActivity(noinline extra: Intent.(
     startActivity(intent)
 }
 
-fun String.convertPhoneNumberTo(countryCode: String): String = "+$countryCode$this"
+fun String.convertPhoneNumberWithCode(countryCode: String): String = "+$countryCode$this"
+
+fun String.convertToEmail(): String = "$this@gmail.com"
 
 fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
@@ -110,6 +114,23 @@ fun String.formatForCurrentDate(): String {
     return SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(format)
 }
 
+fun Date.formatForDate(format: String = "dd.MM.yyyy HH:mm"): String {
+    val sdf = SimpleDateFormat(format, Locale.ROOT)
+    return sdf.format(this)
+}
+
 fun View.isDrawableEqual(context: Context, drawable: Int): Boolean {
     return Objects.equals(background.constantState, context.resources.getDrawable(drawable).constantState)
+}
+
+
+fun Fragment.hideKeyboard() {
+    view?.let {
+        activity?.hideKeyboard(it)
+    }
+}
+
+fun Context.hideKeyboard(view: View) {
+    val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }

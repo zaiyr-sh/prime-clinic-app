@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -96,4 +97,22 @@ dependencies {
 
     // Paging3
     implementation "androidx.paging:paging-runtime-ktx:3.1.0"
+
+    implementation 'com.google.firebase:firebase-auth:19.4.0'
+    implementation 'com.google.firebase:firebase-core:17.5.0'
+
+    implementation 'com.google.firebase:firebase-firestore:21.6.0'
+    implementation 'com.google.firebase:firebase-storage:19.2.0'
+
+    // FirebaseUI for Firebase Realtime Database
+    implementation 'com.firebaseui:firebase-ui-database:6.2.1'
+
+    // FirebaseUI for Cloud Firestore
+    implementation 'com.firebaseui:firebase-ui-firestore:6.2.1'
+
+    // FirebaseUI for Firebase Auth
+    implementation 'com.firebaseui:firebase-ui-auth:6.2.1'
+
+    // FirebaseUI for Cloud Storage
+    implementation 'com.firebaseui:firebase-ui-storage:6.2.1'
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.constants.SEND_CODE_ERROR
 import kg.iaau.diploma.core.utils.*
@@ -22,6 +23,7 @@ class SmsCodeActivity : AppCompatActivity() {
     private val vm: AuthorizationVM by viewModels()
     private val phone by lazy { intent.getStringExtra(PHONE) }
     private val deviceId by lazy { intent.getStringExtra(DEVICE_ID) }
+    private lateinit var mAuth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,10 +72,17 @@ class SmsCodeActivity : AppCompatActivity() {
     }
 
     private fun successAction() {
+        initFirebaseAuth()
         goneLoader()
         vm.savePhoneWithDeviceId(phone, deviceId)
         PinActivity.startActivity(this)
         finish()
+    }
+
+    private fun initFirebaseAuth() {
+        mAuth = FirebaseAuth.getInstance()
+        val user = mAuth.currentUser
+        if (user == null) vm.createNewUserInFirebase(mAuth)
     }
 
     private fun errorAction(event: CoreEvent.Error) {
@@ -99,7 +108,6 @@ class SmsCodeActivity : AppCompatActivity() {
     }
 
     companion object {
-
         fun startActivity(context: Context, phone: String?, deviceId: String?) {
             context.startActivity<SmsCodeActivity> {
                 putExtra(PHONE, phone)

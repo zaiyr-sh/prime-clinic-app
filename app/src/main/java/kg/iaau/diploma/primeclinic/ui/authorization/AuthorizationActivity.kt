@@ -49,7 +49,7 @@ class AuthorizationActivity : AppCompatActivity() {
 
     private fun auth() {
         val (login, password) = editTextHandler()
-        vm.auth(login.convertPhoneNumberTo(vb.ccp.selectedCountryCode), password)
+        vm.auth(login.convertPhoneNumberWithCode(vb.ccp.selectedCountryCode), password)
     }
 
     private fun editTextHandler(): Array<String> {
