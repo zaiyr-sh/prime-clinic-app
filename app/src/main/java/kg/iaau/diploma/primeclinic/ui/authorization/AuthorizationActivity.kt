@@ -29,6 +29,7 @@ class AuthorizationActivity : AppCompatActivity() {
 
     private fun setupActivityView() {
         vb.apply {
+            ccp.registerCarrierNumberEditText(etPhone)
             btnEnter.setEnable(false)
             etPhone.addTextChangedListener { checkEditTextFilling() }
             etPassword.addTextChangedListener { checkEditTextFilling() }
@@ -54,8 +55,8 @@ class AuthorizationActivity : AppCompatActivity() {
 
     private fun editTextHandler(): Array<String> {
         vb.apply {
-            val login = etPhone.text.trim().toString()
-            val password = etPassword.text.trim().toString()
+            val login = etPhone.text.toString().filterNot { it.isWhitespace() }
+            val password = etPassword.text.toString().filterNot { it.isWhitespace() }
             return arrayOf(login, password)
         }
     }

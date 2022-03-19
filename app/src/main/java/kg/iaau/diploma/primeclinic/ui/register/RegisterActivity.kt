@@ -32,6 +32,7 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun setupActivityView() {
         vb.apply {
+            ccp.registerCarrierNumberEditText(etPhone)
             tvCodeSendPhone.show()
             tvEnter.text = getString(R.string.app_register)
             tvSign.text = getString(R.string.action_sign_in)
@@ -61,8 +62,8 @@ class RegisterActivity : AppCompatActivity() {
 
     private fun editTextHandler(): Array<String> {
         vb.apply {
-            val login = etPhone.text.trim().toString()
-            val password = etPassword.text.trim().toString()
+            val login = etPhone.text.toString().filterNot { it.isWhitespace() }
+            val password = etPassword.text.toString().filterNot { it.isWhitespace() }
             return arrayOf(login, password)
         }
     }

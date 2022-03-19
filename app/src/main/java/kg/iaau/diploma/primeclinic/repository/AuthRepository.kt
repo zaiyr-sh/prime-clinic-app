@@ -66,12 +66,12 @@ class AuthRepository(
     }
 
     fun createNewUserInFirebase(mAuth: FirebaseAuth) {
-        val email = phone!!.convertToEmail()
-        mAuth.createUserWithEmailAndPassword(email, phone!!).addOnCompleteListener {
+        val email = prefs.phone!!.convertToEmail()
+        mAuth.createUserWithEmailAndPassword(email, prefs.phone!!).addOnCompleteListener {
             when (it.isSuccessful) {
                 true -> setupOnlineUser()
                 false -> {
-                    FirebaseAuth.getInstance().signInWithEmailAndPassword(email, phone!!)
+                    FirebaseAuth.getInstance().signInWithEmailAndPassword(email, prefs.phone!!)
                         .addOnCompleteListener { t ->
                             if (t.isSuccessful) setupUser()
                         }
@@ -86,7 +86,7 @@ class AuthRepository(
             val db = FirebaseFirestore.getInstance()
             val map = mutableMapOf<String, Any>()
             map["userType"] = "USER"
-            map["userPhone"] = phone!!
+            map["userPhone"] = prefs.phone!!
             map["isOnline"] = true
             db.collection("users").document(user.uid).set(map, SetOptions.merge())
         }
@@ -98,20 +98,20 @@ class AuthRepository(
             val db = FirebaseFirestore.getInstance()
             val map = mutableMapOf<String, String>()
             map["userType"] = "USER"
-            map["userPhone"] = phone!!
+            map["userPhone"] = prefs.phone!!
             db.collection("users").document(user.uid).set(map)
         }
     }
 
     fun signInFirebase() {
-        val email = phone!!.convertToEmail()
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, phone!!)
+        val email = prefs.phone!!.convertToEmail()
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, prefs.phone!!)
             .addOnCompleteListener {
                 when (it.isSuccessful) {
                     true -> setupOnlineUser()
                     else -> {
                         FirebaseAuth.getInstance()
-                            .createUserWithEmailAndPassword(email, phone!!)
+                            .createUserWithEmailAndPassword(email, prefs.phone!!)
                             .addOnCompleteListener { t ->
                                 if (t.isSuccessful) setupUser()
                             }

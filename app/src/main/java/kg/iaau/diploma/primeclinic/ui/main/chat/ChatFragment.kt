@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
@@ -20,10 +21,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ListenerRegistration
-import com.google.firebase.firestore.Query
+import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.constants.MIMETYPE_IMAGES
@@ -45,6 +43,7 @@ class ChatFragment : Fragment(), MessageListener {
 
     private lateinit var vb: FragmentChatBinding
     private lateinit var adapter: MessageAdapter
+    private val vm: ChatVM by navGraphViewModels(R.id.main_navigation) { defaultViewModelProviderFactory }
 
     private val args: ChatFragmentArgs by navArgs()
     private val ref by lazy { args.path }
@@ -192,9 +191,16 @@ class ChatFragment : Fragment(), MessageListener {
             docRef?.collection("messages")?.document()?.set(model)
                 ?.addOnCompleteListener {
                     val map = mutableMapOf<String, Any>()
+                    map["adminId"] = "a"
+                    map["adminPhone"] = ""
+                    map["chatStarted"] = true
+                    map["clientId"] = FirebaseAuth.getInstance().currentUser?.uid.toString()
                     map["lastMessage"] = message
                     map["lastMessageSenderId"] = user.uid
                     map["lastMessageTime"] = Timestamp.now()
+                    map["name"] = vm.phone ?: ""
+                    map["surname"] = "USER"
+                    docRef?.set(map, SetOptions.merge())
                     rvChats.smoothScrollToPosition(0)
                 }
         }

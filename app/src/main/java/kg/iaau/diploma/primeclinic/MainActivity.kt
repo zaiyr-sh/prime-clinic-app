@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     private fun addCallListener(user: FirebaseUser) {
         val ref = FirebaseFirestore.getInstance().collection("users").document(user.uid)
             .collection("call").document("calling")
-        ref.addSnapshotListener { value, error ->
+        ref.addSnapshotListener { value, _ ->
             if (value != null && value.exists()) {
                 val uid = value.getString("uid")
                 if (uid != null && uid != "") {
