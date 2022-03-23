@@ -1,5 +1,6 @@
 package kg.iaau.diploma.primeclinic.ui.main.med_card
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -9,8 +10,15 @@ import kg.iaau.diploma.core.utils.CoreEvent
 import kg.iaau.diploma.core.utils.convertToUTC
 import kg.iaau.diploma.core.vm.CoreVM
 import kg.iaau.diploma.data.MedCard
+import kg.iaau.diploma.data.MedCardImage
 import kg.iaau.diploma.primeclinic.repository.MedCardRepository
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.MultipartBody.Part.Companion.createFormData
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.File
 import javax.inject.Inject
+
 
 @HiltViewModel
 class MedCardVM @Inject constructor(
@@ -21,13 +29,16 @@ class MedCardVM @Inject constructor(
         get() = _medCardLiveData
     private val _medCardLiveData = MutableLiveData<MedCard?>()
 
-    val imageUriLiveData: LiveData<String?>
+    val medCardImageLiveData: LiveData<MedCardImage?>
+        get() = _medCardImageLiveData
+    private val _medCardImageLiveData = MutableLiveData<MedCardImage?>()
+
+    val imageUriLiveData: LiveData<Uri?>
         get() = _imageUriLiveData
-    private val _imageUriLiveData = MutableLiveData<String?>()
+    private val _imageUriLiveData = MutableLiveData<Uri?>()
 
     fun uploadMedCard(firstName: String?, lastName: String?, patronymic: String?, birth: String?, phone: String?) {
         val medCard = MedCard(
-            image = imageUriLiveData.value,
             firstName = firstName,
             lastName = lastName,
             patronymic = patronymic,
@@ -49,6 +60,19 @@ class MedCardVM @Inject constructor(
         )
     }
 
+    fun uploadMedCardImage(file: File) {
+        val filePart: MultipartBody.Part = createFormData(
+            "imageFile",
+            file.name,
+            file.asRequestBody("image/*".toMediaTypeOrNull())
+        )
+        safeLaunch(
+            action = {
+                repository.uploadMedCardImageById(filePart)
+            }
+        )
+    }
+
     private fun saveMedCardInDb(medCard: MedCard) {
         safeLaunch(
             action = {
@@ -65,7 +89,15 @@ class MedCardVM @Inject constructor(
         )
     }
 
-    fun setProfilePicture(imageUri: String) {
+    fun getMedCardImageById() {
+        safeLaunch(
+            action = {
+                _medCardImageLiveData.postValue(repository.getMedCardImageById())
+            }
+        )
+    }
+
+    fun setProfilePicture(imageUri: Uri) {
         _imageUriLiveData.value = imageUri
     }
 }

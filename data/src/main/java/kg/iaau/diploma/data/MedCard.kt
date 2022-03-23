@@ -7,10 +7,15 @@ import androidx.room.PrimaryKey
 class MedCard(
     @PrimaryKey
     var id: Int? = null,
-    var image: String? = null,
     var firstName: String? = null,
     var lastName: String? = null,
     var patronymic: String? = null,
     var birthDate: String? = null,
     var medCardPhoneNumber: String? = null
+)
+
+class MedCardImage(
+    var id: Int? = null,
+    var image: String? = null,
+    var medCardPhoneNumber: String? = null,
 )

@@ -67,13 +67,17 @@ class ChatFragment : Fragment(), MessageListener {
                 ivAttach.show()
                 imgUri = uri
                 messageType = "image"
-                setupMessageInput()
             }
         }
     }
 
     private var requestPickImagePermission: ActivityResultLauncher<String> = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
         if (it) pickImage.launch(MIMETYPE_IMAGES)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        requireActivity().toast(getString(R.string.chat_started))
     }
 
     override fun onCreateView(
@@ -108,17 +112,10 @@ class ChatFragment : Fragment(), MessageListener {
         db = FirebaseFirestore.getInstance()
         docRef = ref.let { db.document(it) }
 
-        if (type == UserType.ADMIN.name) setHasOptionsMenu(false)
         initUser()
 
         val listener = docRef?.addSnapshotListener { snapshot, _ ->
-            if (snapshot != null && snapshot.exists()) {
-                val started = snapshot.getBoolean("chatStarted")
-                if (started == true) {
-                    requireActivity().toast(getString(R.string.chat_started))
-                    canWrite = true
-                }
-            }
+            if (snapshot?.getBoolean("chatStarted") == true) canWrite = true
         }
         setupFragmentView(listener)
     }
@@ -127,7 +124,10 @@ class ChatFragment : Fragment(), MessageListener {
         docRef?.get()?.addOnSuccessListener {
             val adminId = it.getString("adminId")
             userId = adminId
-            if (type == UserType.DOCTOR.name) getDoctorData(adminId)
+            when (type) {
+                UserType.DOCTOR.name -> getDoctorData(adminId)
+                UserType.ADMIN.name -> setHasOptionsMenu(false)
+            }
         }
     }
 
@@ -160,11 +160,9 @@ class ChatFragment : Fragment(), MessageListener {
                 if (canWrite) listener?.remove()
                 parentFragmentManager.popBackStack()
             }
-
             rlAttachImage.setOnClickListener {
                 requestPickImagePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
-
             ivSentMessage.setOnClickListener {
                 if (etMessageTyping.text.toString().isNotEmpty()) {
                     if (messageType == "text")
@@ -173,7 +171,7 @@ class ChatFragment : Fragment(), MessageListener {
                         uploadPhotoToCloud()
                 }
             }
-            setupMessageInput()
+            etMessageTyping.requestFocus()
             val user = firebaseAuth.currentUser
             if (user != null)
                 setupRV()
@@ -201,7 +199,6 @@ class ChatFragment : Fragment(), MessageListener {
                     map["name"] = vm.phone ?: ""
                     map["surname"] = "USER"
                     docRef?.set(map, SetOptions.merge())
-                    rvChats.smoothScrollToPosition(0)
                 }
         }
     }
@@ -213,29 +210,23 @@ class ChatFragment : Fragment(), MessageListener {
             val options: FirestoreRecyclerOptions<Message> =
                 FirestoreRecyclerOptions.Builder<Message>().setQuery(query, Message::class.java)
                     .build()
-            adapter = MessageAdapter(options, this@ChatFragment)
-            rvChats.adapter = adapter
-            adapter.startListening()
-
             val observer = object : RecyclerView.AdapterDataObserver() {
-                override fun onChanged() {
-                    super.onChanged()
-                    rvChats.smoothScrollToPosition(0)
-                }
-
                 override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
                     super.onItemRangeChanged(positionStart, itemCount)
-                    rvChats.smoothScrollToPosition(0)
+                    rvChats.smoothScrollToPosition(positionStart)
+                    adapter.notifyDataSetChanged()
+                }
+                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                    super.onItemRangeInserted(positionStart, itemCount)
+                    rvChats.smoothScrollToPosition(positionStart)
+                    adapter.notifyDataSetChanged()
                 }
             }
-            adapter.registerAdapterDataObserver(observer)
-            rvChats.smoothScrollToPosition(0)
-            rvChats.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
-                if (bottom < oldBottom) {
-                    rvChats.postDelayed({
-                        rvChats.smoothScrollToPosition(0)
-                    }, 100)
-                }
+            docRef!!.collection("messages").addSnapshotListener { _, _ ->
+                adapter = MessageAdapter(options, this@ChatFragment)
+                rvChats.adapter = adapter
+                adapter.startListening()
+                adapter.registerAdapterDataObserver(observer)
             }
         }
     }
@@ -262,16 +253,7 @@ class ChatFragment : Fragment(), MessageListener {
         TODO("VIDEO CALL IMPLEMENTATION")
     }
 
-    private fun setupMessageInput() {
-        vb.etMessageTyping.run {
-            requestFocus()
-            val imm = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
-        }
-    }
-
     override fun onImageClick(image: String?) {
-        hideKeyboard()
         findNavController().navigate(
             R.id.nav_image_full,
             Bundle().apply {

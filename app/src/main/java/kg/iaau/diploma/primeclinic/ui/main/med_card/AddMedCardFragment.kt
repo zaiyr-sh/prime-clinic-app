@@ -16,10 +16,12 @@ import kg.iaau.diploma.core.constants.MED_CARD_CREATED_UNSUCCESSFULLY
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.core.utils.CoreEvent.*
 import kg.iaau.diploma.data.MedCard
+import kg.iaau.diploma.data.MedCardImage
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentAddMedCardBinding
 import kg.iaau.diploma.primeclinic.ui.main.med_card.bottom_sheet.AgreementBottomSheetFragment
 import kg.iaau.diploma.primeclinic.ui.main.med_card.bottom_sheet.ProfilePictureBottomSheetFragment
+import java.io.File
 
 @AndroidEntryPoint
 class AddMedCardFragment : Fragment() {
@@ -35,6 +37,7 @@ class AddMedCardFragment : Fragment() {
     ): View {
         vb = FragmentAddMedCardBinding.inflate(inflater, container, false)
         vm.getMedCard()
+        vm.getMedCardImageById()
         return vb.root
     }
 
@@ -102,9 +105,15 @@ class AddMedCardFragment : Fragment() {
                 setupMedCardFields(it)
             }
         }
+        vm.medCardImageLiveData.observe(viewLifecycleOwner) { medCardImage ->
+            medCardImage?.let {
+                setupMedCardImage(medCardImage)
+            }
+        }
         vm.imageUriLiveData.observe(viewLifecycleOwner) { imageUri ->
-            imageUri?.let {
-                Glide.with(requireContext()).load(Uri.parse(it)).into(vb.ivUserPicture)
+            imageUri?.let { uri ->
+                Glide.with(requireContext()).load(uri).into(vb.ivUserPicture)
+                vm.uploadMedCardImage(File(uri.path))
             }
         }
         vm.event.observe(viewLifecycleOwner) { event ->
@@ -147,9 +156,12 @@ class AddMedCardFragment : Fragment() {
             etPatronymic.setText(medCard.patronymic)
             etBirthdate.setText(medCard.birthDate)
             etPhone.setText(medCard.medCardPhoneNumber)
-            medCard.image?.let { image ->
-                Glide.with(requireContext()).load(Uri.parse(image)).into(ivUserPicture)
-            }
+        }
+    }
+
+    private fun setupMedCardImage(medCardImage: MedCardImage) {
+        medCardImage.image?.let { image ->
+            Glide.with(requireContext()).load(Uri.parse(image)).into(vb.ivUserPicture)
         }
     }
 

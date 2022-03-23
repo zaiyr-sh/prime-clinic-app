@@ -37,13 +37,13 @@ class ProfilePictureBottomSheetFragment : BottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { contentUri ->
-            vm.setProfilePicture(contentUri.toString())
+            contentUri?.let { vm.setProfilePicture(it) }
             dismiss()
         }
         takeImage = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
             if (isSuccess) {
                 imageUri?.let { uri ->
-                    vm.setProfilePicture(uri.toString())
+                    vm.setProfilePicture(uri)
                 }
                 dismiss()
             }

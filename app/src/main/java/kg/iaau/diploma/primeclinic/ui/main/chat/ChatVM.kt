@@ -10,7 +10,6 @@ class ChatVM @Inject constructor(
     private val prefs: StoragePreferences,
 ) : CoreVM() {
 
-    val userId: Long? = prefs.userId
     val phone: String? = prefs.phone
 
 

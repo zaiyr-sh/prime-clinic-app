@@ -20,6 +20,7 @@ import kg.iaau.diploma.core.R
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 inline fun <reified T : Activity> Context.startActivity(noinline extra: Intent.() -> Unit = {}) {
     val intent = Intent(this, T::class.java)
     intent.extra()

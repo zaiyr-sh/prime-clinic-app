@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.MedCard
+import kg.iaau.diploma.data.MedCardImage
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentMedCardBinding
 
@@ -27,6 +28,7 @@ class MedCardFragment : Fragment() {
     ): View {
         vb = FragmentMedCardBinding.inflate(inflater, container, false)
         vm.getMedCard()
+        vm.getMedCardImageById()
         return vb.root
     }
 
@@ -58,9 +60,14 @@ class MedCardFragment : Fragment() {
                 setupMedCardFields(medCard)
             }
         }
+        vm.medCardImageLiveData.observe(viewLifecycleOwner) { medCardImage ->
+            medCardImage?.let {
+                setupMedCardImage(medCardImage)
+            }
+        }
         vm.imageUriLiveData.observe(viewLifecycleOwner) { imageUri ->
             imageUri?.let {
-                Glide.with(requireContext()).load(Uri.parse(it)).into(vb.ivUser)
+                Glide.with(requireContext()).load(it).into(vb.ivUser)
             }
         }
         vm.event.observe(viewLifecycleOwner) { event ->
@@ -76,9 +83,6 @@ class MedCardFragment : Fragment() {
         vb.run {
             cvMedCard.show()
             llAddMedCard.gone()
-            medCard.image?.let { image ->
-                Glide.with(requireContext()).load(Uri.parse(image)).into(ivUser)
-            }
             tvName.text = getString(R.string.full_name, medCard.lastName, medCard.firstName, medCard.patronymic)
             tvBirthday.text = getString(R.string.birth_date, medCard.birthDate)
             medCard.medCardPhoneNumber.let {
@@ -87,6 +91,12 @@ class MedCardFragment : Fragment() {
                 else
                     tvPhone.text = getString(R.string.whatsapp_number, it)
             }
+        }
+    }
+
+    private fun setupMedCardImage(medCardImage: MedCardImage) {
+        medCardImage.image?.let { image ->
+            Glide.with(requireContext()).load(Uri.parse(image)).into(vb.ivUser)
         }
     }
 
