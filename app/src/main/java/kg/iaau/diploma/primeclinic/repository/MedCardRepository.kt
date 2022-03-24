@@ -12,7 +12,7 @@ class MedCardRepository(
     private val medCardDao: MedCardDao
 ) {
 
-    private val userId: Long? = prefs.userId
+    private val userId: Long? = prefs.id
 
     suspend fun uploadMedCard(medCard: MedCard) = apiMedCard.uploadMedCardById(userId, medCard)
 

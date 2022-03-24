@@ -1,13 +1,11 @@
 package kg.iaau.diploma.primeclinic.ui.main.chat
 
 import android.Manifest
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -27,7 +25,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.constants.MIMETYPE_IMAGES
 import kg.iaau.diploma.core.constants.UserType
 import kg.iaau.diploma.core.utils.gone
-import kg.iaau.diploma.core.utils.hideKeyboard
 import kg.iaau.diploma.core.utils.show
 import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.data.Message

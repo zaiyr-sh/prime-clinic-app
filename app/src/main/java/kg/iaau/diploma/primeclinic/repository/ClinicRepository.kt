@@ -19,7 +19,7 @@ class ClinicRepository(
     private val apiClinic: ApiClinic
 ) {
 
-    var userId: Long? = prefs.userId
+    var userId: Long? = prefs.id
 
     fun getSpecialistCategories(event: MutableLiveData<Event>, pagingConfig: PagingConfig = getDefaultPageConfig()): LiveData<PagingData<SpecialistCategory>> {
         return Pager(

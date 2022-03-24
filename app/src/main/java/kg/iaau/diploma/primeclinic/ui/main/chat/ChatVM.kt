@@ -11,6 +11,8 @@ class ChatVM @Inject constructor(
 ) : CoreVM() {
 
     val phone: String? = prefs.phone
+    val userId: Long? = prefs.userId
+    val id: Long? = prefs.id
 
 
 }

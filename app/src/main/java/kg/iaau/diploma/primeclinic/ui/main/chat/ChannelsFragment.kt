@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -28,6 +29,7 @@ class ChannelsFragment : Fragment(), ChannelListener {
 
     private lateinit var vb: FragmentChannelsBinding
     private lateinit var adapter: ChannelAdapter
+    private val vm: ChatVM by navGraphViewModels(R.id.main_navigation) { defaultViewModelProviderFactory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,11 +45,8 @@ class ChannelsFragment : Fragment(), ChannelListener {
     }
 
     private fun setupFragmentView() {
-        val user = FirebaseAuth.getInstance().currentUser
-        user?.let {
-            initAdminChat(it)
-            initRV(it)
-        }
+        FirebaseAuth.getInstance().currentUser?.let { initAdminChat(it) }
+        initRV()
     }
 
     private fun initAdminChat(user: FirebaseUser) {
@@ -75,9 +74,9 @@ class ChannelsFragment : Fragment(), ChannelListener {
         }
     }
 
-    private fun initRV(user: FirebaseUser) {
+    private fun initRV() {
         val db = FirebaseFirestore.getInstance()
-        val query = db.collection("PrimeDocChat").whereEqualTo("clientId", user.uid)
+        val query = db.collection("PrimeDocChat").whereEqualTo("clientId", vm.userId.toString())
             .orderBy("lastMessageTime", Query.Direction.DESCENDING)
         val options: FirestoreRecyclerOptions<Chat> =
             FirestoreRecyclerOptions.Builder<Chat>().setQuery(query, Chat::class.java).build()
