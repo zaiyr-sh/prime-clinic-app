@@ -2,24 +2,26 @@ package kg.iaau.diploma.primeclinic
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.utils.startActivity
 import kg.iaau.diploma.primeclinic.databinding.ActivityMainBinding
+import kg.iaau.diploma.primeclinic.ui.main.chat.ChatVM
+import kg.iaau.diploma.primeclinic.ui.main.chat.calling.ReceivingCallActivity
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
     private lateinit var vb: ActivityMainBinding
+    private val vm: ChatVM by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,31 +39,29 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null) {
-            setUserOnline(user)
-            addCallListener(user)
+            setUserOnline()
+            addCallListener()
         }
     }
 
-    private fun addCallListener(user: FirebaseUser) {
-        val ref = FirebaseFirestore.getInstance().collection("users").document(user.uid)
+    private fun addCallListener() {
+        val ref = FirebaseFirestore.getInstance().collection("users").document(vm.userId.toString())
             .collection("call").document("calling")
         ref.addSnapshotListener { value, _ ->
             if (value != null && value.exists()) {
-                val uid = value.getString("uid")
-                if (uid != null && uid != "") {
-//                    val intent = Intent(this, ReceivingActivity::class.java)
-//                    intent.putExtra(EXTRA_RECEIVE_ID, uid)
-//                    startActivity(intent)
+                value.getString("uid")?.let {
+                    val uid = value.getString("uid")
+                    if (uid != null && uid != "") ReceivingCallActivity.startActivity(this, uid)
                 }
             }
         }
     }
 
-    private fun setUserOnline(user: FirebaseUser) {
+    private fun setUserOnline() {
         val db = FirebaseFirestore.getInstance()
         val map = mutableMapOf<String, Any>()
         map["isOnline"] = true
-        db.collection("users").document(user.uid).set(map, SetOptions.merge())
+        db.collection("users").document(vm.userId.toString()).set(map, SetOptions.merge())
     }
 
     companion object {

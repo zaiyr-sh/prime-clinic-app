@@ -54,6 +54,7 @@
     <string name="whatsapp_number">WhatsApp номер: %s</string>
     <string name="undefined_phone_number">не указан</string>
     <string name="full_name">%s %s %s</string>
+    <string name="name_with_patronymic">%s %s</string>
     <string name="add_picture">Добавить фото</string>
     <string name="download_from_gallery">Загрузить из галереи</string>
     <string name="absent_information">Информация отсутсвует</string>
@@ -95,8 +96,8 @@
     <string name="payment_via_e_wallet">Оплата через электронный кошелёк</string>
     <string name="send_payment_check">После оплаты, отправьте чек в чат. Врач-администратор сделает подтверждение приема.</string>
 
-
     <string name="administrator">Администратор</string>
+    <string name="doctor">Доктор</string>
     <string name="your_message">Вы: %s</string>
     <string name="doctor_message">Доктор: %s</string>
     <string name="admin_message">Админ: %s</string>
@@ -104,6 +105,12 @@
     <string name="chat_started">Чат начался, теперь вы можете задавать свои вопросы</string>
     <string name="video_call">Видеозвонок</string>
     <string name="photo">Фото</string>
+    <string name="calling">Идет звонок…</string>
+    <string name="incoming_call">Входящий звонок…</string>
+    <string name="doctor_not_available">Доктор на данный момент занят. Попробуйте позже</string>
+    <string name="call_finished">Звонок завершен</string>
+    <string name="call_accepted">Звонок принят</string>
+    <string name="call_rejected">Звонок отклонен</string>
 
     <string name="unexpected_error">Случилась непредвиденная ошибка.</string>
     <string name="error_several_items_choosing">Вы не можете выбрать несколько одновременно!</string>

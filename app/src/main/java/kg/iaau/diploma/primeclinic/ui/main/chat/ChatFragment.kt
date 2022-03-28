@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -33,6 +34,7 @@ import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentChatBinding
 import kg.iaau.diploma.primeclinic.ui.main.chat.adapter.MessageAdapter
 import kg.iaau.diploma.primeclinic.ui.main.chat.adapter.MessageListener
+import kg.iaau.diploma.primeclinic.ui.main.chat.calling.CallingActivity
 import java.util.*
 
 @AndroidEntryPoint
@@ -44,13 +46,13 @@ class ChatFragment : Fragment(), MessageListener {
 
     private val args: ChatFragmentArgs by navArgs()
     private val ref by lazy { args.path }
-    private val type by lazy { args.type }
+    private val userType by lazy { args.type }
 
     private var docRef: DocumentReference? = null
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var db: FirebaseFirestore
 
-    private var canWrite: Boolean = false
+    private var canWrite: Boolean = true
     private var messageType: String = "text"
     private var userId: String? = ""
     private var image: String = ""
@@ -82,20 +84,18 @@ class ChatFragment : Fragment(), MessageListener {
         savedInstanceState: Bundle?
     ): View {
         vb = FragmentChatBinding.inflate(inflater, container, false)
-        setHasOptionsMenu(true)
-        (requireActivity() as? MainActivity)?.setSupportActionBar(vb.toolbar)
         return vb.root
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.menu, menu)
+        inflater.inflate(R.menu.chat_menu, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.video_call -> {
-                if (userId != null && canWrite && type != UserType.ADMIN.name)
+                if (userId != null && canWrite && userType != UserType.ADMIN.name)
                     makeVideoCall()
                 true
             }
@@ -112,7 +112,7 @@ class ChatFragment : Fragment(), MessageListener {
         initUser()
 
         val listener = docRef?.addSnapshotListener { snapshot, _ ->
-            if (snapshot?.getBoolean("chatStarted") == true) canWrite = true
+//            if (snapshot?.getBoolean("chatStarted") == true) canWrite = true
         }
         setupFragmentView(listener)
     }
@@ -121,7 +121,7 @@ class ChatFragment : Fragment(), MessageListener {
         docRef?.get()?.addOnSuccessListener {
             val adminId = it.getString("adminId")
             userId = adminId
-            when (type) {
+            when (userType) {
                 UserType.DOCTOR.name -> getDoctorData(adminId)
                 UserType.ADMIN.name -> setHasOptionsMenu(false)
             }
@@ -152,9 +152,11 @@ class ChatFragment : Fragment(), MessageListener {
     }
 
     private fun setupFragmentView(listener: ListenerRegistration?) {
+        setHasOptionsMenu(true)
+        (activity as AppCompatActivity).setSupportActionBar(vb.toolbar)
         vb.run {
             toolbar.setNavigationOnClickListener {
-                if (canWrite) listener?.remove()
+//                if (canWrite) listener?.remove()
                 parentFragmentManager.popBackStack()
             }
             rlAttachImage.setOnClickListener {
@@ -185,17 +187,29 @@ class ChatFragment : Fragment(), MessageListener {
             messageType = "text"
             docRef?.collection("messages")?.document()?.set(model)
                 ?.addOnCompleteListener {
-                    val map = mutableMapOf<String, Any>()
-                    map["adminId"] = "a"
-                    map["adminPhone"] = ""
-                    map["chatStarted"] = true
-                    map["clientId"] = FirebaseAuth.getInstance().currentUser?.uid.toString()
-                    map["lastMessage"] = message
-                    map["lastMessageSenderId"] = user.uid
-                    map["lastMessageTime"] = Timestamp.now()
-                    map["name"] = vm.phone ?: ""
-                    map["surname"] = "USER"
-                    docRef?.set(map, SetOptions.merge())
+                    when(userType) {
+                        UserType.DOCTOR.name -> {
+                            val map = mutableMapOf<String, Any>()
+                            map["chatStarted"] = true
+                            map["lastMessage"] = message
+                            map["lastMessageSenderId"] = vm.userId.toString()
+                            map["lastMessageTime"] = Timestamp.now()
+                            docRef?.set(map, SetOptions.merge())
+                        }
+                        UserType.ADMIN.name -> {
+                            val map = mutableMapOf<String, Any>()
+                            map["adminId"] = "a"
+                            map["adminPhone"] = ""
+                            map["chatStarted"] = true
+                            map["clientId"] = FirebaseAuth.getInstance().currentUser?.uid.toString()
+                            map["lastMessage"] = message
+                            map["lastMessageSenderId"] = user.uid
+                            map["lastMessageTime"] = Timestamp.now()
+                            map["name"] = vm.phone ?: ""
+                            map["surname"] = "USER"
+                            docRef?.set(map, SetOptions.merge())
+                        }
+                    }
                 }
         }
     }
@@ -247,7 +261,7 @@ class ChatFragment : Fragment(), MessageListener {
     }
 
     private fun makeVideoCall() {
-        TODO("VIDEO CALL IMPLEMENTATION")
+        CallingActivity.startActivity(requireActivity(), userId!!)
     }
 
     override fun onImageClick(image: String?) {

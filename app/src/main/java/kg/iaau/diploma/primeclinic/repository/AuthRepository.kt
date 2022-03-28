@@ -89,7 +89,7 @@ class AuthRepository(
             map["userType"] = "USER"
             map["userPhone"] = prefs.phone!!
             map["isOnline"] = true
-            db.collection("users").document(user.uid).set(map, SetOptions.merge())
+            db.collection("users").document(prefs.userId.toString()).set(map, SetOptions.merge())
         }
     }
 
@@ -100,7 +100,7 @@ class AuthRepository(
             val map = mutableMapOf<String, String>()
             map["userType"] = "USER"
             map["userPhone"] = prefs.phone!!
-            db.collection("users").document(user.uid).set(map)
+            db.collection("users").document(prefs.userId.toString()).set(map)
         }
     }
 
