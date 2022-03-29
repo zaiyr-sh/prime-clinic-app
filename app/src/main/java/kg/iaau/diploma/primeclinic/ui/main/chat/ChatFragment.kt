@@ -24,6 +24,7 @@ import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.constants.MIMETYPE_IMAGES
+import kg.iaau.diploma.core.constants.MessageType
 import kg.iaau.diploma.core.constants.UserType
 import kg.iaau.diploma.core.utils.gone
 import kg.iaau.diploma.core.utils.show
@@ -53,7 +54,7 @@ class ChatFragment : Fragment(), MessageListener {
     private lateinit var db: FirebaseFirestore
 
     private var canWrite: Boolean = true
-    private var messageType: String = "text"
+    private var messageType: String = MessageType.TEXT.type
     private var userId: String? = ""
     private var image: String = ""
     private var imgUri: Uri? = null
@@ -65,7 +66,7 @@ class ChatFragment : Fragment(), MessageListener {
                 ivAttach.setImageURI(uri)
                 ivAttach.show()
                 imgUri = uri
-                messageType = "image"
+                messageType = MessageType.IMAGE.type
             }
         }
     }
@@ -184,7 +185,7 @@ class ChatFragment : Fragment(), MessageListener {
             etMessageTyping.setText("")
             val user = firebaseAuth.currentUser!!
             val model = Message(user.uid, "", message, Timestamp.now(), messageType, image)
-            messageType = "text"
+            messageType = MessageType.TEXT.type
             docRef?.collection("messages")?.document()?.set(model)
                 ?.addOnCompleteListener {
                     when(userType) {
@@ -224,13 +225,11 @@ class ChatFragment : Fragment(), MessageListener {
             val observer = object : RecyclerView.AdapterDataObserver() {
                 override fun onItemRangeChanged(positionStart: Int, itemCount: Int) {
                     super.onItemRangeChanged(positionStart, itemCount)
-                    rvChats.smoothScrollToPosition(positionStart)
-                    adapter.notifyDataSetChanged()
+                    rvChats.scrollToPosition(positionStart)
                 }
                 override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
                     super.onItemRangeInserted(positionStart, itemCount)
-                    rvChats.smoothScrollToPosition(positionStart)
-                    adapter.notifyDataSetChanged()
+                    rvChats.scrollToPosition(positionStart)
                 }
             }
             docRef!!.collection("messages").addSnapshotListener { _, _ ->

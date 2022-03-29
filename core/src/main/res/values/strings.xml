@@ -45,7 +45,7 @@
     <string name="name_hint"><font fgcolor='#ED5168'>*</font>Имя</string>
     <string name="patronymic_hint">Отчество</string>
     <string name="birth_hint"><font fgcolor='#ED5168'>*</font>Дата рождения (дд.мм.гггг)</string>
-    <string name="whatsapp_phone_hint">WhatsApp номер</string>
+    <string name="whatsapp_phone_hint">WhatsApp номер (+996)</string>
     <string name="processing_agreement_personal_data">Соглашение на обработку <font fgcolor='#00bdd0'><u>персональных данных</u></font></string>
     <string name="send">Отправить</string>
     <string name="agreement_absent">Отсутствует соглашение на обработку данных</string>

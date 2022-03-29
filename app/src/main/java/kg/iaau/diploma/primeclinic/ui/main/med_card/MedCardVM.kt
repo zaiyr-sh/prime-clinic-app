@@ -19,7 +19,6 @@ import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import javax.inject.Inject
 
-
 @HiltViewModel
 class MedCardVM @Inject constructor(
     private val repository: MedCardRepository
@@ -37,7 +36,7 @@ class MedCardVM @Inject constructor(
         get() = _imageUriLiveData
     private val _imageUriLiveData = MutableLiveData<Uri?>()
 
-    fun uploadMedCard(firstName: String?, lastName: String?, patronymic: String?, birth: String?, phone: String?) {
+    fun uploadMedCard(firstName: String, lastName: String, patronymic: String, birth: String, phone: String) {
         val medCard = MedCard(
             firstName = firstName,
             lastName = lastName,
@@ -50,12 +49,10 @@ class MedCardVM @Inject constructor(
                 repository.uploadMedCard(medCard)
                 medCard.birthDate = birth
                 saveMedCardInDb(medCard)
-                event.postValue(CoreEvent.Notification(message = MED_CARD_CREATED_SUCCESSFULLY))
+                event.postValue(CoreEvent.Notification(title = MED_CARD_CREATED_SUCCESSFULLY))
             },
             fail = {
-                event.postValue(CoreEvent.Notification(
-                    title = MED_CARD_CREATED_UNSUCCESSFULLY
-                ))
+                event.postValue(CoreEvent.Notification(title = MED_CARD_CREATED_UNSUCCESSFULLY))
             }
         )
     }

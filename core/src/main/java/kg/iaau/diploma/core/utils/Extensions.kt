@@ -11,15 +11,20 @@ import android.graphics.drawable.Drawable
 import android.util.Base64
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.google.android.material.snackbar.Snackbar
 import kg.iaau.diploma.core.R
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 inline fun <reified T : Activity> Context.startActivity(noinline extra: Intent.() -> Unit = {}) {
     val intent = Intent(this, T::class.java)
@@ -89,9 +94,6 @@ val String.isNotField: Boolean
 val String.isPhoneNotFieldCorrectly: Boolean
     get() = isEmpty() || length != 13 || !startsWith("+996")
 
-val String.isDateNotField: Boolean
-    get() = isEmpty() || length != 10
-
 // Convert birth date to UTC format date
 fun String.convertToUTC(): String {
     val day = substring(0,2)
@@ -120,6 +122,11 @@ fun Date.formatForDate(format: String = "dd.MM.yyyy HH:mm"): String {
     return sdf.format(this)
 }
 
+fun Long.formatForDate(format: String = "yyyy-MM-dd"): String {
+    val sdf = SimpleDateFormat(format, Locale.ROOT)
+    return sdf.format(this)
+}
+
 fun View.isDrawableEqual(context: Context, drawable: Int): Boolean {
     return Objects.equals(background.constantState, context.resources.getDrawable(drawable).constantState)
 }
@@ -134,4 +141,32 @@ fun Fragment.hideKeyboard() {
 fun Context.hideKeyboard(view: View) {
     val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+}
+
+fun Context.loadWithGlide(imageView: ImageView, image: String?, onSuccess: (() -> Unit)? = null, onFail: (() -> Unit)? = null) {
+    Glide.with(this).load(image)
+        .listener(object : RequestListener<Drawable> {
+            override fun onResourceReady(
+                resource: Drawable?,
+                model: Any?,
+                target: Target<Drawable>?,
+                dataSource: DataSource?,
+                isFirstResource: Boolean
+            ): Boolean {
+                onSuccess?.invoke()
+                return false
+            }
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any?,
+                target: Target<Drawable>?,
+                isFirstResource: Boolean
+            ): Boolean {
+                onFail?.invoke()
+                return false
+            }
+
+        })
+        .error(R.drawable.ic_error)
+        .into(imageView)
 }

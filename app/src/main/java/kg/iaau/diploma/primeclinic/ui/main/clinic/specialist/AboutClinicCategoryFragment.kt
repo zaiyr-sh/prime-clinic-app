@@ -61,16 +61,16 @@ class AboutClinicCategoryFragment : Fragment(), DoctorListener {
     }
 
     private fun observeLiveData() {
-        vm.specialistLiveData.observe(viewLifecycleOwner, { specialist ->
+        vm.specialistLiveData.observe(viewLifecycleOwner) { specialist ->
             setupSpecialistView(specialist)
-        })
-        vm.event.observe(this, { event ->
-            when(event) {
+        }
+        vm.event.observe(viewLifecycleOwner) { event ->
+            when (event) {
                 is Loading -> showLoader()
                 is Success -> goneLoader()
                 is Error -> errorAction(event)
             }
-        })
+        }
     }
 
     private fun setupSpecialistView(specialist: SpecialistCategory?) {

@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.utils.startActivity
+import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ActivityReceivingCallBinding
 import kg.iaau.diploma.primeclinic.ui.main.chat.ChatVM
@@ -62,11 +63,24 @@ class ReceivingCallActivity : AppCompatActivity() {
                 map["uid"] = ""
                 map["receiverId"] = ""
                 ref.set(map, SetOptions.merge()).addOnSuccessListener {
-                    onBackPressed()
+                    finish()
                 }
             }
         }
+        addCallListener()
     }
+
+    private fun addCallListener() {
+        val ref = FirebaseFirestore.getInstance().collection("users").document(vm.userId.toString())
+            .collection("call").document("calling")
+        ref.addSnapshotListener { value, _ ->
+            if (value?.getBoolean("declined") == true) {
+                toast(getString(R.string.call_rejected))
+                finish()
+            }
+        }
+    }
+
 
     companion object {
         private const val USER_UID = "UID"

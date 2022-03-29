@@ -49,6 +49,8 @@ class ReserveVisitFragment : Fragment() {
     private fun bookVisit() {
         vb.run {
             val phoneNumber = etPhone.text.toString()
+                .filterNot { it.isWhitespace() }
+                .convertPhoneNumberWithCode(vb.ccp.selectedCountryCode)
             val comment = etComment.text.toString()
             if (phoneNumber.isPhoneNotFieldCorrectly) {
                 etPhone.error = getString(R.string.enter_valid_phone_number)
@@ -59,6 +61,8 @@ class ReserveVisitFragment : Fragment() {
     }
 
     private fun observeLiveData() {
+        vm.setDate(null)
+        vm.setSlot(null)
         vm.event.observe(viewLifecycleOwner) { event ->
             when (event) {
                 is CoreEvent.Loading -> showLoader()

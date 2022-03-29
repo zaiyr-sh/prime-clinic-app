@@ -153,15 +153,14 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <EditText
+                <TextView
                     android:id="@+id/et_birthdate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/transparent"
-                    android:drawableEnd="@drawable/ic_calendar"
+                    android:textSize="@dimen/size_18sp"
                     android:hint="@string/birth_hint"
-                    android:inputType="date"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    app:drawableEndCompat="@drawable/ic_calendar" />
             </LinearLayout>
 
             <LinearLayout

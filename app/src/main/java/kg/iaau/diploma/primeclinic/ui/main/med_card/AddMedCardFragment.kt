@@ -1,5 +1,6 @@
 package kg.iaau.diploma.primeclinic.ui.main.med_card
 
+import android.app.DatePickerDialog
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,6 +23,7 @@ import kg.iaau.diploma.primeclinic.databinding.FragmentAddMedCardBinding
 import kg.iaau.diploma.primeclinic.ui.main.med_card.bottom_sheet.AgreementBottomSheetFragment
 import kg.iaau.diploma.primeclinic.ui.main.med_card.bottom_sheet.ProfilePictureBottomSheetFragment
 import java.io.File
+import java.util.*
 
 @AndroidEntryPoint
 class AddMedCardFragment : Fragment() {
@@ -50,6 +52,9 @@ class AddMedCardFragment : Fragment() {
     private fun setupFragmentView() {
         vb.run {
             if (isAgreementAccepted) llCheckAgreement.gone()
+            toolbar.setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
             btnSendMedCard.setOnClickListener {
                 uploadMedCard()
             }
@@ -59,8 +64,21 @@ class AddMedCardFragment : Fragment() {
             ivUserPicture.setOnClickListener {
                 ProfilePictureBottomSheetFragment.show(requireActivity().supportFragmentManager)
             }
-            toolbar.setNavigationOnClickListener {
-                findNavController().navigateUp()
+            setupBirthdateListener()
+        }
+    }
+
+    private fun setupBirthdateListener() {
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+        vb.run {
+            vb.etBirthdate.setOnClickListener {
+                val dpd = DatePickerDialog(requireActivity(), R.style.DialogTheme, { view, mYear, mMonth, mDay ->
+                    etBirthdate.text = view.calendarView.date.formatForDate()
+                }, year, month, day)
+                dpd.show()
             }
         }
     }
@@ -89,8 +107,12 @@ class AddMedCardFragment : Fragment() {
                 etPatronymic.error  = getString(R.string.enter_valid_patronymic)
                 isDataValid = false
             }
-            if(birth.isDateNotField) {
+            if(birth.isEmpty()) {
                 etBirthdate.error  = getString(R.string.enter_valid_birthdate)
+                isDataValid = false
+            }
+            if(phone.isPhoneNotFieldCorrectly) {
+                etPhone.error  = getString(R.string.enter_valid_phone_number)
                 isDataValid = false
             }
             if (isDataValid) {
@@ -154,8 +176,8 @@ class AddMedCardFragment : Fragment() {
             etName.setText(medCard.firstName)
             etSurname.setText(medCard.lastName)
             etPatronymic.setText(medCard.patronymic)
-            etBirthdate.setText(medCard.birthDate)
             etPhone.setText(medCard.medCardPhoneNumber)
+            etBirthdate.text = medCard.birthDate
         }
     }
 

@@ -7,7 +7,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ListenerRegistration
@@ -51,7 +50,7 @@ class CallingActivity : AppCompatActivity() {
         super.onStart()
         val user = FirebaseAuth.getInstance().currentUser
         if (user != null)
-            makePhoneCall(user)
+            makePhoneCall()
     }
 
     private fun getCallData(
@@ -68,7 +67,7 @@ class CallingActivity : AppCompatActivity() {
         return callData
     }
 
-    private fun makePhoneCall(user: FirebaseUser) {
+    private fun makePhoneCall() {
         val db = FirebaseFirestore.getInstance()
         val ref =
             db.collection("doctors").document(userId).collection("call").document("calling")
@@ -94,7 +93,7 @@ class CallingActivity : AppCompatActivity() {
             val callData = getCallData("", "", accepted = false, declined = true)
             ref.set(callData).addOnSuccessListener {
                 toast(getString(R.string.call_finished))
-                onBackPressed()
+                finish()
             }
         }
     }
@@ -113,7 +112,7 @@ class CallingActivity : AppCompatActivity() {
                 }
                 if (declined != null && declined == true) {
                     toast(getString(R.string.call_rejected))
-                    onBackPressed()
+                    finish()
                 }
 
             }

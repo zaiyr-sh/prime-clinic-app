@@ -1,20 +1,14 @@
 package kg.iaau.diploma.primeclinic.ui.main.chat
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.Target
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.utils.gone
-import kg.iaau.diploma.primeclinic.R
+import kg.iaau.diploma.core.utils.loadWithGlide
 import kg.iaau.diploma.primeclinic.databinding.FragmentImageFullBinding
 
 @AndroidEntryPoint
@@ -42,32 +36,14 @@ class ImageFullFragment : Fragment() {
             toolbar.setNavigationOnClickListener {
                 parentFragmentManager.popBackStack()
             }
-            Glide.with(requireActivity()).load(image)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        progressBar.gone()
-                        return false
-                    }
-
-                    override fun onResourceReady(
-                        resource: Drawable?,
-                        model: Any?,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource?,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        progressBar.gone()
-                        return false
-                    }
-
-                })
-                .error(R.drawable.ic_error)
-                .into(ivAvatar)
+            requireActivity().loadWithGlide(ivAvatar, image,
+                onSuccess = {
+                    progressBar.gone()
+                },
+                onFail = {
+                    progressBar.gone()
+                }
+            )
         }
     }
 }
