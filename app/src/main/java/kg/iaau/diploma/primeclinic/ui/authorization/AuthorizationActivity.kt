@@ -17,7 +17,7 @@ import kg.iaau.diploma.primeclinic.ui.register.RegisterActivity
 class AuthorizationActivity :
     CoreActivity<ActivityAuthorizationBinding, AuthorizationVM>(AuthorizationVM::class.java) {
 
-    override val inflater: (LayoutInflater) -> ActivityAuthorizationBinding =
+    override val bindingInflater: (LayoutInflater) -> ActivityAuthorizationBinding =
         ActivityAuthorizationBinding::inflate
 
     override fun setupActivityView() {

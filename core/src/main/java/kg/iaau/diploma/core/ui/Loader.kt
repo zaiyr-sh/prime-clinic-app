@@ -17,7 +17,7 @@ object LoadingScreen {
         dialog = Dialog(context!!)
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.setContentView(R.layout.layout_loading_screen)
-        dialog?.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.setCancelable(cancelable)
         val textView = dialog?.findViewById<TextView>(R.id.tv_title)
         text?.let {
@@ -34,6 +34,7 @@ object LoadingScreen {
         try {
             if (dialog != null) {
                 dialog!!.dismiss()
+                dialog = null
             }
         } catch (e: Exception) {
             e.printStackTrace()

@@ -13,7 +13,7 @@ import kg.iaau.diploma.primeclinic.ui.pin.PinActivity
 @AndroidEntryPoint
 class SplashActivity : CoreActivity<ActivitySplashBinding, AuthorizationVM>(AuthorizationVM::class.java) {
 
-    override val inflater: (LayoutInflater) -> ActivitySplashBinding =
+    override val bindingInflater: (LayoutInflater) -> ActivitySplashBinding =
         ActivitySplashBinding::inflate
 
     override fun setupActivityView() {

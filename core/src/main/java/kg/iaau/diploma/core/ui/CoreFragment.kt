@@ -2,21 +2,22 @@ package kg.iaau.diploma.core.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
-import com.google.firebase.auth.FirebaseAuth
 import kg.iaau.diploma.core.constants.AUTH_ERROR
 import kg.iaau.diploma.core.utils.CoreEvent
 import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.core.vm.CoreVM
 
-abstract class CoreActivity<VB: ViewBinding, VM: CoreVM>(
+abstract class CoreFragment<VB: ViewBinding, VM: CoreVM>(
     private val mViewModelClass: Class<VM>
-) : AppCompatActivity() {
+) : Fragment() {
 
     private var _vb: ViewBinding? = null
-    abstract val bindingInflater: (LayoutInflater) -> VB
+    abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
 
     @Suppress("UNCHECKED_CAST")
     protected val vb: VB
@@ -26,20 +27,25 @@ abstract class CoreActivity<VB: ViewBinding, VM: CoreVM>(
         ViewModelProvider(this)[mViewModelClass]
     }
 
-    protected lateinit var mAuth: FirebaseAuth
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _vb = bindingInflater.invoke(inflater, container, false)
+        return requireNotNull(_vb).root
+    }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        _vb = bindingInflater.invoke(layoutInflater)
-        setContentView(requireNotNull(_vb).root)
-        setupActivityView()
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupFragmentView()
         observeLiveData()
     }
 
-    abstract fun setupActivityView()
+    abstract fun setupFragmentView()
 
     open fun observeLiveData() {
-        vm.event.observe(this) { event ->
+        vm.event.observe(viewLifecycleOwner) { event ->
             when (event) {
                 is CoreEvent.Loading -> showLoader()
                 is CoreEvent.Success -> successAction()
@@ -50,7 +56,7 @@ abstract class CoreActivity<VB: ViewBinding, VM: CoreVM>(
     }
 
     open fun showLoader() {
-        LoadingScreen.showLoading(this)
+        LoadingScreen.showLoading(requireActivity())
     }
 
     open fun successAction() {
@@ -61,8 +67,8 @@ abstract class CoreActivity<VB: ViewBinding, VM: CoreVM>(
 
     open fun errorAction(event: CoreEvent.Error) {
         when (event.isNetworkError) {
-            true -> toast(event.message)
-            false -> toast(AUTH_ERROR)
+            true -> requireActivity().toast(event.message)
+            false -> requireActivity().toast(AUTH_ERROR)
         }
         goneLoader()
     }
@@ -71,12 +77,8 @@ abstract class CoreActivity<VB: ViewBinding, VM: CoreVM>(
         LoadingScreen.hideLoading()
     }
 
-    open fun initFirebaseAuth() {
-        mAuth = FirebaseAuth.getInstance()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _vb = null
     }
 

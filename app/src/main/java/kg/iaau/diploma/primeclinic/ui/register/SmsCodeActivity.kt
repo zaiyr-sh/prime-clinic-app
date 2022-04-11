@@ -15,7 +15,7 @@ import kg.iaau.diploma.primeclinic.ui.pin.PinActivity
 @AndroidEntryPoint
 class SmsCodeActivity : CoreActivity<ActivitySmsCodeBinding, AuthorizationVM>(AuthorizationVM::class.java) {
 
-    override val inflater: (LayoutInflater) -> ActivitySmsCodeBinding =
+    override val bindingInflater: (LayoutInflater) -> ActivitySmsCodeBinding =
         ActivitySmsCodeBinding::inflate
 
     private val phone by lazy { intent.getStringExtra(PHONE) }
@@ -25,7 +25,7 @@ class SmsCodeActivity : CoreActivity<ActivitySmsCodeBinding, AuthorizationVM>(Au
             vb.btnNext.setEnable(false)
             tvSendCodeTitle.text = getString(R.string.sent_code_to_number, phone)
             etCode.addTextChangedListener { checkSmsCodeFilling(etCode.text.toString()) }
-            btnNext.setOnClickListener { verifyCode(etCode.text.toString()) }
+            btnNext.setOnClickListener { vm.verify(etCode.text.toString()) }
             tvResend.setOnClickListener { resendCode(etCode.text.toString()) }
         }
     }
@@ -37,10 +37,6 @@ class SmsCodeActivity : CoreActivity<ActivitySmsCodeBinding, AuthorizationVM>(Au
             tvSendCodeTitle.text = getString(R.string.sent_code_to_number_again, phone)
             tvResend.hide()
         }
-        verifyCode(code)
-    }
-
-    private fun verifyCode(code: String) {
         vm.verify(code)
     }
 

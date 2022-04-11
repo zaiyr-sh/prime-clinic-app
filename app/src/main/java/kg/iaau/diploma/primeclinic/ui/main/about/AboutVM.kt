@@ -18,28 +18,7 @@ class AboutVM @Inject constructor(private val repository: AboutRepository) : Cor
     fun getInfoAboutUs() {
         safeLaunch(
             action = {
-                val aboutInfo = repository.getInfoAboutUs()
-                insertAboutUsInfo(aboutInfo)
-            }
-        )
-    }
-
-    private fun insertAboutUsInfo(aboutInfo: List<About>) {
-        safeLaunch(
-            action = {
-                repository.insertAboutUsInfo(aboutInfo)
-                getInfoAboutUsFromDb()
-            },
-            fail = {
-                getInfoAboutUsFromDb()
-            }
-        )
-    }
-
-    private fun getInfoAboutUsFromDb() {
-        safeLaunch(
-            action = {
-                _aboutInfoLiveData.postValue(repository.getInfoAboutUsFromDb())
+                _aboutInfoLiveData.postValue(repository.getInfoAboutUs())
             }
         )
     }
