@@ -52,11 +52,16 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesAuthRepository(storagePreferences: StoragePreferences, apiAuth: ApiAuth) = AuthRepository(storagePreferences, apiAuth)
+    fun providesAuthRepository(storagePreferences: StoragePreferences, apiAuth: ApiAuth) =
+        AuthRepository(storagePreferences, apiAuth)
 
     @Singleton
     @Provides
-    fun providesAboutRepository(storagePreferences: StoragePreferences, apiAbout: ApiAbout, aboutDao: AboutDao) = AboutRepository(storagePreferences, apiAbout, aboutDao)
+    fun providesAboutRepository(
+        storagePreferences: StoragePreferences,
+        apiAbout: ApiAbout,
+        aboutDao: AboutDao
+    ) = AboutRepository(storagePreferences, apiAbout, aboutDao)
 
     @Singleton
     @Provides
@@ -64,10 +69,15 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesMedCardRepository(storagePreferences: StoragePreferences, apiMedCard: ApiMedCard, medCardDao: MedCardDao) = MedCardRepository(storagePreferences, apiMedCard, medCardDao)
-
+    fun providesMedCardRepository(
+        storagePreferences: StoragePreferences,
+        apiMedCard: ApiMedCard,
+        medCardDao: MedCardDao
+    ) = MedCardRepository(storagePreferences, apiMedCard, medCardDao)
 
     @Singleton
     @Provides
-    fun providesClinicRepository(storagePreferences: StoragePreferences, apiClinic: ApiClinic) = ClinicRepository(storagePreferences, apiClinic)
+    fun providesClinicRepository(storagePreferences: StoragePreferences, apiClinic: ApiClinic) =
+        ClinicRepository(storagePreferences, apiClinic)
+
 }

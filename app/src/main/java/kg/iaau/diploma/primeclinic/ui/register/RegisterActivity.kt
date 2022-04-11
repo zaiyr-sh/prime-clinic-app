@@ -1,36 +1,24 @@
 package kg.iaau.diploma.primeclinic.ui.register
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Bundle
-import android.provider.Settings
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
 import androidx.core.widget.addTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.core.constants.AUTH_ERROR
+import kg.iaau.diploma.core.ui.CoreActivity
 import kg.iaau.diploma.core.utils.*
-import kg.iaau.diploma.core.utils.CoreEvent.*
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ActivityAuthorizationBinding
 import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationActivity
 import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationVM
 
 @AndroidEntryPoint
-class RegisterActivity : AppCompatActivity() {
+class RegisterActivity :
+    CoreActivity<ActivityAuthorizationBinding, AuthorizationVM>(AuthorizationVM::class.java)  {
 
-    private lateinit var vb: ActivityAuthorizationBinding
-    private val vm: AuthorizationVM by viewModels()
+    override val inflater: (LayoutInflater) -> ActivityAuthorizationBinding =
+        ActivityAuthorizationBinding::inflate
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        vb = ActivityAuthorizationBinding.inflate(layoutInflater)
-        setContentView(vb.root)
-        setupActivityView()
-        observeLiveData()
-    }
-
-    private fun setupActivityView() {
+    override fun setupActivityView() {
         vb.apply {
             ccp.registerCarrierNumberEditText(etPhone)
             tvCodeSendPhone.show()
@@ -68,48 +56,25 @@ class RegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun observeLiveData() {
-        vm.event.observe(this) { event ->
-            when (event) {
-                is Loading -> showLoader()
-                is Success -> successAction()
-                is Error -> errorAction(event)
-            }
-        }
-    }
-
-    @SuppressLint("HardwareIds")
-    fun getDeviceId(context: Context): String {
-        return Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)
-    }
-
-    private fun successAction() {
-        goneLoader()
+    override fun successAction() {
+        super.successAction()
         val phone = editTextHandler()[0]
-        SmsCodeActivity.startActivity(this, phone, getDeviceId(this))
+        SmsCodeActivity.startActivity(this, phone)
     }
 
-    private fun errorAction(event: Error) {
-        when (event.isNetworkError) {
-            true -> toast(event.message)
-            false -> toast(AUTH_ERROR)
-        }
-        goneLoader()
-    }
-
-    private fun showLoader() {
-        vb.run {
-            progressBar.show()
-            clContainer.setAnimateAlpha(0.5f)
-            btnEnter.setEnable(false)
+    override fun showLoader() {
+        super.showLoader()
+        vb.clContainer.run {
+            setAnimateAlpha(0.5f)
+            setEnable(false)
         }
     }
 
-    private fun goneLoader() {
-        vb.run {
-            progressBar.gone()
-            clContainer.setAnimateAlpha(1f)
-            btnEnter.setEnable(true)
+    override fun goneLoader() {
+        super.goneLoader()
+        vb.clContainer.run {
+            setAnimateAlpha(1f)
+            setEnable(true)
         }
     }
 

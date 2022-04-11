@@ -1,15 +1,11 @@
 package kg.iaau.diploma.primeclinic.ui.register
 
 import android.content.Context
-import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
 import androidx.core.widget.addTextChangedListener
-import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.core.constants.SEND_CODE_ERROR
+import kg.iaau.diploma.core.ui.CoreActivity
 import kg.iaau.diploma.core.utils.*
-import kg.iaau.diploma.local_storage.prefs.StoragePreferences.Keys.DEVICE_ID
 import kg.iaau.diploma.local_storage.prefs.StoragePreferences.Keys.PHONE
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ActivitySmsCodeBinding
@@ -17,23 +13,14 @@ import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationVM
 import kg.iaau.diploma.primeclinic.ui.pin.PinActivity
 
 @AndroidEntryPoint
-class SmsCodeActivity : AppCompatActivity() {
+class SmsCodeActivity : CoreActivity<ActivitySmsCodeBinding, AuthorizationVM>(AuthorizationVM::class.java) {
 
-    private lateinit var vb: ActivitySmsCodeBinding
-    private val vm: AuthorizationVM by viewModels()
+    override val inflater: (LayoutInflater) -> ActivitySmsCodeBinding =
+        ActivitySmsCodeBinding::inflate
+
     private val phone by lazy { intent.getStringExtra(PHONE) }
-    private val deviceId by lazy { intent.getStringExtra(DEVICE_ID) }
-    private lateinit var mAuth: FirebaseAuth
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        vb = ActivitySmsCodeBinding.inflate(layoutInflater)
-        setContentView(vb.root)
-        setupViewForActivity()
-        observeLiveData()
-    }
-
-    private fun setupViewForActivity() {
+    override fun setupActivityView() {
         vb.apply {
             vb.btnNext.setEnable(false)
             tvSendCodeTitle.text = getString(R.string.sent_code_to_number, phone)
@@ -61,57 +48,40 @@ class SmsCodeActivity : AppCompatActivity() {
         vb.btnNext.setEnable(code.isNotEmpty())
     }
 
-    private fun observeLiveData() {
-        vm.event.observe(this) { event ->
-            when (event) {
-                is CoreEvent.Loading -> showLoader()
-                is CoreEvent.Success -> successAction()
-                is CoreEvent.Error -> errorAction(event)
-            }
-        }
-    }
-
-    private fun successAction() {
+    override fun successAction() {
+        super.successAction()
         initFirebaseAuth()
-        goneLoader()
-        vm.savePhoneWithDeviceId(phone, deviceId)
+        vm.savePhoneNumber(phone)
         PinActivity.startActivity(this)
         finish()
     }
 
-    private fun initFirebaseAuth() {
-        mAuth = FirebaseAuth.getInstance()
+    override fun initFirebaseAuth() {
+        super.initFirebaseAuth()
         val user = mAuth.currentUser
         if (user == null) vm.createNewUserInFirebase(mAuth)
     }
 
-    private fun errorAction(event: CoreEvent.Error) {
-        when (event.isNetworkError) {
-            true -> toast(event.message)
-            false -> toast(SEND_CODE_ERROR)
-        }
-        goneLoader()
-    }
-
-    private fun showLoader() {
-        vb.run {
-            progressBar.show()
-            clContainer.setAnimateAlpha(0.5f)
+    override fun showLoader() {
+        super.showLoader()
+        vb.clContainer.run {
+            setAnimateAlpha(0.5f)
+            setEnable(false)
         }
     }
 
-    private fun goneLoader() {
-        vb.run {
-            progressBar.gone()
-            clContainer.setAnimateAlpha(1f)
+    override fun goneLoader() {
+        super.goneLoader()
+        vb.clContainer.run {
+            setAnimateAlpha(1f)
+            setEnable(true)
         }
     }
 
     companion object {
-        fun startActivity(context: Context, phone: String?, deviceId: String?) {
+        fun startActivity(context: Context, phone: String?) {
             context.startActivity<SmsCodeActivity> {
                 putExtra(PHONE, phone)
-                putExtra(DEVICE_ID, deviceId)
             }
         }
     }

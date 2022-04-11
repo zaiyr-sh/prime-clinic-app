@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".ui.authorization.AuthorizationActivity">
+    tools:context=".ui.register.SmsCodeActivity">
 
     <ImageView
         android:id="@+id/iv_logo"
@@ -21,102 +21,60 @@
 
     <TextView
         android:id="@+id/tv_send_code_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
+        style="@style/CustomTextViewTitleTheme"
         android:text="@string/sent_code_to_number"
-        android:textColor="@color/grey"
-        android:textSize="@dimen/size_18sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_logo" />
 
     <LinearLayout
         android:id="@+id/ll_code"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/CustomEditTextWrapperTheme"
         android:layout_marginLeft="@dimen/size_16dp"
         android:layout_marginRight="@dimen/size_16dp"
         android:layout_marginTop="@dimen/size_36dp"
-        android:background="@drawable/edit_text_border"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_send_code_title">
 
         <EditText
             android:id="@+id/et_code"
-            android:layout_width="@dimen/size_300dp"
-            android:layout_height="@dimen/size_56dp"
-            android:paddingStart="@dimen/size_10dp"
-            android:paddingEnd="@dimen/size_13dp"
-            android:background="@color/transparent"
-            android:cursorVisible="true"
-            android:maxLength="6"
+            style="@style/CustomEditTextTheme"
             android:hint="@string/code_confirmation"
-            android:inputType="text"
-            android:singleLine="true"
-            android:textCursorDrawable="@null"/>
+            android:inputType="text"/>
 
     </LinearLayout>
 
     <TextView
         android:id="@+id/tv_code_send_phone"
-        android:layout_width="@dimen/size_290dp"
-        android:layout_height="@dimen/size_44dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/size_4dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="visible"
-        android:fontFamily="normal"
+        android:layout_marginStart="@dimen/size_36dp"
+        android:layout_marginEnd="@dimen/size_36dp"
         android:gravity="center"
         android:text="@string/enter_code_from_sms"
         android:textSize="@dimen/size_13sp"
-        android:typeface="normal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_code" />
 
     <TextView
         android:id="@+id/tv_resend"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:fontFamily="normal"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:clickable="true"
+        style="@style/CustomClickablePrimaryTextViewTheme"
+        android:layout_marginBottom="@dimen/size_14dp"
         android:text="@string/code_not_received"
-        android:textColor="@color/teal"
-        android:textSize="14sp"
-        android:typeface="normal"
         app:layout_constraintBottom_toTopOf="@+id/btn_next"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:focusable="true" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_next"
         style="@style/ButtonStyle"
         android:layout_marginBottom="@dimen/size_20dp"
-        android:inputType="textCapSentences"
         android:text="@string/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="@color/teal"
-        android:progressTint="@color/teal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

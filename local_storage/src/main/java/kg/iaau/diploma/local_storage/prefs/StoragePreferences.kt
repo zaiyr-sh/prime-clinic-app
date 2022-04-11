@@ -13,7 +13,6 @@ class StoragePreferences(context: Context) : BasePrefs(context) {
     var refreshToken: String? by PrefDelegate(sharedPreference, Keys.REFRESH_TOKEN, "")
     var pin: String? by PrefDelegate(sharedPreference, Keys.PIN, "")
     var phone: String? by PrefDelegate(sharedPreference, Keys.PHONE, "")
-    var deviceId: String? by PrefDelegate(sharedPreference, Keys.DEVICE_ID, "")
 
     object Keys {
         const val ID = "ID"
@@ -22,6 +21,5 @@ class StoragePreferences(context: Context) : BasePrefs(context) {
         const val REFRESH_TOKEN = "REFRESH_TOKEN"
         const val PIN = "PIN"
         const val PHONE = "PHONE"
-        const val DEVICE_ID = "DEVICE_ID"
     }
 }

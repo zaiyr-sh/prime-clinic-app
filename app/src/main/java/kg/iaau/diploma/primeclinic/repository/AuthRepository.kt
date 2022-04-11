@@ -16,7 +16,6 @@ class AuthRepository(
 ) {
     var token: String? = prefs.token
     var phone: String? = prefs.phone
-    var deviceId: String? = prefs.deviceId
 
     suspend fun auth(phone: String, password: String): AccessToken {
         val authorization = Authorization(phone, password)

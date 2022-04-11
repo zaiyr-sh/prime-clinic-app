@@ -65,9 +65,8 @@ class AuthorizationVM @Inject constructor(private val repository: AuthRepository
 
     fun isPinVerified() = repository.getPin() == pin.toString()
 
-    fun savePhoneWithDeviceId(phone: String?, deviceId: String?) {
+    fun savePhoneNumber(phone: String?) {
         repository.phone = phone
-        repository.deviceId = deviceId
     }
 
     fun createNewUserInFirebase(mAuth: FirebaseAuth) {

@@ -12,13 +12,14 @@
     <string name="pin_enter">Введите PIN-код</string>
     <string name="entered_wrong_pin">Вы ввели неверный код, пожалуйста введите код еще раз</string>
     <string name="pin_creation">Для безопасного входа, необходимо придумать код</string>
-    <string name="sent_code_to_number">Мы отправили SMS код на номер %s</string>
+    <string name="sent_code_to_number">Мы отправили SMS-код на номер %s</string>
     <string name="sent_code_to_number_again">Мы повторно отправили SMS код на номер ********** %s</string>
     <string name="code_confirmation">Код подтверждения</string>
     <string name="enter_code_from_sms">Введите код подтверждения из полученного SMS-сообщения</string>
     <string name="next">Далее</string>
     <string name="code_not_received">Я не получил(а) код</string>
     <string name="send_code_duration">В течение 1 минуты 30 секунд вы получите СМС код</string>
+    <string name="please_wait">Пожалуйста, ожидайте…</string>
 
     <string name="one">1</string>
     <string name="two">2</string>

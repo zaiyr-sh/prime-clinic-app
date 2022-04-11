@@ -12,7 +12,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_pin.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_receiving_call.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_sms_code.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_sms_code.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_video_chat.xml" value="0.19067028985507245" />
         <entry key="app/src/main/res/layout/fragment_about.xml" value="0.125" />
@@ -80,6 +80,7 @@
         <entry key="core/src/main/res/drawable/ic_send.xml" value="0.1685185185185185" />
         <entry key="core/src/main/res/drawable/ic_video.xml" value="0.153" />
         <entry key="core/src/main/res/drawable/keypad_shape.xml" value="0.140625" />
+        <entry key="core/src/main/res/drawable/layout_loading_screen.xml" value="0.1595" />
         <entry key="core/src/main/res/drawable/outline_shape.xml" value="0.16458333333333333" />
         <entry key="core/src/main/res/drawable/provider_paths.xml" value="0.11851851851851852" />
         <entry key="core/src/main/res/drawable/rounded_button.xml" value="0.1" />
@@ -99,6 +100,7 @@
         <entry key="core/src/main/res/drawable/shape_white.xml" value="0.25462962962962965" />
         <entry key="core/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="core/src/main/res/layout/fragment_blank.xml" value="0.1503623188405797" />
+        <entry key="core/src/main/res/layout/layout_loading_screen.xml" value="0.25" />
       </map>
     </option>
   </component>
