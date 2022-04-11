@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.core.widget.addTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
+import kg.iaau.diploma.core.constants.AUTH_ERROR
 import kg.iaau.diploma.core.ui.CoreActivity
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.primeclinic.R
@@ -60,6 +61,11 @@ class RegisterActivity :
         super.successAction()
         val phone = editTextHandler()[0]
         SmsCodeActivity.startActivity(this, phone)
+    }
+
+    override fun errorAction(event: CoreEvent.Error) {
+        super.errorAction(event)
+        if (!event.isNetworkError) toast(AUTH_ERROR)
     }
 
     override fun showLoader() {

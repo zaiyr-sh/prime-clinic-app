@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.core.widget.addTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
+import kg.iaau.diploma.core.constants.SEND_CODE_ERROR
 import kg.iaau.diploma.core.ui.CoreActivity
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.local_storage.prefs.StoragePreferences.Keys.PHONE
@@ -56,6 +57,11 @@ class SmsCodeActivity : CoreActivity<ActivitySmsCodeBinding, AuthorizationVM>(Au
         super.initFirebaseAuth()
         val user = mAuth.currentUser
         if (user == null) vm.createNewUserInFirebase(mAuth)
+    }
+
+    override fun errorAction(event: CoreEvent.Error) {
+        super.errorAction(event)
+        if (!event.isNetworkError) toast(SEND_CODE_ERROR)
     }
 
     override fun showLoader() {

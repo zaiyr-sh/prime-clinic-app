@@ -60,10 +60,7 @@ abstract class CoreActivity<VB: ViewBinding, VM: CoreVM>(
     open fun notificationAction() {}
 
     open fun errorAction(event: CoreEvent.Error) {
-        when (event.isNetworkError) {
-            true -> toast(event.message)
-            false -> toast(AUTH_ERROR)
-        }
+        if (event.isNetworkError) toast(event.message)
         goneLoader()
     }
 

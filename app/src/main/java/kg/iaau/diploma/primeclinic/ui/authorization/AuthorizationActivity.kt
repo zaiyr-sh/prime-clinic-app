@@ -4,11 +4,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.core.widget.addTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
+import kg.iaau.diploma.core.constants.AUTH_ERROR
 import kg.iaau.diploma.core.ui.CoreActivity
-import kg.iaau.diploma.core.utils.convertPhoneNumberWithCode
-import kg.iaau.diploma.core.utils.setAnimateAlpha
-import kg.iaau.diploma.core.utils.setEnable
-import kg.iaau.diploma.core.utils.startActivity
+import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.primeclinic.databinding.ActivityAuthorizationBinding
 import kg.iaau.diploma.primeclinic.ui.pin.PinActivity
 import kg.iaau.diploma.primeclinic.ui.register.RegisterActivity
@@ -58,6 +56,11 @@ class AuthorizationActivity :
         super.successAction()
         PinActivity.startActivity(this)
         finish()
+    }
+
+    override fun errorAction(event: CoreEvent.Error) {
+        super.errorAction(event)
+        if (!event.isNetworkError) toast(AUTH_ERROR)
     }
 
     override fun showLoader() {

@@ -66,10 +66,7 @@ abstract class CoreFragment<VB: ViewBinding, VM: CoreVM>(
     open fun notificationAction() {}
 
     open fun errorAction(event: CoreEvent.Error) {
-        when (event.isNetworkError) {
-            true -> requireActivity().toast(event.message)
-            false -> requireActivity().toast(AUTH_ERROR)
-        }
+        if (event.isNetworkError) requireActivity().toast(event.message)
         goneLoader()
     }
 

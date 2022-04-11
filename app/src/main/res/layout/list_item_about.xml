@@ -19,7 +19,7 @@
         android:textSize="@dimen/size_20sp"
         android:textStyle="bold"
         android:theme="@style/TextStyle"
-        tools:text="Что такое PrimeDoc?" />
+        tools:text="Что такое PrimeClinic?" />
 
     <TextView
         android:id="@+id/tv_description"
@@ -31,5 +31,5 @@
         android:paddingBottom="@dimen/size_8dp"
         android:textColor="@color/black"
         android:textSize="@dimen/size_16sp"
-        tools:text="PrimeDoc - это сервис для удалённых онлайн-консультаций с опытными врачами. Вы можете выбрать нужного врача и проконсультироваться с ним через телефон, планшет или ноутбук. При этом, ваше расположение не имеет значения." />
+        tools:text="PrimeClinic - это сервис для удалённых онлайн-консультаций с опытными врачами. Вы можете выбрать нужного врача и проконсультироваться с ним через телефон, планшет или ноутбук. При этом, ваше расположение не имеет значения." />
 </LinearLayout>
