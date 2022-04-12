@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
+import com.google.firebase.auth.FirebaseAuth
 import kg.iaau.diploma.core.utils.CoreEvent
 import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.core.vm.CoreVM
@@ -25,6 +26,8 @@ abstract class CoreFragment<VB: ViewBinding, VM: CoreVM>(
     protected val vm by lazy {
         ViewModelProvider(this)[mViewModelClass]
     }
+
+    protected lateinit var mAuth: FirebaseAuth
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -71,6 +74,10 @@ abstract class CoreFragment<VB: ViewBinding, VM: CoreVM>(
 
     open fun goneLoader() {
         LoadingScreen.hideLoading()
+    }
+
+    open fun initFirebaseAuth() {
+        mAuth = FirebaseAuth.getInstance()
     }
 
     override fun onDestroyView() {

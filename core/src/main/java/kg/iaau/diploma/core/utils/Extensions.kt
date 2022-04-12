@@ -22,7 +22,9 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
 import com.google.android.material.snackbar.Snackbar
 import kg.iaau.diploma.core.R
 import java.io.File
@@ -172,6 +174,19 @@ fun Context.loadWithGlide(imageView: ImageView, image: String?, onSuccess: (() -
         })
         .error(R.drawable.ic_error)
         .into(imageView)
+}
+
+fun Context.loadWithGlide(image: String?, onSuccess: ((resource: Drawable) -> Unit)? = null, onFail: (() -> Unit)? = null) {
+    Glide.with(this).load(image)
+        .into(object : CustomTarget<Drawable?>() {
+            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable?>?) {
+                onSuccess?.invoke(resource)
+            }
+            override fun onLoadFailed(errorDrawable: Drawable?) {
+                onFail?.invoke()
+            }
+            override fun onLoadCleared(placeholder: Drawable?) {}
+        })
 }
 
 fun Context.getImageFileUri(appId: String, fileName: String): Uri {

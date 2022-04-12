@@ -60,9 +60,7 @@ class SentVH(private val vb: ListItemSentMessageBinding): RecyclerView.ViewHolde
             else
                 tvMessage.text = message.message
             when(message.type) {
-                MessageType.TEXT.type -> {
-                    cvImage.gone()
-                }
+                MessageType.TEXT.type -> cvImage.gone()
                 else -> {
                     itemView.context.loadWithGlide(ivSent, message.image,
                         onSuccess = {
@@ -106,9 +104,7 @@ class ReceivedVH(private val vb: ListItemReceivedMessageBinding): RecyclerView.V
             else
                 tvReceived.text = message.message
             when(message.type) {
-                MessageType.TEXT.type -> {
-                    cvImage.gone()
-                }
+                MessageType.TEXT.type -> cvImage.gone()
                 else -> {
                     itemView.context.loadWithGlide(ivReceived, message.image,
                         onSuccess = {
