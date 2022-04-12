@@ -21,7 +21,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:addStatesFromChildren="false"
             app:title="@string/medical_card"
             app:titleTextAppearance="@style/ToolbarTheme" />
 
@@ -36,7 +35,6 @@
         android:layout_marginEnd="@dimen/size_26dp"
         android:background="@drawable/shape_white"
         android:gravity="center"
-        android:inputType="textCapSentences"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +62,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/size_10dp"
-        android:orientation="vertical"
         android:visibility="gone"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/size_20dp"
@@ -73,7 +70,7 @@
         app:layout_constraintTop_toBottomOf="@id/abl_med_card">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/relativeLayout"
+            android:id="@+id/cl_med_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -84,7 +81,6 @@
                 android:background="@color/teal"
                 android:gravity="end|center"
                 android:paddingVertical="@dimen/size_8dp"
-                android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/cv_image"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -117,6 +113,7 @@
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ic_photo" />
+
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -163,17 +160,9 @@
                 app:layout_constraintStart_toStartOf="@+id/tv_birthday"
                 app:layout_constraintTop_toBottomOf="@+id/tv_birthday"
                 tools:text="Whatsapp номер: +996707151654" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="@color/teal"
-        android:progressTint="@color/teal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

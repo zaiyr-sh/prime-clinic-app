@@ -5,11 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
+import kg.iaau.diploma.core.ui.CoreFragment
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.MedCard
 import kg.iaau.diploma.data.MedCardImage
@@ -17,28 +16,22 @@ import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentMedCardBinding
 
 @AndroidEntryPoint
-class MedCardFragment : Fragment() {
+class MedCardFragment : CoreFragment<FragmentMedCardBinding, MedCardVM>(MedCardVM::class.java) {
 
-    private lateinit var vb: FragmentMedCardBinding
-    private val vm: MedCardVM by navGraphViewModels(R.id.main_navigation) { defaultViewModelProviderFactory }
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMedCardBinding
+        get() = FragmentMedCardBinding::inflate
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        vb = FragmentMedCardBinding.inflate(inflater, container, false)
+        super.onCreateView(inflater, container, savedInstanceState)
         vm.getMedCard()
         vm.getMedCardImageById()
         return vb.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupFragmentView()
-        observeLiveData()
-    }
-
-    private fun setupFragmentView() {
+    override fun setupFragmentView() {
         vb.run {
             llAddMedCard.setOnClickListener { openAddMedCardFragment() }
             ibEdit.setOnClickListener { openAddMedCardFragment(true) }
@@ -54,27 +47,20 @@ class MedCardFragment : Fragment() {
         )
     }
 
-    private fun observeLiveData() {
+    override fun observeLiveData() {
         vm.medCardLiveData.observe(viewLifecycleOwner) { medCard ->
             medCard?.let {
-                setupMedCardFields(medCard)
+                setupMedCardFields(it)
             }
         }
         vm.medCardImageLiveData.observe(viewLifecycleOwner) { medCardImage ->
             medCardImage?.let {
-                setupMedCardImage(medCardImage)
+                setupMedCardImage(it)
             }
         }
         vm.imageUriLiveData.observe(viewLifecycleOwner) { imageUri ->
             imageUri?.let {
                 Glide.with(requireContext()).load(it).into(vb.ivUser)
-            }
-        }
-        vm.event.observe(viewLifecycleOwner) { event ->
-            when (event) {
-                is CoreEvent.Loading -> showLoader()
-                is CoreEvent.Success -> goneLoader()
-                is CoreEvent.Error -> errorAction(event)
             }
         }
     }
@@ -100,27 +86,25 @@ class MedCardFragment : Fragment() {
         }
     }
 
-    private fun errorAction(event: CoreEvent.Error) {
-        when (event.isNetworkError) {
-            true -> requireActivity().toast(event.message)
-            else -> requireActivity().toast(getString(R.string.unexpected_error))
-        }
+    override fun errorAction(event: CoreEvent.Error) {
+        super.errorAction(event)
+        if (!event.isNetworkError) requireActivity().toast(getString(R.string.unexpected_error))
         goneLoader()
     }
 
-    private fun showLoader() {
-        vb.run {
-            progressBar.show()
-            clContainer.setAnimateAlpha(0.5f)
-            llAddMedCard.setEnable(false)
+    override fun showLoader() {
+        super.showLoader()
+        vb.clContainer.run {
+            setAnimateAlpha(0.5f)
+            setEnable(false)
         }
     }
 
-    private fun goneLoader() {
-        vb.run {
-            progressBar.gone()
-            clContainer.setAnimateAlpha(1f)
-            llAddMedCard.setEnable(true)
+    override fun goneLoader() {
+        super.goneLoader()
+        vb.clContainer.run {
+            setAnimateAlpha(1f)
+            setEnable(true)
         }
     }
 

@@ -6,16 +6,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.core.view.isVisible
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.navGraphViewModels
 import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.core.constants.MED_CARD_CREATED_UNSUCCESSFULLY
+import kg.iaau.diploma.core.ui.CoreFragment
 import kg.iaau.diploma.core.utils.*
-import kg.iaau.diploma.core.utils.CoreEvent.*
+import kg.iaau.diploma.core.utils.CoreEvent.Notification
 import kg.iaau.diploma.data.MedCard
 import kg.iaau.diploma.data.MedCardImage
 import kg.iaau.diploma.primeclinic.R
@@ -26,10 +25,11 @@ import java.io.File
 import java.util.*
 
 @AndroidEntryPoint
-class AddMedCardFragment : Fragment() {
+class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(MedCardVM::class.java) {
 
-    private lateinit var vb: FragmentAddMedCardBinding
-    private val vm: MedCardVM by navGraphViewModels(R.id.main_navigation) { defaultViewModelProviderFactory }
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAddMedCardBinding =
+        FragmentAddMedCardBinding::inflate
+
     private val args: AddMedCardFragmentArgs by navArgs()
     private val isAgreementAccepted: Boolean by lazy { args.isAgreementAccepted }
 
@@ -37,19 +37,14 @@ class AddMedCardFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        vb = FragmentAddMedCardBinding.inflate(inflater, container, false)
+        super.onCreateView(inflater, container, savedInstanceState)
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         vm.getMedCard()
         vm.getMedCardImageById()
         return vb.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupFragmentView()
-        observeLiveData()
-    }
-
-    private fun setupFragmentView() {
+    override fun setupFragmentView() {
         vb.run {
             if (isAgreementAccepted) llCheckAgreement.gone()
             toolbar.setNavigationOnClickListener {
@@ -62,20 +57,22 @@ class AddMedCardFragment : Fragment() {
                 AgreementBottomSheetFragment.show(requireActivity().supportFragmentManager)
             }
             ivUserPicture.setOnClickListener {
-                ProfilePictureBottomSheetFragment.show(requireActivity().supportFragmentManager)
+                ProfilePictureBottomSheetFragment.show(requireActivity().supportFragmentManager) { uri ->
+                    vm.setProfilePicture(uri)
+                }
             }
-            setupBirthdateListener()
+            addBirthdateListener()
         }
     }
 
-    private fun setupBirthdateListener() {
+    private fun addBirthdateListener() {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         vb.run {
             vb.etBirthdate.setOnClickListener {
-                val dpd = DatePickerDialog(requireActivity(), R.style.DialogTheme, { view, mYear, mMonth, mDay ->
+                val dpd = DatePickerDialog(requireActivity(), R.style.DialogTheme, { view, _, _, _ ->
                     etBirthdate.text = view.calendarView.date.formatForDate()
                 }, year, month, day)
                 dpd.show()
@@ -121,7 +118,8 @@ class AddMedCardFragment : Fragment() {
         }
     }
 
-    private fun observeLiveData() {
+    override fun observeLiveData() {
+        super.observeLiveData()
         vm.medCardLiveData.observe(viewLifecycleOwner) { medCard ->
             medCard?.let {
                 setupMedCardFields(it)
@@ -138,37 +136,6 @@ class AddMedCardFragment : Fragment() {
                 vm.uploadMedCardImage(File(uri.path))
             }
         }
-        vm.event.observe(viewLifecycleOwner) { event ->
-            when (event) {
-                is Loading -> showLoader()
-                is Success, is Error -> goneLoader()
-                is Notification -> notificationAction(event)
-            }
-        }
-    }
-
-    private fun showLoader() {
-        vb.run {
-            progressBar.show()
-            clContainer.setAnimateAlpha(0.5f)
-            btnSendMedCard.setEnable(false)
-        }
-    }
-
-    private fun goneLoader() {
-        vb.run {
-            progressBar.gone()
-            clContainer.setAnimateAlpha(1f)
-            btnSendMedCard.setEnable(true)
-        }
-    }
-
-    private fun notificationAction(event: Notification) {
-        goneLoader()
-        event.title?.let { view?.showSnackBar(requireContext(), it) }
-        if (event.title != MED_CARD_CREATED_UNSUCCESSFULLY) {
-            findNavController().navigateUp()
-        }
     }
 
     private fun setupMedCardFields(medCard: MedCard) {
@@ -184,6 +151,30 @@ class AddMedCardFragment : Fragment() {
     private fun setupMedCardImage(medCardImage: MedCardImage) {
         medCardImage.image?.let { image ->
             Glide.with(requireContext()).load(Uri.parse(image)).into(vb.ivUserPicture)
+        }
+    }
+
+    override fun showLoader() {
+        super.showLoader()
+        vb.clContainer.run {
+            setAnimateAlpha(0.5f)
+            setEnable(false)
+        }
+    }
+
+    override fun goneLoader() {
+        super.goneLoader()
+        vb.clContainer.run {
+            setAnimateAlpha(1f)
+            setEnable(true)
+        }
+    }
+
+    override fun notificationAction(event: Notification) {
+        goneLoader()
+        event.title?.let { view?.showSnackBar(requireContext(), getString(it)) }
+        if (event.title != R.string.med_card_created_unsuccessfully) {
+            findNavController().navigateUp()
         }
     }
 

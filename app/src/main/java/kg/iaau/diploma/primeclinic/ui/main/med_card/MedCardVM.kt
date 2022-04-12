@@ -4,13 +4,12 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kg.iaau.diploma.core.constants.MED_CARD_CREATED_SUCCESSFULLY
-import kg.iaau.diploma.core.constants.MED_CARD_CREATED_UNSUCCESSFULLY
 import kg.iaau.diploma.core.utils.CoreEvent
 import kg.iaau.diploma.core.utils.convertToUTC
 import kg.iaau.diploma.core.vm.CoreVM
 import kg.iaau.diploma.data.MedCard
 import kg.iaau.diploma.data.MedCardImage
+import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.repository.MedCardRepository
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -41,7 +40,7 @@ class MedCardVM @Inject constructor(
             firstName = firstName,
             lastName = lastName,
             patronymic = patronymic,
-            birthDate = birth?.convertToUTC(),
+            birthDate = birth.convertToUTC(),
             medCardPhoneNumber = phone
         )
         safeLaunch(
@@ -49,10 +48,10 @@ class MedCardVM @Inject constructor(
                 repository.uploadMedCard(medCard)
                 medCard.birthDate = birth
                 saveMedCardInDb(medCard)
-                event.postValue(CoreEvent.Notification(title = MED_CARD_CREATED_SUCCESSFULLY))
+                event.postValue(CoreEvent.Notification(title = R.string.med_card_created_successfully))
             },
             fail = {
-                event.postValue(CoreEvent.Notification(title = MED_CARD_CREATED_UNSUCCESSFULLY))
+                event.postValue(CoreEvent.Notification(title = R.string.med_card_created_unsuccessfully))
             }
         )
     }
@@ -97,4 +96,5 @@ class MedCardVM @Inject constructor(
     fun setProfilePicture(imageUri: Uri) {
         _imageUriLiveData.value = imageUri
     }
+
 }

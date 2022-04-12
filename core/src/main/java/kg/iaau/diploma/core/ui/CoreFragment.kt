@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
-import kg.iaau.diploma.core.constants.AUTH_ERROR
 import kg.iaau.diploma.core.utils.CoreEvent
 import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.core.vm.CoreVM
@@ -50,7 +49,7 @@ abstract class CoreFragment<VB: ViewBinding, VM: CoreVM>(
                 is CoreEvent.Loading -> showLoader()
                 is CoreEvent.Success -> successAction()
                 is CoreEvent.Error -> errorAction(event)
-                is CoreEvent.Notification -> notificationAction()
+                is CoreEvent.Notification -> notificationAction(event)
             }
         }
     }
@@ -63,7 +62,7 @@ abstract class CoreFragment<VB: ViewBinding, VM: CoreVM>(
         goneLoader()
     }
 
-    open fun notificationAction() {}
+    open fun notificationAction(event: CoreEvent.Notification) {}
 
     open fun errorAction(event: CoreEvent.Error) {
         if (event.isNetworkError) requireActivity().toast(event.message)

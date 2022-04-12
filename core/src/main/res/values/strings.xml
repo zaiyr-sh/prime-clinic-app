@@ -118,5 +118,8 @@
     <string name="exit_confirmation">Вы уверены что хотите выйти?</string>
     <string name="exit">Выход</string>
 
+    <string name="med_card_created_successfully">Медкарта успешно создана!</string>
+    <string name="med_card_created_unsuccessfully">Ошибка при отправки медкарты! Попробуйте еще раз.</string>
+
 
 </resources>

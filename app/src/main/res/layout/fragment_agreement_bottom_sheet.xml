@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
     android:orientation="vertical">
 
     <LinearLayout
@@ -11,10 +10,9 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_header"
         android:gravity="end"
-        android:paddingStart="@dimen/size_17dp"
+        android:paddingHorizontal="@dimen/size_18dp"
         android:paddingBottom="@dimen/size_8dp"
-        android:paddingTop="@dimen/size_20dp"
-        android:paddingEnd="@dimen/size_17dp">
+        android:paddingTop="@dimen/size_20dp">
 
         <ImageButton
             android:id="@+id/ib_dismiss"
@@ -38,5 +36,6 @@
             android:text="@string/agreement"
             android:textColor="@color/black"
             android:textSize="@dimen/size_14sp" />
+
     </ScrollView>
 </LinearLayout>
