@@ -2,13 +2,11 @@ package kg.iaau.diploma.primeclinic.ui.main.chat.calling
 
 import android.Manifest
 import android.content.Context
-import android.content.Intent
 import android.opengl.GLSurfaceView
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -19,7 +17,6 @@ import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.primeclinic.MainActivity
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ActivityVideoChatBinding
-import kg.iaau.diploma.primeclinic.ui.main.med_card.bottom_sheet.ProfilePictureBottomSheetFragment
 
 @AndroidEntryPoint
 class VideoChatActivity : AppCompatActivity(), Session.SessionListener,

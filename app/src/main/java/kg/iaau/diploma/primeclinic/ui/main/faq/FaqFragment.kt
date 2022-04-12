@@ -5,10 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.ui.CoreFragment
-import kg.iaau.diploma.core.utils.gone
-import kg.iaau.diploma.core.utils.setAnimateAlpha
-import kg.iaau.diploma.core.utils.setEnable
-import kg.iaau.diploma.core.utils.show
+import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.Faq
 import kg.iaau.diploma.primeclinic.databinding.FragmentFaqBinding
 import kg.iaau.diploma.primeclinic.ui.main.faq.adapter.FaqAdapter
@@ -47,6 +44,11 @@ class FaqFragment : CoreFragment<FragmentFaqBinding, FaqVM>(FaqVM::class.java) {
             else
                 ivEmpty.gone()
         }
+    }
+
+    override fun errorAction(event: CoreEvent.Error) {
+        super.errorAction(event)
+        vb.ivEmpty.show()
     }
 
     override fun showLoader() {

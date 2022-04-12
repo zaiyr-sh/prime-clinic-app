@@ -1,33 +1,19 @@
 package kg.iaau.diploma.primeclinic.ui.main.med_card.bottom_sheet
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.primeclinic.R
+import kg.iaau.diploma.core.ui.CoreBottomSheetFragment
 import kg.iaau.diploma.primeclinic.databinding.FragmentAgreementBottomSheetBinding
 
 @AndroidEntryPoint
-class AgreementBottomSheetFragment : BottomSheetDialogFragment() {
+class AgreementBottomSheetFragment : CoreBottomSheetFragment<FragmentAgreementBottomSheetBinding>() {
 
-    private lateinit var vb: FragmentAgreementBottomSheetBinding
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAgreementBottomSheetBinding =
+        FragmentAgreementBottomSheetBinding::inflate
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
-        setHasOptionsMenu(false)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        vb = FragmentAgreementBottomSheetBinding.inflate(inflater, container, false)
-        return vb.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun setupFragmentView() {
         vb.ibDismiss.setOnClickListener { dismiss() }
     }
 

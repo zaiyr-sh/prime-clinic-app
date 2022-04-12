@@ -3,20 +3,17 @@ package kg.iaau.diploma.primeclinic.ui.main.clinic.specialist
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.navGraphViewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.core.utils.CoreEvent.*
-import kg.iaau.diploma.core.utils.gone
+import kg.iaau.diploma.core.ui.CoreFragment
+import kg.iaau.diploma.core.utils.CoreEvent.Error
 import kg.iaau.diploma.core.utils.setAnimateAlpha
-import kg.iaau.diploma.core.utils.show
+import kg.iaau.diploma.core.utils.setEnable
 import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.data.SpecialistCategory
 import kg.iaau.diploma.primeclinic.R
@@ -26,11 +23,12 @@ import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.DoctorAdapter
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.DoctorListener
 
 @AndroidEntryPoint
-class AboutClinicCategoryFragment : Fragment(), DoctorListener {
+class AboutClinicCategoryFragment : CoreFragment<FragmentAboutClinicCategoryBinding, ClinicVM>(ClinicVM::class.java), DoctorListener {
 
-    private lateinit var vb: FragmentAboutClinicCategoryBinding
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAboutClinicCategoryBinding
+        get() = FragmentAboutClinicCategoryBinding::inflate
+
     private val args: AboutClinicCategoryFragmentArgs by navArgs()
-    private val vm: ClinicVM by navGraphViewModels(R.id.main_navigation) { defaultViewModelProviderFactory }
     private var adapter = DoctorAdapter(this)
     private val id: Long by lazy { args.id }
 
@@ -39,46 +37,22 @@ class AboutClinicCategoryFragment : Fragment(), DoctorListener {
         vm.getSpecialistsCategoryDetailInfo(id)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        vb = FragmentAboutClinicCategoryBinding.inflate(inflater, container, false)
-        return vb.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupFragmentView()
-        observeLiveData()
-    }
-
-    private fun setupFragmentView() {
+    override fun setupFragmentView() {
         vb.run {
             rvSpecialists.adapter = adapter
             toolbar.setNavigationOnClickListener { requireActivity().supportFragmentManager.popBackStack()  }
         }
     }
 
-    private fun observeLiveData() {
+    override fun observeLiveData() {
+        super.observeLiveData()
         vm.specialistLiveData.observe(viewLifecycleOwner) { specialist ->
             setupSpecialistView(specialist)
-        }
-        vm.event.observe(viewLifecycleOwner) { event ->
-            when (event) {
-                is Loading -> showLoader()
-                is Success -> goneLoader()
-                is Error -> errorAction(event)
-            }
         }
     }
 
     private fun setupSpecialistView(specialist: SpecialistCategory?) {
         vb.run {
-            if (specialist != null) {
-                toolbar.show()
-                clDescription.show()
-            }
             tvCategory.text = specialist?.name
             tvPositionDescription.text = specialist?.description
             Glide.with(requireContext()).load(specialist?.image)
@@ -92,25 +66,24 @@ class AboutClinicCategoryFragment : Fragment(), DoctorListener {
         }
     }
 
-    private fun errorAction(event: Error) {
-        when (event.isNetworkError) {
-            true -> requireActivity().toast(event.message)
-            else -> requireActivity().toast(getString(R.string.unexpected_error))
-        }
-        goneLoader()
+    override fun errorAction(event: Error) {
+        super.errorAction(event)
+        if (!event.isNetworkError) requireActivity().toast(getString(R.string.unexpected_error))
     }
 
-    private fun showLoader() {
-        vb.run {
-            progressBar.show()
-            clContainer.setAnimateAlpha(0.5f)
+    override fun showLoader() {
+        super.showLoader()
+        vb.clContainer.run {
+            setAnimateAlpha(0.5f)
+            setEnable(false)
         }
     }
 
-    private fun goneLoader() {
-        vb.run {
-            progressBar.gone()
-            clContainer.setAnimateAlpha(1f)
+    override fun goneLoader() {
+        super.goneLoader()
+        vb.clContainer.run {
+            setAnimateAlpha(1f)
+            setEnable(true)
         }
     }
 

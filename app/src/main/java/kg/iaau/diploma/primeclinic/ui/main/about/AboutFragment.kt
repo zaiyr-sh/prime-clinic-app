@@ -77,6 +77,11 @@ class AboutFragment : CoreFragment<FragmentAboutBinding, AboutVM>(AboutVM::class
         }
     }
 
+    override fun errorAction(event: CoreEvent.Error) {
+        super.errorAction(event)
+        vb.ivEmpty.show()
+    }
+
     override fun showLoader() {
         super.showLoader()
         vb.clContainer.run {

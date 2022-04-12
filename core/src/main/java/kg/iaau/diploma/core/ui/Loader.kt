@@ -14,6 +14,7 @@ object LoadingScreen {
 
     // context(parent (reference))
     fun showLoading(context: Context?, cancelable: Boolean = false, text: String? = null) {
+        if (dialog?.isShowing == true) return
         dialog = Dialog(context!!)
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog?.setContentView(R.layout.layout_loading_screen)

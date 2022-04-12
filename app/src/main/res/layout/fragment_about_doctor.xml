@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:background="?android:windowBackground"
     tools:context=".ui.main.clinic.doctor.AboutDoctorFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,7 +27,6 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:addStatesFromChildren="false"
                 app:navigationIcon="@drawable/ic_arrow_back"
                 app:titleMarginStart="@dimen/size_16dp"
                 app:titleTextAppearance="@style/ToolbarTheme">
@@ -42,9 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="@dimen/size_16dp"
+            android:paddingHorizontal="@dimen/size_16dp"
             android:paddingTop="@dimen/size_10dp"
-            android:paddingEnd="@dimen/size_16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/abl_doctor">
@@ -123,8 +120,7 @@
                 android:id="@+id/tv_bio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/size_10dp"
-                android:paddingRight="@dimen/size_10dp"
+                android:paddingHorizontal="@dimen/size_10dp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/size_16sp"
                 tools:text="Максимова Анеля Максимовна- врач терапевт, стаж 25 лет. Проводит диагностику и лечение органов сердечно-сосудистой, дыхательной, ЖКТ, урологической, эндокринной, иммунной систем, спирометрию" />
@@ -155,12 +151,9 @@
             android:id="@+id/btn_make_appointment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/size_70dp"
             android:layout_marginTop="@dimen/size_12dp"
-            android:layout_marginEnd="@dimen/size_70dp"
+            android:layout_marginHorizontal="@dimen/size_70dp"
             android:layout_marginBottom="@dimen/size_8dp"
-            android:inputType="textCapSentences"
             android:paddingTop="@dimen/size_16dp"
             android:paddingBottom="@dimen/size_16dp"
             android:text="@string/enroll"
@@ -168,18 +161,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ll_doctor_info" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size_100dp"
-            android:indeterminateTint="@color/teal"
-            android:progressTint="@color/teal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/abl_doctor" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

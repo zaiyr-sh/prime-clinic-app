@@ -25,9 +25,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_230dp"
-                android:addStatesFromChildren="false"
                 android:background="@drawable/ic_specialist"
-                android:visibility="invisible"
                 app:navigationIcon="@drawable/ic_arrow_back"
                 app:titleTextAppearance="@style/ToolbarTheme" />
 
@@ -99,18 +97,6 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/list_item_doctor" />
         </LinearLayout>
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/size_100dp"
-            android:indeterminateTint="@color/teal"
-            android:progressTint="@color/teal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/abr_about_clinic" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

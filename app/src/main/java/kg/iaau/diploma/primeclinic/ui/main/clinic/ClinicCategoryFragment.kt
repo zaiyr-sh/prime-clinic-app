@@ -2,13 +2,12 @@ package kg.iaau.diploma.primeclinic.ui.main.clinic
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import dagger.hilt.android.AndroidEntryPoint
+import kg.iaau.diploma.core.ui.CoreFragment
 import kg.iaau.diploma.core.utils.*
-import kg.iaau.diploma.core.utils.CoreEvent.*
+import kg.iaau.diploma.core.utils.CoreEvent.Error
 import kg.iaau.diploma.primeclinic.MainActivity
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentClinicCategoryBinding
@@ -18,17 +17,18 @@ import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.ClinicSpecialistListen
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ClinicCategoryFragment : Fragment(), ClinicSpecialistListener {
+class ClinicCategoryFragment : CoreFragment<FragmentClinicCategoryBinding, ClinicVM>(ClinicVM::class.java), ClinicSpecialistListener {
 
-    private lateinit var vb: FragmentClinicCategoryBinding
-    private val vm: ClinicVM by navGraphViewModels(R.id.main_navigation) { defaultViewModelProviderFactory }
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentClinicCategoryBinding =
+        FragmentClinicCategoryBinding::inflate
+
     private var adapter = ClinicSpecialistAdapter(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        vb =  FragmentClinicCategoryBinding.inflate(inflater, container, false)
+        super.onCreateView(inflater, container, savedInstanceState)
         setHasOptionsMenu(true)
         (requireActivity() as? MainActivity)?.setSupportActionBar(vb.toolbar)
         return vb.root
@@ -53,51 +53,38 @@ class ClinicCategoryFragment : Fragment(), ClinicSpecialistListener {
         }
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupFragmentView()
-        observeLiveData()
-    }
-
-    private fun setupFragmentView() {
+    override fun setupFragmentView() {
         vb.rvSpecialists.adapter = adapter
     }
 
-    private fun observeLiveData() {
+    override fun observeLiveData() {
+        super.observeLiveData()
         vm.getSpecialistCategories().observe(viewLifecycleOwner) { specialists ->
             lifecycleScope.launch {
                 adapter.submitData(specialists)
             }
         }
-        vm.event.observe(viewLifecycleOwner) { event ->
-            when (event) {
-                is Loading -> showLoader()
-                is Success -> goneLoader()
-                is Error -> errorAction(event)
-            }
-        }
     }
 
-    private fun errorAction(event: Error) {
-        when (event.isNetworkError) {
-            true -> requireActivity().toast(event.message)
-            else -> requireActivity().toast(getString(R.string.unexpected_error))
-        }
-        goneLoader()
+    override fun errorAction(event: Error) {
+        super.errorAction(event)
+        if (!event.isNetworkError) requireActivity().toast(getString(R.string.unexpected_error))
         vb.ivEmpty.show()
     }
 
-    private fun showLoader() {
-        vb.run {
-            progressBar.show()
-            clContainer.setAnimateAlpha(0.5f)
+    override fun showLoader() {
+        super.showLoader()
+        vb.clContainer.run {
+            setAnimateAlpha(0.5f)
+            setEnable(false)
         }
     }
 
-    private fun goneLoader() {
-        vb.run {
-            progressBar.gone()
-            clContainer.setAnimateAlpha(1f)
+    override fun goneLoader() {
+        super.goneLoader()
+        vb.clContainer.run {
+            setAnimateAlpha(1f)
+            setEnable(true)
         }
     }
 
