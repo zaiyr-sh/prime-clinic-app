@@ -22,11 +22,23 @@
             android:layout_height="wrap_content"
             app:menu="@menu/chat_menu"
             android:addStatesFromChildren="false"
-            app:logo="@drawable/ic_doctor"
             app:navigationIcon="@drawable/ic_arrow_back"
             app:title="@string/administrator"
             app:titleMarginStart="@dimen/size_16dp"
-            app:titleTextAppearance="@style/ToolbarTheme"/>
+            app:titleTextAppearance="@style/ToolbarTheme">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/toolbar_logo"
+                android:layout_width="@dimen/size_50dp"
+                android:layout_height="@dimen/size_50dp"
+                android:layout_gravity="end"
+                android:adjustViewBounds="true"
+                app:actualImageResource="@drawable/shape_filled_dot"
+                app:failureImageScaleType="centerCrop"
+                app:failureImage="@drawable/shape_filled_dot"
+                app:actualImageScaleType="centerCrop" />
+
+        </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout

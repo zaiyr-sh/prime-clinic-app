@@ -106,13 +106,15 @@
                 app:layout_constraintStart_toStartOf="@+id/ll_header"
                 app:layout_constraintTop_toBottomOf="@+id/ll_header">
 
-                <ImageView
+                <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/iv_user"
                     android:layout_width="@dimen/size_80dp"
                     android:layout_height="@dimen/size_80dp"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_photo" />
+                    app:actualImageResource="@drawable/ic_photo"
+                    app:actualImageScaleType="centerCrop"
+                    app:failureImage="@drawable/ic_photo"
+                    app:failureImageScaleType="centerCrop" />
 
             </androidx.cardview.widget.CardView>
 

@@ -1,5 +1,6 @@
 package kg.iaau.diploma.core.utils
 
+import android.content.Intent
 import android.net.Uri
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.*
@@ -52,28 +53,20 @@ object FirebaseHelper {
 
     fun setupUserType(
         docRef: DocumentReference?,
-        userType: String,
-        doctorChatListener: ((doc: DocumentSnapshot) -> Unit)? = null,
-        adminChatListener: (() -> Unit)? = null
-    ): String? {
-        var userId: String? = ""
+        listener: ((adminId: String?) -> Unit)? = null
+    ) {
         docRef?.get()?.addOnSuccessListener {
             val adminId = it.getString("adminId")
-            userId = adminId
-            when (userType) {
-                UserType.DOCTOR.name -> getDoctorData(adminId, doctorChatListener)
-                UserType.ADMIN.name -> adminChatListener?.invoke()
-            }
+            listener?.invoke(adminId)
         }
-        return userId
     }
 
-    private fun getDoctorData(
-        adminId: String?,
+    fun setupDoctorData(
+        userId: String?,
         doctorChatListener: ((doc: DocumentSnapshot) -> Unit)?
     ) {
         val db = FirebaseFirestore.getInstance()
-        db.collection("doctors").document(adminId!!).get().addOnSuccessListener {
+        db.collection("doctors").document(userId!!).get().addOnSuccessListener {
             doctorChatListener?.invoke(it)
         }
     }
@@ -100,6 +93,53 @@ object FirebaseHelper {
                     onSuccess?.invoke(url)
                 }
                 onDefault?.invoke()
+            }
+        }
+    }
+
+    fun getCallData(
+        uid: String,
+        receiverId: String,
+        accepted: Boolean,
+        declined: Boolean
+    ): MutableMap<String, Any> {
+        val callData = mutableMapOf<String, Any>()
+        callData["uid"] = uid
+        callData["receiverId"] = receiverId
+        callData["accepted"] = accepted
+        callData["declined"] = declined
+        return callData
+    }
+
+    fun makeCall(
+        userId: String,
+        onSuccess: ((ref: DocumentReference) -> Unit)? = null,
+        onFail: ((ref: DocumentReference) -> Unit)? = null
+    ) {
+        val db = FirebaseFirestore.getInstance()
+        val ref =
+            db.collection("doctors").document(userId).collection("call").document("calling")
+        ref.get().addOnSuccessListener {
+            when (it.exists() && !it.getString("uid").isNullOrEmpty()) {
+                true -> onFail?.invoke(ref)
+                else -> onSuccess?.invoke(ref)
+            }
+        }
+    }
+
+    fun addCallAcceptanceListener(
+        ref: DocumentReference,
+        onSuccess: (() -> Unit)? = null,
+        onFail: (() -> Unit)? = null
+    ): ListenerRegistration {
+        return ref.addSnapshotListener { value, _ ->
+            if (value != null && value.exists()) {
+                val accepted = value.getBoolean("accepted")
+                val declined = value.getBoolean("declined")
+                if (accepted == true)
+                    onSuccess?.invoke()
+                if (declined != null && declined == true)
+                    onFail?.invoke()
             }
         }
     }

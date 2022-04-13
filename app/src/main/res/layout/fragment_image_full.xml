@@ -27,11 +27,13 @@
             app:titleTextAppearance="@style/ToolbarTheme" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <ImageView
+    <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_avatar"
         android:layout_width="match_parent"
         android:layout_height="500dp"
         android:background="@drawable/shape_outline"
+        android:adjustViewBounds="true"
+        app:actualImageScaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/abl_full_image" />

@@ -119,4 +119,7 @@ dependencies {
     //videoStream
     implementation 'com.opentok.android:opentok-android-sdk:2.12.0'
     implementation 'pub.devrel:easypermissions:3.0.0'
+
+    //Fresco
+    implementation 'com.facebook.fresco:fresco:2.6.0'
 }

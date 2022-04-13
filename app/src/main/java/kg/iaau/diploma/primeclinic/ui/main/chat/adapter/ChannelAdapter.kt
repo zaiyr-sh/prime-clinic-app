@@ -3,11 +3,11 @@ package kg.iaau.diploma.primeclinic.ui.main.chat.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import kg.iaau.diploma.core.utils.formatForDate
+import kg.iaau.diploma.core.utils.loadWithFresco
 import kg.iaau.diploma.data.Chat
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ListItemChannelBinding
@@ -55,8 +55,9 @@ class ChannelViewHolder(private val vb: ListItemChannelBinding) : RecyclerView.V
                     val image = it.getString("image")
                     val name = it.getString("name")
                     val fatherName = it.getString("fatherName")
-                    if (!image.isNullOrEmpty())
-                        Glide.with(itemView).load(image).into(ivProfile)
+                    ivProfile.loadWithFresco(image, onFail = {
+                        ivProfile.setActualImageResource(R.drawable.shape_filled_dot)
+                    })
                     val fullName = "$name $fatherName"
                     tvName.text = fullName
                 }

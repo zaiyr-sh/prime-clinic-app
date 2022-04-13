@@ -6,25 +6,24 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Animatable
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.util.Base64
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.Nullable
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.request.transition.Transition
+import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.drawee.controller.BaseControllerListener
+import com.facebook.drawee.interfaces.DraweeController
+import com.facebook.drawee.view.SimpleDraweeView
+import com.facebook.imagepipeline.image.ImageInfo
 import com.google.android.material.snackbar.Snackbar
 import kg.iaau.diploma.core.R
 import java.io.File
@@ -148,45 +147,53 @@ fun Context.hideKeyboard(view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun Context.loadWithGlide(imageView: ImageView, image: String?, onSuccess: (() -> Unit)? = null, onFail: (() -> Unit)? = null) {
-    Glide.with(this).load(image)
-        .listener(object : RequestListener<Drawable> {
-            override fun onResourceReady(
-                resource: Drawable?,
-                model: Any?,
-                target: Target<Drawable>?,
-                dataSource: DataSource?,
-                isFirstResource: Boolean
-            ): Boolean {
-                onSuccess?.invoke()
-                return false
-            }
-            override fun onLoadFailed(
-                e: GlideException?,
-                model: Any?,
-                target: Target<Drawable>?,
-                isFirstResource: Boolean
-            ): Boolean {
-                onFail?.invoke()
-                return false
-            }
+fun SimpleDraweeView.loadWithFresco(
+    uri: String?,
+    onSuccess: ((imageInfo: ImageInfo?) -> Unit)? = null,
+    onFail: ((throwable: Throwable) -> Unit)? = null
+) {
+    val controller: DraweeController = Fresco.newDraweeControllerBuilder()
+        .setUri(uri)
+        .setTapToRetryEnabled(true)
+        .setOldController(controller)
+        .setControllerListener(frescoListener(onSuccess, onFail))
+        .build()
 
-        })
-        .error(R.drawable.ic_error)
-        .into(imageView)
+    setController(controller)
 }
 
-fun Context.loadWithGlide(image: String?, onSuccess: ((resource: Drawable) -> Unit)? = null, onFail: (() -> Unit)? = null) {
-    Glide.with(this).load(image)
-        .into(object : CustomTarget<Drawable?>() {
-            override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable?>?) {
-                onSuccess?.invoke(resource)
-            }
-            override fun onLoadFailed(errorDrawable: Drawable?) {
-                onFail?.invoke()
-            }
-            override fun onLoadCleared(placeholder: Drawable?) {}
-        })
+fun SimpleDraweeView.loadWithFresco(
+    uri: Uri?,
+    onSuccess: ((imageInfo: ImageInfo?) -> Unit)? = null,
+    onFail: ((throwable: Throwable) -> Unit)? = null
+) {
+    val controller: DraweeController = Fresco.newDraweeControllerBuilder()
+        .setUri(uri)
+        .setTapToRetryEnabled(true)
+        .setOldController(controller)
+        .setControllerListener(frescoListener(onSuccess, onFail))
+        .build()
+
+    setController(controller)
+}
+
+fun frescoListener(
+    onSuccess: ((imageInfo: ImageInfo?) -> Unit)?,
+    onFail: ((throwable: Throwable) -> Unit)?
+): BaseControllerListener<ImageInfo?> {
+    return object : BaseControllerListener<ImageInfo?>() {
+        override fun onFinalImageSet(
+            id: String?,
+            @Nullable imageInfo: ImageInfo?,
+            @Nullable animatable: Animatable?
+        ) {
+            onSuccess?.invoke(imageInfo)
+        }
+
+        override fun onFailure(id: String, throwable: Throwable) {
+            onFail?.invoke(throwable)
+        }
+    }
 }
 
 fun Context.getImageFileUri(appId: String, fileName: String): Uri {

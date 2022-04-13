@@ -10,7 +10,6 @@ import android.view.WindowManager
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.ui.CoreFragment
 import kg.iaau.diploma.core.utils.*
@@ -132,7 +131,9 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
         }
         vm.imageUriLiveData.observe(viewLifecycleOwner) { imageUri ->
             imageUri?.let { uri ->
-                Glide.with(requireContext()).load(uri).into(vb.ivUserPicture)
+                vb.ivUserPicture.loadWithFresco(uri, onFail = {
+                    vb.ivUserPicture.setActualImageResource(R.drawable.ic_photo)
+                })
                 vm.uploadMedCardImage(File(uri.path))
             }
         }
@@ -149,9 +150,9 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
     }
 
     private fun setupMedCardImage(medCardImage: MedCardImage) {
-        medCardImage.image?.let { image ->
-            Glide.with(requireContext()).load(Uri.parse(image)).into(vb.ivUserPicture)
-        }
+        vb.ivUserPicture.loadWithFresco(medCardImage.image, onFail = {
+            vb.ivUserPicture.setActualImageResource(R.drawable.ic_photo)
+        })
     }
 
     override fun showLoader() {

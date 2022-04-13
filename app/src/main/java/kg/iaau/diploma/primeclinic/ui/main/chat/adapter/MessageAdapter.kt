@@ -7,10 +7,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.auth.FirebaseAuth
 import kg.iaau.diploma.core.constants.MessageType
-import kg.iaau.diploma.core.utils.formatForDate
-import kg.iaau.diploma.core.utils.gone
-import kg.iaau.diploma.core.utils.loadWithGlide
-import kg.iaau.diploma.core.utils.show
+import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.Message
 import kg.iaau.diploma.primeclinic.databinding.ListItemReceivedMessageBinding
 import kg.iaau.diploma.primeclinic.databinding.ListItemSentMessageBinding
@@ -54,6 +51,8 @@ class SentVH(private val vb: ListItemSentMessageBinding): RecyclerView.ViewHolde
     fun bind(message: Message) {
         this.message = message
         vb.run {
+            cvImage.show()
+            tvMessage.show()
             tvTime.text = message.time?.toDate()?.formatForDate()
             if (message.message.isNullOrEmpty())
                 tvMessage.gone()
@@ -61,18 +60,11 @@ class SentVH(private val vb: ListItemSentMessageBinding): RecyclerView.ViewHolde
                 tvMessage.text = message.message
             when(message.type) {
                 MessageType.TEXT.type -> cvImage.gone()
-                else -> {
-                    itemView.context.loadWithGlide(ivSent, message.image,
-                        onSuccess = {
-                            progressBar.gone()
-                            cvImage.show()
-                        },
-                        onFail = {
-                            progressBar.gone()
-                            cvImage.show()
-                        }
-                    )
-                }
+                else -> ivSent.loadWithFresco(
+                    message.image,
+                    onSuccess = { progressBar.gone() },
+                    onFail = { progressBar.gone() }
+                )
             }
         }
     }
@@ -98,6 +90,8 @@ class ReceivedVH(private val vb: ListItemReceivedMessageBinding): RecyclerView.V
     fun bind(message: Message) {
         this.message = message
         vb.run {
+            cvImage.show()
+            tvReceived.show()
             tvTime.text = message.time?.toDate()?.formatForDate()
             if (message.message.isNullOrEmpty())
                 tvReceived.gone()
@@ -105,18 +99,11 @@ class ReceivedVH(private val vb: ListItemReceivedMessageBinding): RecyclerView.V
                 tvReceived.text = message.message
             when(message.type) {
                 MessageType.TEXT.type -> cvImage.gone()
-                else -> {
-                    itemView.context.loadWithGlide(ivReceived, message.image,
-                        onSuccess = {
-                            progressBar.gone()
-                            cvImage.show()
-                        },
-                        onFail = {
-                            progressBar.gone()
-                            cvImage.show()
-                        }
-                    )
-                }
+                else -> ivReceived.loadWithFresco(
+                    message.image,
+                    onSuccess = { progressBar.gone() },
+                    onFail = { progressBar.gone() }
+                )
             }
         }
     }

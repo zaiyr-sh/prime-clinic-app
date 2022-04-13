@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import kg.iaau.diploma.core.R
 import kg.iaau.diploma.core.utils.gone
-import kg.iaau.diploma.core.utils.loadWithGlide
+import kg.iaau.diploma.core.utils.loadWithFresco
 import kg.iaau.diploma.primeclinic.databinding.FragmentImageFullBinding
 
 @AndroidEntryPoint
@@ -36,11 +37,11 @@ class ImageFullFragment : Fragment() {
             toolbar.setNavigationOnClickListener {
                 parentFragmentManager.popBackStack()
             }
-            requireActivity().loadWithGlide(ivAvatar, image,
-                onSuccess = {
-                    progressBar.gone()
-                },
+            ivAvatar.loadWithFresco(
+                image,
+                onSuccess = { progressBar.gone() },
                 onFail = {
+                    ivAvatar.setImageResource(R.drawable.ic_error)
                     progressBar.gone()
                 }
             )

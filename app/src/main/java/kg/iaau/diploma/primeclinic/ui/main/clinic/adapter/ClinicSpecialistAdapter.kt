@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import kg.iaau.diploma.core.utils.loadWithFresco
 import kg.iaau.diploma.data.SpecialistCategory
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ListItemSpecialistsBinding
@@ -44,10 +44,9 @@ class ClinicSpecialistViewHolder(private val vb: ListItemSpecialistsBinding) : R
         vb.run {
             tvDescription.text = specialist.description
             tvTitle.text = specialist.name
-            if (specialist.image.isNullOrEmpty())
-                ivSpecialist.setBackgroundColor(R.color.teal)
-            else
-                Glide.with(itemView.context).load(specialist.image).into(ivSpecialist)
+            ivSpecialist.loadWithFresco(specialist.image, onFail = {
+                ivSpecialist.setActualImageResource(R.color.teal)
+            })
         }
     }
 

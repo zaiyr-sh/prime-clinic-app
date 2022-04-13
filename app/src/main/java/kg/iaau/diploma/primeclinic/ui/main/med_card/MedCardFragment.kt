@@ -1,12 +1,10 @@
 package kg.iaau.diploma.primeclinic.ui.main.med_card
 
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.ui.CoreFragment
 import kg.iaau.diploma.core.utils.*
@@ -59,9 +57,9 @@ class MedCardFragment : CoreFragment<FragmentMedCardBinding, MedCardVM>(MedCardV
             }
         }
         vm.imageUriLiveData.observe(viewLifecycleOwner) { imageUri ->
-            imageUri?.let {
-                Glide.with(requireContext()).load(it).into(vb.ivUser)
-            }
+            vb.ivUser.loadWithFresco(imageUri, onFail = {
+                vb.ivUser.setActualImageResource(R.drawable.ic_photo)
+            })
         }
     }
 
@@ -81,9 +79,9 @@ class MedCardFragment : CoreFragment<FragmentMedCardBinding, MedCardVM>(MedCardV
     }
 
     private fun setupMedCardImage(medCardImage: MedCardImage) {
-        medCardImage.image?.let { image ->
-            Glide.with(requireContext()).load(Uri.parse(image)).into(vb.ivUser)
-        }
+        vb.ivUser.loadWithFresco(medCardImage.image, onFail = {
+            vb.ivUser.setActualImageResource(R.drawable.ic_photo)
+        })
     }
 
     override fun errorAction(event: CoreEvent.Error) {

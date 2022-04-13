@@ -79,4 +79,7 @@ dependencies {
 
     // FirebaseUI for Cloud Storage
     implementation 'com.firebaseui:firebase-ui-storage:6.2.1'
+
+    //Fresco
+    implementation 'com.facebook.fresco:fresco:2.6.0'
 }

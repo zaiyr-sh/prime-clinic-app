@@ -1,8 +1,6 @@
 package kg.iaau.diploma.primeclinic.ui.main.chat
 
 import android.Manifest
-import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
@@ -12,9 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -26,10 +21,7 @@ import kg.iaau.diploma.core.constants.MessageType
 import kg.iaau.diploma.core.constants.UserType
 import kg.iaau.diploma.core.ui.CoreFragment
 import kg.iaau.diploma.core.ui.LoadingScreen
-import kg.iaau.diploma.core.utils.FirebaseHelper
-import kg.iaau.diploma.core.utils.gone
-import kg.iaau.diploma.core.utils.show
-import kg.iaau.diploma.core.utils.toast
+import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.Message
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentChatBinding
@@ -123,11 +115,18 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
         initFirebaseAuth()
         db = FirebaseFirestore.getInstance()
         docRef = ref.let { db.document(it) }
-        userId = FirebaseHelper.setupUserType(
+        FirebaseHelper.setupUserType(
             docRef,
-            userType,
-            doctorChatListener = { doc -> setupDoctorChat(doc) },
-            adminChatListener = { setHasOptionsMenu(false) }
+            listener = { id ->
+                userId = id
+                when (userType) {
+                    UserType.DOCTOR.name -> FirebaseHelper.setupDoctorData(
+                        id,
+                        doctorChatListener = { snapshot -> setupDoctorChat(snapshot) }
+                    )
+                    UserType.ADMIN.name -> setHasOptionsMenu(false)
+                }
+            }
         )
     }
 
@@ -136,17 +135,9 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
             val image = doc.getString("image")
             val name = doc.getString("name")
             val fatherName = doc.getString("fatherName")
-            image?.let { icon ->
-                Glide.with(requireActivity())
-                    .asBitmap()
-                    .load(icon)
-                    .into(object : CustomTarget<Bitmap>(){
-                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {}
-                        override fun onLoadCleared(placeholder: Drawable?) {
-                            toolbar.logo = placeholder
-                        }
-                    })
-            }
+            toolbarLogo.loadWithFresco(image, onFail = {
+                toolbarLogo.setActualImageResource(R.drawable.shape_filled_dot)
+            })
             toolbar.title = "$name $fatherName"
         }
     }
@@ -162,28 +153,32 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
             docRef?.collection("messages")?.document()?.set(message)
                 ?.addOnCompleteListener {
                     when(userType) {
-                        UserType.DOCTOR.name -> {
-                            val map = mutableMapOf<String, Any>()
-                            map["lastMessage"] = msg
-                            map["lastMessageSenderId"] = vm.userId.toString()
-                            map["lastMessageTime"] = Timestamp.now()
-                            docRef?.set(map, SetOptions.merge())
-                        }
-                        UserType.ADMIN.name -> {
-                            val map = mutableMapOf<String, Any>()
-                            map["adminId"] = "a"
-                            map["adminPhone"] = ""
-                            map["clientId"] = vm.userId.toString()
-                            map["lastMessage"] = msg
-                            map["lastMessageSenderId"] = vm.userId.toString()
-                            map["lastMessageTime"] = Timestamp.now()
-                            map["name"] = vm.phone ?: ""
-                            map["surname"] = "USER"
-                            docRef?.set(map, SetOptions.merge())
-                        }
+                        UserType.DOCTOR.name -> sendMessageToDoctor(msg)
+                        UserType.ADMIN.name -> sendMessageToAdmin(msg)
                     }
                 }
         }
+    }
+
+    private fun sendMessageToAdmin(msg: String) {
+        val map = mutableMapOf<String, Any>()
+        map["adminId"] = "a"
+        map["adminPhone"] = ""
+        map["clientId"] = vm.userId.toString()
+        map["lastMessage"] = msg
+        map["lastMessageSenderId"] = vm.userId.toString()
+        map["lastMessageTime"] = Timestamp.now()
+        map["name"] = vm.phone ?: ""
+        map["surname"] = "USER"
+        docRef?.set(map, SetOptions.merge())
+    }
+
+    private fun sendMessageToDoctor(msg: String) {
+        val map = mutableMapOf<String, Any>()
+        map["lastMessage"] = msg
+        map["lastMessageSenderId"] = vm.userId.toString()
+        map["lastMessageTime"] = Timestamp.now()
+        docRef?.set(map, SetOptions.merge())
     }
 
     private fun setupChat() {
