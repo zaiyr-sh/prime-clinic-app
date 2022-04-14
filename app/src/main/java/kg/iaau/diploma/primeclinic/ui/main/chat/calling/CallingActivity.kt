@@ -72,9 +72,7 @@ class CallingActivity : CoreActivity<ActivityCallingBinding, ChatVM>(ChatVM::cla
             onSuccess = {
                 toast(getString(R.string.call_accepted))
                 VideoChatActivity.startActivity(this, ref.path, vb.tvUsername.text.toString())
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 finish()
-                startActivity(intent)
             },
             onFail = {
                 toast(getString(R.string.call_rejected))

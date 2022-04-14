@@ -32,13 +32,12 @@ class VideoChatActivity : AppCompatActivity(), Session.SessionListener,
     private var mSubscriber: Subscriber? = null
 
     private var requestPermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
-        permissions.entries.forEach {
-            if (!it.value) {
-                mSession = Session.Builder(this, API_KEY, SESSION_ID).build()
-                mSession.setSessionListener(this)
-                mSession.connect(TOKEN)
-            }
-        }
+        val allPermitted = permissions.entries.all { it.value }
+        if (allPermitted) {
+            mSession = Session.Builder(this, API_KEY, SESSION_ID).build()
+            mSession.setSessionListener(this)
+            mSession.connect(TOKEN)
+        } else finish()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,11 +138,11 @@ class VideoChatActivity : AppCompatActivity(), Session.SessionListener,
     }
 
     companion object {
-        private const val API_KEY = "46923824"
+        private const val API_KEY = "47483661"
         private var SESSION_ID =
-            "2_MX40NjkyMzgyNH5-MTYwMDMyODU0NTY0OH5INDhFcHlIcjEwbGF6MEk0ZTV6SHRKRzB-fg"
+            "1_MX40NzQ4MzY2MX5-MTY0OTg2OTY0MzU3Nn55TVFDVmhpZHVvMGg1TnRpY0VHdEV4TTR-fg"
         private var TOKEN =
-            "T1==cGFydG5lcl9pZD00NjkyMzgyNCZzaWc9N2YwMjljNjc5YjE5YjIyZWEwN2FmMTBhYmYwNWEwZjliOGMyZDVkNTpzZXNzaW9uX2lkPTJfTVg0ME5qa3lNemd5Tkg1LU1UWXdNRE15T0RVME5UWTBPSDVJTkRoRmNIbEljakV3YkdGNk1FazBaVFY2U0hSS1J6Qi1mZyZjcmVhdGVfdGltZT0xNjAwMzI4NjI2Jm5vbmNlPTAuMjIzNzU2MDQ0NjYwODE0Njcmcm9sZT1wdWJsaXNoZXImZXhwaXJlX3RpbWU9MTYwMjkyMDYyNSZpbml0aWFsX2xheW91dF9jbGFzc19saXN0PQ=="
+            "T1==cGFydG5lcl9pZD00NzQ4MzY2MSZzaWc9NmUxNWY3MjM2NTQ4YzM0YzlkM2Y2NTUyN2M0MzE1M2RhNDgyMjAwOTpzZXNzaW9uX2lkPTFfTVg0ME56UTRNelkyTVg1LU1UWTBPVGcyT1RZME16VTNObjU1VFZGRFZtaHBaSFZ2TUdnMVRuUnBZMFZIZEVWNFRUUi1mZyZjcmVhdGVfdGltZT0xNjQ5ODY5Njk0Jm5vbmNlPTAuMTY2OTU1ODYxOTAzMzY5MDgmcm9sZT1wdWJsaXNoZXImZXhwaXJlX3RpbWU9MTY1MjQ2MTY5MyZpbml0aWFsX2xheW91dF9jbGFzc19saXN0PQ=="
         private const val RC_VIDEO_APP_PERM = 124
 
         private val permissions = arrayOf(
