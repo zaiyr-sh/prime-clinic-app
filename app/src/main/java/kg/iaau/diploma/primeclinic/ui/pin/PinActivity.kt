@@ -110,7 +110,7 @@ class PinActivity : CoreActivity<ActivityPinBinding, AuthorizationVM>(Authorizat
     }
 
     private fun startMainActivity() {
-        initFirebaseAuth()
+        vm.signInFirebase()
         MainActivity.startActivity(this)
         finish()
     }
@@ -119,12 +119,6 @@ class PinActivity : CoreActivity<ActivityPinBinding, AuthorizationVM>(Authorizat
         vm.restorePinWithTokens()
         startActivity<AuthorizationActivity>()
         finish()
-    }
-
-    override fun initFirebaseAuth() {
-        super.initFirebaseAuth()
-        val user = mAuth.currentUser
-        if (user == null) vm.signInFirebase()
     }
 
     override fun onBackPressed() {

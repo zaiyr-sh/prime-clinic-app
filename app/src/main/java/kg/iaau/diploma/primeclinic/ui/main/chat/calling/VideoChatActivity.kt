@@ -3,15 +3,16 @@ package kg.iaau.diploma.primeclinic.ui.main.chat.calling
 import android.Manifest
 import android.content.Context
 import android.opengl.GLSurfaceView
-import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.opentok.android.*
 import dagger.hilt.android.AndroidEntryPoint
+import kg.iaau.diploma.core.ui.BaseActivity
+import kg.iaau.diploma.core.utils.FirebaseHelper
 import kg.iaau.diploma.core.utils.startActivity
 import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.primeclinic.MainActivity
@@ -19,10 +20,12 @@ import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ActivityVideoChatBinding
 
 @AndroidEntryPoint
-class VideoChatActivity : AppCompatActivity(), Session.SessionListener,
+class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.SessionListener,
     PublisherKit.PublisherListener {
 
-    private lateinit var vb: ActivityVideoChatBinding
+    override val bindingInflater: (LayoutInflater) -> ActivityVideoChatBinding
+        get() = ActivityVideoChatBinding::inflate
+
     private val refPath by lazy { intent.getStringExtra(REF)!! }
     private val username by lazy { intent.getStringExtra(USERNAME)!! }
 
@@ -40,15 +43,8 @@ class VideoChatActivity : AppCompatActivity(), Session.SessionListener,
         } else finish()
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        vb = ActivityVideoChatBinding.inflate(layoutInflater)
-        setContentView(vb.root)
-        setupActivityView()
+    override fun setupActivityView() {
         requestPermissions.launch(permissions)
-    }
-
-    private fun setupActivityView() {
         ref = FirebaseFirestore.getInstance().document(refPath)
         addSnapshotListener()
         vb.run {
@@ -71,11 +67,7 @@ class VideoChatActivity : AppCompatActivity(), Session.SessionListener,
     }
 
     private fun endCall() {
-        val map = mutableMapOf<String, Any>()
-        map["accepted"] = false
-        map["declined"] = false
-        map["uid"] = ""
-        map["receiverId"] = ""
+        val map = FirebaseHelper.getCallData("", "", accepted = false, declined = false)
         ref.set(map, SetOptions.merge()).addOnSuccessListener {
             goBack()
         }
@@ -143,15 +135,13 @@ class VideoChatActivity : AppCompatActivity(), Session.SessionListener,
             "1_MX40NzQ4MzY2MX5-MTY0OTg2OTY0MzU3Nn55TVFDVmhpZHVvMGg1TnRpY0VHdEV4TTR-fg"
         private var TOKEN =
             "T1==cGFydG5lcl9pZD00NzQ4MzY2MSZzaWc9NmUxNWY3MjM2NTQ4YzM0YzlkM2Y2NTUyN2M0MzE1M2RhNDgyMjAwOTpzZXNzaW9uX2lkPTFfTVg0ME56UTRNelkyTVg1LU1UWTBPVGcyT1RZME16VTNObjU1VFZGRFZtaHBaSFZ2TUdnMVRuUnBZMFZIZEVWNFRUUi1mZyZjcmVhdGVfdGltZT0xNjQ5ODY5Njk0Jm5vbmNlPTAuMTY2OTU1ODYxOTAzMzY5MDgmcm9sZT1wdWJsaXNoZXImZXhwaXJlX3RpbWU9MTY1MjQ2MTY5MyZpbml0aWFsX2xheW91dF9jbGFzc19saXN0PQ=="
-        private const val RC_VIDEO_APP_PERM = 124
-
         private val permissions = arrayOf(
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.CAMERA
         )
-
         private const val REF = "ref"
         private const val USERNAME = "username"
+
         fun startActivity(context: Context, ref: String, username: String) {
             context.startActivity<VideoChatActivity> {
                 putExtra(REF, ref)

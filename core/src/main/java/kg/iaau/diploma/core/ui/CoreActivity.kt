@@ -1,42 +1,24 @@
 package kg.iaau.diploma.core.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
-import com.google.firebase.auth.FirebaseAuth
-import kg.iaau.diploma.core.constants.AUTH_ERROR
 import kg.iaau.diploma.core.utils.CoreEvent
 import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.core.vm.CoreVM
 
 abstract class CoreActivity<VB: ViewBinding, VM: CoreVM>(
     private val mViewModelClass: Class<VM>
-) : AppCompatActivity() {
-
-    private var _vb: ViewBinding? = null
-    abstract val bindingInflater: (LayoutInflater) -> VB
-
-    @Suppress("UNCHECKED_CAST")
-    protected val vb: VB
-        get() = _vb as VB
+) : BaseActivity<VB>() {
 
     protected val vm by lazy {
         ViewModelProvider(this)[mViewModelClass]
     }
 
-    protected lateinit var mAuth: FirebaseAuth
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _vb = bindingInflater.invoke(layoutInflater)
-        setContentView(requireNotNull(_vb).root)
-        setupActivityView()
         observeLiveData()
     }
-
-    abstract fun setupActivityView()
 
     open fun observeLiveData() {
         vm.event.observe(this) { event ->
@@ -49,10 +31,6 @@ abstract class CoreActivity<VB: ViewBinding, VM: CoreVM>(
         }
     }
 
-    open fun showLoader() {
-        LoadingScreen.showLoading(this)
-    }
-
     open fun successAction() {
         goneLoader()
     }
@@ -60,21 +38,8 @@ abstract class CoreActivity<VB: ViewBinding, VM: CoreVM>(
     open fun notificationAction() {}
 
     open fun errorAction(event: CoreEvent.Error) {
-        if (event.isNetworkError) toast(event.message)
+        if (event.isNetworkError) toast(getString(event.message))
         goneLoader()
-    }
-
-    open fun goneLoader() {
-        LoadingScreen.hideLoading()
-    }
-
-    open fun initFirebaseAuth() {
-        mAuth = FirebaseAuth.getInstance()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _vb = null
     }
 
 }

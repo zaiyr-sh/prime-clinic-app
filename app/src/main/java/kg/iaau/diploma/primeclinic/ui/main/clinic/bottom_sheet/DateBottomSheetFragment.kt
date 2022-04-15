@@ -9,7 +9,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.core.constants.DATE_NOT_SELECTED
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.Interval
 import kg.iaau.diploma.primeclinic.R
@@ -59,7 +58,7 @@ class DateBottomSheetFragment : BottomSheetDialogFragment(), DateListener {
             if (vm.scheduleDate != null) {
                 findNavController().navigate(R.id.nav_time)
             } else {
-                toast(DATE_NOT_SELECTED)
+                toast(getString(R.string.date_not_selected))
             }
         }
     }
@@ -92,7 +91,7 @@ class DateBottomSheetFragment : BottomSheetDialogFragment(), DateListener {
 
     private fun errorAction(event: CoreEvent.Error) {
         when (event.isNetworkError) {
-            true -> requireActivity().toast(event.message)
+            true -> requireActivity().toast(getString(event.message))
             else -> requireActivity().toast(getString(R.string.unexpected_error))
         }
         goneLoader()

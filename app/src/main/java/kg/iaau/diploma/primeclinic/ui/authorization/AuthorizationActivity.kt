@@ -4,9 +4,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.core.widget.addTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.core.constants.AUTH_ERROR
 import kg.iaau.diploma.core.ui.CoreActivity
 import kg.iaau.diploma.core.utils.*
+import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ActivityAuthorizationBinding
 import kg.iaau.diploma.primeclinic.ui.pin.PinActivity
 import kg.iaau.diploma.primeclinic.ui.register.RegisterActivity
@@ -60,7 +60,7 @@ class AuthorizationActivity :
 
     override fun errorAction(event: CoreEvent.Error) {
         super.errorAction(event)
-        if (!event.isNetworkError) toast(AUTH_ERROR)
+        if (!event.isNetworkError) toast(getString(R.string.auth_error))
     }
 
     override fun showLoader() {

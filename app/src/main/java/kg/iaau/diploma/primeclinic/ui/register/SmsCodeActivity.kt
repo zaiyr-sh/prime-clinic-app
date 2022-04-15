@@ -4,14 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import androidx.core.widget.addTextChangedListener
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.core.constants.SEND_CODE_ERROR
 import kg.iaau.diploma.core.ui.CoreActivity
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.local_storage.prefs.StoragePreferences.Keys.PHONE
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ActivitySmsCodeBinding
+import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationActivity
 import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationVM
-import kg.iaau.diploma.primeclinic.ui.pin.PinActivity
 
 @AndroidEntryPoint
 class SmsCodeActivity : CoreActivity<ActivitySmsCodeBinding, AuthorizationVM>(AuthorizationVM::class.java) {
@@ -47,21 +46,21 @@ class SmsCodeActivity : CoreActivity<ActivitySmsCodeBinding, AuthorizationVM>(Au
 
     override fun successAction() {
         super.successAction()
-        initFirebaseAuth()
         vm.savePhoneNumber(phone)
-        PinActivity.startActivity(this)
+        initFirebaseAuth()
+        vb.clContainer.showSnackBar(this, getString(R.string.success_registration_description))
+        AuthorizationActivity.startActivity(this)
         finish()
     }
 
     override fun initFirebaseAuth() {
         super.initFirebaseAuth()
-        val user = mAuth.currentUser
-        if (user == null) vm.createNewUserInFirebase(mAuth)
+        vm.createNewUserInFirebase(mAuth)
     }
 
     override fun errorAction(event: CoreEvent.Error) {
         super.errorAction(event)
-        if (!event.isNetworkError) toast(SEND_CODE_ERROR)
+        if (!event.isNetworkError) toast(getString(R.string.sending_code_error))
     }
 
     override fun showLoader() {

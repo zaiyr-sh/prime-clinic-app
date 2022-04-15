@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.core.constants.TIME_NOT_SELECTED
 import kg.iaau.diploma.core.utils.gone
 import kg.iaau.diploma.core.utils.hide
 import kg.iaau.diploma.core.utils.show
@@ -72,7 +71,7 @@ class TimeBottomSheetFragment : BottomSheetDialogFragment(), TimeListener {
             if (vm.slot != null)
                 findNavController().navigate(R.id.nav_reserve_visit)
             else
-                toast(TIME_NOT_SELECTED)
+                toast(getString(R.string.time_not_selected))
         }
     }
 
