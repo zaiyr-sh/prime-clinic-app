@@ -2,6 +2,7 @@ package kg.iaau.diploma.primeclinic.ui.main.chat.calling
 
 import android.Manifest
 import android.content.Context
+import android.media.MediaPlayer
 import android.opengl.GLSurfaceView
 import android.util.Log
 import android.view.LayoutInflater
@@ -25,6 +26,8 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
     override val bindingInflater: (LayoutInflater) -> ActivityVideoChatBinding
         get() = ActivityVideoChatBinding::inflate
 
+    private lateinit var mp: MediaPlayer
+
     private val refPath by lazy { intent.getStringExtra(REF)!! }
     private val username by lazy { intent.getStringExtra(USERNAME)!! }
 
@@ -39,6 +42,7 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
             mSession = Session.Builder(this, API_KEY, SESSION_ID).build()
             mSession.setSessionListener(this)
             mSession.connect(TOKEN)
+            playConnectingSound()
         } else finish()
     }
 
@@ -52,6 +56,12 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
                 endCall()
             }
         }
+    }
+
+    private fun playConnectingSound() {
+        mp = MediaPlayer.create(this, R.raw.connecting)
+        mp.isLooping = true
+        mp.start()
     }
 
     private fun addSnapshotListener() {
@@ -76,6 +86,7 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
         mSubscriber?.destroy()
         mPublisher?.destroy()
         toast(getString(R.string.call_finished))
+        mp.stop()
         finish()
     }
 
@@ -92,6 +103,7 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
 
     override fun onDisconnected(p0: Session?) {
         Log.d("VideoChatActivity", "onDisconnected(): ")
+        goBack()
     }
 
     override fun onStreamReceived(p0: Session?, p1: Stream?) {
@@ -108,23 +120,37 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
         if (mSubscriber != null) {
             mSubscriber = null
             vb.flContainer.removeAllViews()
+            mp.stop()
+            goBack()
         }
     }
 
     override fun onError(p0: Session?, p1: OpentokError?) {
         Log.d("VideoChatActivity", "onError(): $p1")
+        mp.stop()
+        goBack()
     }
 
     override fun onStreamCreated(p0: PublisherKit?, p1: Stream?) {
         Log.d("VideoChatActivity", "onStreamCreated(): ")
+        mp.stop()
     }
 
     override fun onStreamDestroyed(p0: PublisherKit?, p1: Stream?) {
         Log.d("VideoChatActivity", "onStreamDestroyed(): ")
+        mp.stop()
+        goBack()
     }
 
     override fun onError(p0: PublisherKit?, p1: OpentokError?) {
         Log.d("VideoChatActivity", "onError(): ")
+        mp.stop()
+        goBack()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        goBack()
     }
 
     companion object {
