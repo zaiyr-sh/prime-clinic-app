@@ -38,6 +38,7 @@ class ReserveVisitFragment : Fragment() {
             toolbar.setNavigationOnClickListener {
                 parentFragmentManager.popBackStack()
             }
+            ccp.registerCarrierNumberEditText(etPhone)
             btnBook.setOnClickListener {
                 bookVisit()
             }
@@ -60,7 +61,6 @@ class ReserveVisitFragment : Fragment() {
 
     private fun observeLiveData() {
         vm.setDate(null)
-        vm.setSlot(null)
         vm.event.observe(viewLifecycleOwner) { event ->
             when (event) {
                 is CoreEvent.Loading -> showLoader()

@@ -1,7 +1,6 @@
 package kg.iaau.diploma.primeclinic.ui.main.med_card
 
 import android.app.DatePickerDialog
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import kg.iaau.diploma.core.constants.YYYY_MM_DD
 import kg.iaau.diploma.core.ui.CoreFragment
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.core.utils.CoreEvent.Notification
@@ -45,7 +45,10 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
 
     override fun setupFragmentView() {
         vb.run {
-            if (isAgreementAccepted) llCheckAgreement.gone()
+            if (isAgreementAccepted) {
+                btnSendMedCard.text = getString(R.string.edit)
+                llCheckAgreement.gone()
+            }
             toolbar.setNavigationOnClickListener {
                 findNavController().navigateUp()
             }
@@ -71,8 +74,10 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
         val day = calendar.get(Calendar.DAY_OF_MONTH)
         vb.run {
             vb.etBirthdate.setOnClickListener {
-                val dpd = DatePickerDialog(requireActivity(), R.style.DialogTheme, { view, _, _, _ ->
-                    etBirthdate.text = view.calendarView.date.formatForDate()
+                val dpd = DatePickerDialog(requireActivity(), R.style.DialogTheme, { _, mYear, mMonth, mDay  ->
+                    etBirthdate.text = Calendar.getInstance()
+                        .apply { set(mYear, mMonth, mDay) }.time
+                        .formatForDate(YYYY_MM_DD)
                 }, year, month, day)
                 dpd.show()
             }

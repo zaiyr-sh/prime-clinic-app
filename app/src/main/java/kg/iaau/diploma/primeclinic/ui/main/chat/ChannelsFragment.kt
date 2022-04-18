@@ -36,7 +36,10 @@ class ChannelsFragment : CoreFragment<FragmentChannelsBinding, ChatVM>(ChatVM::c
         FirebaseHelper.addAdminChatListener(
             vm.userId.toString(),
             onSuccess = { doc -> setupAdminChat(vm.userId.toString(), doc) },
-            onFail = { requireActivity().toast(getString(R.string.unexpected_error)) }
+            onFail = {
+                requireActivity().toast(getString(R.string.unexpected_error))
+                LoadingScreen.hideLoading()
+            }
         )
     }
 

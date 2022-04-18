@@ -1,9 +1,8 @@
 package kg.iaau.diploma.primeclinic.ui.main.chat.calling
 
 import android.content.Context
-import android.content.Intent
+import android.media.MediaPlayer
 import android.view.LayoutInflater
-import com.bumptech.glide.Glide
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ListenerRegistration
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,13 +18,16 @@ import kg.iaau.diploma.primeclinic.ui.main.chat.ChatVM
 @AndroidEntryPoint
 class CallingActivity : CoreActivity<ActivityCallingBinding, ChatVM>(ChatVM::class.java) {
 
-    override val bindingInflater: (LayoutInflater) -> ActivityCallingBinding =
-        ActivityCallingBinding::inflate
+    override val bindingInflater: (LayoutInflater) -> ActivityCallingBinding
+        get() = ActivityCallingBinding::inflate
+
+    private lateinit var mp: MediaPlayer
 
     private val userId by lazy { intent.getStringExtra(USER_ID)!! }
     private var listener: ListenerRegistration? = null
 
     override fun setupActivityView() {
+        playPhoneBeepSound()
         vb.run {
             FirebaseHelper.setupDoctorData(userId) {
                 val image = it.getString("image")
@@ -40,6 +42,12 @@ class CallingActivity : CoreActivity<ActivityCallingBinding, ChatVM>(ChatVM::cla
         makePhoneCall()
     }
 
+    private fun playPhoneBeepSound() {
+        mp = MediaPlayer.create(this, R.raw.phone_beep)
+        mp.isLooping = true
+        mp.start()
+    }
+
     private fun makePhoneCall() {
         FirebaseHelper.makeCall(userId,
             onSuccess = { ref ->
@@ -49,9 +57,9 @@ class CallingActivity : CoreActivity<ActivityCallingBinding, ChatVM>(ChatVM::cla
                     setEndCall(ref)
                 }
             },
-            onFail = { ref ->
+            onFail = {
                 toast(getString(R.string.doctor_not_available))
-                setEndCall(ref)
+                finish()
             }
         )
     }
@@ -72,10 +80,12 @@ class CallingActivity : CoreActivity<ActivityCallingBinding, ChatVM>(ChatVM::cla
             onSuccess = {
                 toast(getString(R.string.call_accepted))
                 VideoChatActivity.startActivity(this, ref.path, vb.tvUsername.text.toString())
+                mp.stop()
                 finish()
             },
             onFail = {
                 toast(getString(R.string.call_rejected))
+                mp.stop()
                 finish()
             }
         )

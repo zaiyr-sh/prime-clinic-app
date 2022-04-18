@@ -1,8 +1,8 @@
 package kg.iaau.diploma.primeclinic.ui.main.chat.calling
 
 import android.content.Context
+import android.media.MediaPlayer
 import android.view.LayoutInflater
-import com.bumptech.glide.Glide
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,9 +21,12 @@ class ReceivingCallActivity : CoreActivity<ActivityReceivingCallBinding, ChatVM>
     override val bindingInflater: (LayoutInflater) -> ActivityReceivingCallBinding
         get() = ActivityReceivingCallBinding::inflate
 
+    private lateinit var mp: MediaPlayer
+
     private val userUid by lazy { intent.getStringExtra(USER_UID)!! }
 
     override fun setupActivityView() {
+        playCallingSound()
         vb.run {
             FirebaseHelper.setupDoctorData(userUid) {
                 val image = it.getString("image")
@@ -38,6 +41,12 @@ class ReceivingCallActivity : CoreActivity<ActivityReceivingCallBinding, ChatVM>
         setupActivityViewListeners()
     }
 
+    private fun playCallingSound() {
+        mp = MediaPlayer.create(this, R.raw.calling)
+        mp.isLooping = true
+        mp.start()
+    }
+
     private fun setupActivityViewListeners() {
         val ref = FirebaseFirestore.getInstance().collection("users").document(vm.userId.toString())
             .collection("call").document("calling")
@@ -48,12 +57,14 @@ class ReceivingCallActivity : CoreActivity<ActivityReceivingCallBinding, ChatVM>
                 }
                 ref.set(map, SetOptions.merge()).addOnSuccessListener {
                     VideoChatActivity.startActivity(this@ReceivingCallActivity, ref.path, tvUsername.text.toString())
+                    mp.stop()
                     finish()
                 }
             }
             givCancel.setOnClickListener {
                 val map = FirebaseHelper.getCallData("", "", accepted = false, declined = true)
                 ref.set(map, SetOptions.merge()).addOnSuccessListener {
+                    mp.stop()
                     finish()
                 }
             }
@@ -67,6 +78,7 @@ class ReceivingCallActivity : CoreActivity<ActivityReceivingCallBinding, ChatVM>
         ref.addSnapshotListener { value, _ ->
             if (value?.getBoolean("declined") == true) {
                 toast(getString(R.string.call_rejected))
+                mp.stop()
                 finish()
             }
         }

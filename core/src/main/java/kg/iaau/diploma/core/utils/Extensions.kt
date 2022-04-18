@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.Animatable
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.media.SoundPool
 import android.net.Uri
 import android.util.Base64
 import android.view.View
@@ -26,6 +27,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.facebook.imagepipeline.image.ImageInfo
 import com.google.android.material.snackbar.Snackbar
 import kg.iaau.diploma.core.R
+import kg.iaau.diploma.core.constants.*
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -117,16 +119,16 @@ fun String.convertBase64ToDrawable(context: Context): Drawable {
 }
 
 fun String.formatForCurrentDate(): String {
-    val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:SSS", Locale.getDefault()).parse(this)
-    return SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(format)
+    val format = SimpleDateFormat(YYYY_MM_DD_T_HH_MM_SSS, Locale.getDefault()).parse(this)
+    return SimpleDateFormat(DD_MM_YYYY, Locale.getDefault()).format(format)
 }
 
-fun Date.formatForDate(format: String = "dd.MM.yyyy HH:mm"): String {
+fun Date.formatForDate(format: String = DD_MM_YYYY_HH_MM): String {
     val sdf = SimpleDateFormat(format, Locale.ROOT)
     return sdf.format(this)
 }
 
-fun Long.formatForDate(format: String = "yyyy-MM-dd"): String {
+fun Long.formatForDate(format: String = YYYY_MM_DD): String {
     val sdf = SimpleDateFormat(format, Locale.ROOT)
     return sdf.format(this)
 }
@@ -202,4 +204,8 @@ fun Context.getImageFileUri(appId: String, fileName: String): Uri {
         deleteOnExit()
     }
     return FileProvider.getUriForFile(this, "${appId}.provider", file)
+}
+
+fun SoundPool.playSound(soundID: Int) {
+    play(soundID, 1F, 1F, 0, 0, 1F)
 }

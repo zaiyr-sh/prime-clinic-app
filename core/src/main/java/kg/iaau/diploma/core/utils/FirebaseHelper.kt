@@ -1,11 +1,9 @@
 package kg.iaau.diploma.core.utils
 
-import android.content.Intent
 import android.net.Uri
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.*
 import com.google.firebase.storage.FirebaseStorage
-import kg.iaau.diploma.core.constants.UserType
 import java.util.*
 
 object FirebaseHelper {
@@ -17,7 +15,8 @@ object FirebaseHelper {
             if (value != null && value.exists()) {
                 value.getString("uid")?.let {
                     val uid = value.getString("uid")
-                    if (uid != null && uid != "") listener?.invoke(uid)
+                    val accepted = value.getBoolean("accepted")
+                    if (!uid.isNullOrEmpty() && accepted != true) listener?.invoke(uid)
                 }
             }
         }

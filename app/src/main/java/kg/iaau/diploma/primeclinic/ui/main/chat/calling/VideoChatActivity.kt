@@ -15,7 +15,6 @@ import kg.iaau.diploma.core.ui.BaseActivity
 import kg.iaau.diploma.core.utils.FirebaseHelper
 import kg.iaau.diploma.core.utils.startActivity
 import kg.iaau.diploma.core.utils.toast
-import kg.iaau.diploma.primeclinic.MainActivity
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ActivityVideoChatBinding
 
@@ -77,7 +76,6 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
         mSubscriber?.destroy()
         mPublisher?.destroy()
         toast(getString(R.string.call_finished))
-        MainActivity.startActivity(this)
         finish()
     }
 

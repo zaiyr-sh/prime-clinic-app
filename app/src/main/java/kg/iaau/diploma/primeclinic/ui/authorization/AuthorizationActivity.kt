@@ -41,12 +41,14 @@ class AuthorizationActivity :
 
     private fun auth() {
         val (login, password) = editTextHandler()
-        vm.auth(login.convertPhoneNumberWithCode(vb.ccp.selectedCountryCode), password)
+        vm.auth(login, password)
     }
 
     private fun editTextHandler(): Array<String> {
         vb.apply {
-            val login = etPhone.text.toString().filterNot { it.isWhitespace() }
+            val login = etPhone.text.toString()
+                .filterNot { it.isWhitespace() }
+                .convertPhoneNumberWithCode(vb.ccp.selectedCountryCode)
             val password = etPassword.text.toString().filterNot { it.isWhitespace() }
             return arrayOf(login, password)
         }

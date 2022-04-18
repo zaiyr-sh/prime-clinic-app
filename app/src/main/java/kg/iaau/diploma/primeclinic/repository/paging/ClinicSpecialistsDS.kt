@@ -9,8 +9,6 @@ import kg.iaau.diploma.core.utils.CoreEvent
 import kg.iaau.diploma.core.utils.Event
 import kg.iaau.diploma.data.SpecialistCategory
 import kg.iaau.diploma.network.api.ApiClinic
-import retrofit2.HttpException
-import java.io.IOException
 
 class ClinicSpecialistsDS(private var event: MutableLiveData<Event>, private val apiClinic: ApiClinic) : PagingSource<Int, SpecialistCategory>() {
 
@@ -33,19 +31,9 @@ class ClinicSpecialistsDS(private var event: MutableLiveData<Event>, private val
                 prevKey = if (page == DEFAULT_PAGE_INDEX) null else page - 1,
                 nextKey = if (response.isEmpty()) null else page + 1
             )
-        } catch (exception: IOException) {
+        } catch (throwable: Throwable) {
             event.postValue(CoreEvent.Error(true, null, null, R.string.network_error))
-            return LoadResult.Error(exception)
-        } catch (exception: HttpException) {
-            event.postValue(
-                CoreEvent.Error(
-                    false,
-                    exception.code(),
-                    exception.response()?.errorBody(),
-                    R.string.network_error
-                )
-            )
-            return LoadResult.Error(exception)
+            return LoadResult.Error(throwable)
         }
     }
 }
