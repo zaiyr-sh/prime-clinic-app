@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatVM @Inject constructor(
-    private val prefs: StoragePreferences,
+    prefs: StoragePreferences,
 ) : CoreVM() {
 
     val phone: String? = prefs.phone

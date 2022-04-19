@@ -21,8 +21,8 @@ import kg.iaau.diploma.primeclinic.ui.main.chat.adapter.ChannelListener
 @AndroidEntryPoint
 class ChannelsFragment : CoreFragment<FragmentChannelsBinding, ChatVM>(ChatVM::class.java), ChannelListener {
 
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentChannelsBinding =
-        FragmentChannelsBinding::inflate
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentChannelsBinding
+        get() = FragmentChannelsBinding::inflate
 
     private lateinit var adapter: ChannelAdapter
 
@@ -32,13 +32,13 @@ class ChannelsFragment : CoreFragment<FragmentChannelsBinding, ChatVM>(ChatVM::c
     }
 
     private fun setupAdminChatListener() {
-        LoadingScreen.showLoading(requireActivity())
+        showLoader()
         FirebaseHelper.addAdminChatListener(
             vm.userId.toString(),
             onSuccess = { doc -> setupAdminChat(vm.userId.toString(), doc) },
             onFail = {
                 requireActivity().toast(getString(R.string.unexpected_error))
-                LoadingScreen.hideLoading()
+                goneLoader()
             }
         )
     }

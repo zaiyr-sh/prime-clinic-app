@@ -59,6 +59,7 @@ class CallingActivity : CoreActivity<ActivityCallingBinding, ChatVM>(ChatVM::cla
             },
             onFail = {
                 toast(getString(R.string.doctor_not_available))
+                mp.stop()
                 finish()
             }
         )

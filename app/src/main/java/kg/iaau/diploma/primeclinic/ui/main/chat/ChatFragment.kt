@@ -20,7 +20,6 @@ import kg.iaau.diploma.core.constants.MIMETYPE_IMAGES
 import kg.iaau.diploma.core.constants.MessageType
 import kg.iaau.diploma.core.constants.UserType
 import kg.iaau.diploma.core.ui.CoreFragment
-import kg.iaau.diploma.core.ui.LoadingScreen
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.Message
 import kg.iaau.diploma.primeclinic.R
@@ -32,8 +31,8 @@ import kg.iaau.diploma.primeclinic.ui.main.chat.calling.CallingActivity
 @AndroidEntryPoint
 class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.java), MessageListener {
 
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentChatBinding =
-        FragmentChatBinding::inflate
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentChatBinding
+        get() = FragmentChatBinding::inflate
 
     private lateinit var adapter: MessageAdapter
 
@@ -44,7 +43,6 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
     private var docRef: DocumentReference? = null
     private lateinit var db: FirebaseFirestore
 
-    private var canWrite: Boolean = true
     private var messageType: String = MessageType.TEXT.type
     private var userId: String? = ""
     private var image: String = ""
@@ -79,7 +77,7 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.video_call -> {
-                if (userId != null && canWrite && userType != UserType.ADMIN.name)
+                if (userId != null && userType != UserType.ADMIN.name)
                     makeVideoCall()
                 true
             }
@@ -160,6 +158,14 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
         }
     }
 
+    private fun sendMessageToDoctor(msg: String) {
+        val map = mutableMapOf<String, Any>()
+        map["lastMessage"] = msg
+        map["lastMessageSenderId"] = vm.userId.toString()
+        map["lastMessageTime"] = Timestamp.now()
+        docRef?.set(map, SetOptions.merge())
+    }
+
     private fun sendMessageToAdmin(msg: String) {
         val map = mutableMapOf<String, Any>()
         map["adminId"] = "a"
@@ -170,14 +176,6 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
         map["lastMessageTime"] = Timestamp.now()
         map["name"] = vm.phone ?: ""
         map["surname"] = "USER"
-        docRef?.set(map, SetOptions.merge())
-    }
-
-    private fun sendMessageToDoctor(msg: String) {
-        val map = mutableMapOf<String, Any>()
-        map["lastMessage"] = msg
-        map["lastMessageSenderId"] = vm.userId.toString()
-        map["lastMessageTime"] = Timestamp.now()
         docRef?.set(map, SetOptions.merge())
     }
 
@@ -204,14 +202,14 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
     }
 
     private fun uploadPhotoToCloud() {
-        LoadingScreen.showLoading(requireActivity())
+        showLoader()
         FirebaseHelper.uploadPhoto(imgUri!!,
             onSuccess = { url ->
                 image = url
                 sendMessage()
             },
             onDefault = {
-                LoadingScreen.hideLoading()
+                goneLoader()
             }
         )
     }

@@ -46,6 +46,12 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
         } else finish()
     }
 
+    private fun playConnectingSound() {
+        mp = MediaPlayer.create(this, R.raw.connecting)
+        mp.isLooping = true
+        mp.start()
+    }
+
     override fun setupActivityView() {
         requestPermissions.launch(permissions)
         ref = FirebaseFirestore.getInstance().document(refPath)
@@ -56,12 +62,6 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
                 endCall()
             }
         }
-    }
-
-    private fun playConnectingSound() {
-        mp = MediaPlayer.create(this, R.raw.connecting)
-        mp.isLooping = true
-        mp.start()
     }
 
     private fun addSnapshotListener() {

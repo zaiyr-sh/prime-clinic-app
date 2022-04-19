@@ -28,7 +28,6 @@
                 android:layout_height="match_parent"
                 android:indeterminateTint="@color/teal"
                 android:progressTint="@color/teal"
-                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +56,6 @@
 
 
     </RelativeLayout>
-
 
     <TextView
         android:id="@+id/tv_time"
