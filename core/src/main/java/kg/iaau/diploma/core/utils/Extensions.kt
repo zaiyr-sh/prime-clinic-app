@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory
 import android.graphics.drawable.Animatable
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.media.SoundPool
 import android.net.Uri
 import android.util.Base64
 import android.view.View
@@ -20,6 +19,7 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.controller.BaseControllerListener
 import com.facebook.drawee.interfaces.DraweeController
@@ -27,7 +27,10 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.facebook.imagepipeline.image.ImageInfo
 import com.google.android.material.snackbar.Snackbar
 import kg.iaau.diploma.core.R
-import kg.iaau.diploma.core.constants.*
+import kg.iaau.diploma.core.constants.DD_MM_YYYY
+import kg.iaau.diploma.core.constants.DD_MM_YYYY_HH_MM
+import kg.iaau.diploma.core.constants.YYYY_MM_DD
+import kg.iaau.diploma.core.constants.YYYY_MM_DD_T_HH_MM_SSS
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -206,6 +209,12 @@ fun Context.getImageFileUri(appId: String, fileName: String): Uri {
     return FileProvider.getUriForFile(this, "${appId}.provider", file)
 }
 
-fun SoundPool.playSound(soundID: Int) {
-    play(soundID, 1F, 1F, 0, 0, 1F)
+fun RecyclerView.scrollToLastItem() {
+    addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
+        if (bottom < oldBottom) {
+            postDelayed({
+                smoothScrollToPosition(bottom)
+            }, 100)
+        }
+    }
 }

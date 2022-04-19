@@ -28,6 +28,7 @@ import kg.iaau.diploma.primeclinic.ui.main.chat.adapter.MessageAdapter
 import kg.iaau.diploma.primeclinic.ui.main.chat.adapter.MessageListener
 import kg.iaau.diploma.primeclinic.ui.main.chat.calling.CallingActivity
 
+
 @AndroidEntryPoint
 class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.java), MessageListener {
 
@@ -45,7 +46,6 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
 
     private var messageType: String = MessageType.TEXT.type
     private var userId: String? = ""
-    private var image: String = ""
     private var imgUri: Uri? = null
 
     private var pickImage: ActivityResultLauncher<String> = registerForActivityResult(
@@ -97,12 +97,10 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
                 requestPickImagePermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
             ivSentMessage.setOnClickListener {
-                if (etMessageTyping.text.toString().isNotEmpty()) {
-                    if (messageType == "text")
-                        sendMessage()
-                    else
-                        uploadPhotoToCloud()
-                }
+                if (messageType == MessageType.TEXT.type)
+                    sendMessage()
+                else
+                    uploadPhotoToCloud()
             }
             etMessageTyping.requestFocus()
             setupChat()
@@ -136,17 +134,18 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
             toolbarLogo.loadWithFresco(image, onFail = {
                 toolbarLogo.setActualImageResource(R.drawable.shape_filled_dot)
             })
-            toolbar.title = "$name $fatherName"
+            toolbar.title = getString(R.string.name_with_patronymic, name, fatherName)
         }
     }
 
-    private fun sendMessage() {
+    private fun sendMessage(image: String? = null) {
         vb.run {
+            if (image.isNullOrEmpty() && etMessageTyping.text.toString().isEmpty()) return
             ivAttach.gone()
             val msg = etMessageTyping.text.toString()
             etMessageTyping.setText("")
-            val user = mAuth.currentUser!!
-            val message = Message(user.uid, "", msg, Timestamp.now(), messageType, image)
+            val user = mAuth.currentUser
+            val message = Message(user?.uid, "", msg, Timestamp.now(), messageType, image)
             messageType = MessageType.TEXT.type
             docRef?.collection("messages")?.document()?.set(message)
                 ?.addOnCompleteListener {
@@ -198,6 +197,7 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
                 adapter.startListening()
                 adapter.registerAdapterDataObserver(observer)
             }
+            rvChats.scrollToLastItem()
         }
     }
 
@@ -205,8 +205,7 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
         showLoader()
         FirebaseHelper.uploadPhoto(imgUri!!,
             onSuccess = { url ->
-                image = url
-                sendMessage()
+                sendMessage(url)
             },
             onDefault = {
                 goneLoader()
@@ -222,7 +221,7 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
         findNavController().navigate(
             R.id.nav_image_full,
             Bundle().apply {
-                putString("image", image)
+                putString(MessageType.IMAGE.type, image)
             }
         )
     }
