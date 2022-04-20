@@ -56,9 +56,9 @@ class ReceivingCallActivity : CoreActivity<ActivityReceivingCallBinding, ChatVM>
                     this["accepted"] = true
                 }
                 ref.set(map, SetOptions.merge()).addOnSuccessListener {
-                    VideoChatActivity.startActivity(this@ReceivingCallActivity, ref.path, tvUsername.text.toString())
                     mp.stop()
                     finish()
+                    VideoChatActivity.startActivity(this@ReceivingCallActivity, ref.path, tvUsername.text.toString())
                 }
             }
             givCancel.setOnClickListener {

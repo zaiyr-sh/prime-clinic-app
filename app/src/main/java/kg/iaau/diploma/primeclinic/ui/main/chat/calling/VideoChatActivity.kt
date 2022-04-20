@@ -16,6 +16,7 @@ import kg.iaau.diploma.core.ui.BaseActivity
 import kg.iaau.diploma.core.utils.FirebaseHelper
 import kg.iaau.diploma.core.utils.startActivity
 import kg.iaau.diploma.core.utils.toast
+import kg.iaau.diploma.primeclinic.MainActivity
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ActivityVideoChatBinding
 
@@ -69,7 +70,7 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
             if (value != null && value.exists()) {
                 val uid = value.getString("uid")
                 if (uid.isNullOrEmpty()) {
-                    goBack()
+                    endCall()
                 }
             }
         }
@@ -87,6 +88,7 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
         mPublisher?.destroy()
         toast(getString(R.string.call_finished))
         mp.stop()
+        MainActivity.startActivity(this)
         finish()
     }
 
@@ -103,7 +105,7 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
 
     override fun onDisconnected(p0: Session?) {
         Log.d("VideoChatActivity", "onDisconnected(): ")
-        goBack()
+        endCall()
     }
 
     override fun onStreamReceived(p0: Session?, p1: Stream?) {
@@ -121,14 +123,14 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
             mSubscriber = null
             vb.flContainer.removeAllViews()
             mp.stop()
-            goBack()
+            endCall()
         }
     }
 
     override fun onError(p0: Session?, p1: OpentokError?) {
         Log.d("VideoChatActivity", "onError(): $p1")
         mp.stop()
-        goBack()
+        endCall()
     }
 
     override fun onStreamCreated(p0: PublisherKit?, p1: Stream?) {
@@ -139,18 +141,18 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
     override fun onStreamDestroyed(p0: PublisherKit?, p1: Stream?) {
         Log.d("VideoChatActivity", "onStreamDestroyed(): ")
         mp.stop()
-        goBack()
+        endCall()
     }
 
     override fun onError(p0: PublisherKit?, p1: OpentokError?) {
         Log.d("VideoChatActivity", "onError(): ")
         mp.stop()
-        goBack()
+        endCall()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        goBack()
+        endCall()
     }
 
     companion object {
@@ -159,6 +161,7 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
             "1_MX40NzQ4MzY2MX5-MTY0OTg2OTY0MzU3Nn55TVFDVmhpZHVvMGg1TnRpY0VHdEV4TTR-fg"
         private var TOKEN =
             "T1==cGFydG5lcl9pZD00NzQ4MzY2MSZzaWc9NmUxNWY3MjM2NTQ4YzM0YzlkM2Y2NTUyN2M0MzE1M2RhNDgyMjAwOTpzZXNzaW9uX2lkPTFfTVg0ME56UTRNelkyTVg1LU1UWTBPVGcyT1RZME16VTNObjU1VFZGRFZtaHBaSFZ2TUdnMVRuUnBZMFZIZEVWNFRUUi1mZyZjcmVhdGVfdGltZT0xNjQ5ODY5Njk0Jm5vbmNlPTAuMTY2OTU1ODYxOTAzMzY5MDgmcm9sZT1wdWJsaXNoZXImZXhwaXJlX3RpbWU9MTY1MjQ2MTY5MyZpbml0aWFsX2xheW91dF9jbGFzc19saXN0PQ=="
+
         private val permissions = arrayOf(
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.CAMERA

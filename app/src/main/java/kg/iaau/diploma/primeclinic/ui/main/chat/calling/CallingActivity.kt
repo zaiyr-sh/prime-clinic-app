@@ -5,6 +5,7 @@ import android.media.MediaPlayer
 import android.view.LayoutInflater
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.SetOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.ui.CoreActivity
 import kg.iaau.diploma.core.utils.FirebaseHelper
@@ -80,9 +81,9 @@ class CallingActivity : CoreActivity<ActivityCallingBinding, ChatVM>(ChatVM::cla
             ref,
             onSuccess = {
                 toast(getString(R.string.call_accepted))
-                VideoChatActivity.startActivity(this, ref.path, vb.tvUsername.text.toString())
                 mp.stop()
                 finish()
+                VideoChatActivity.startActivity(this, ref.path, vb.tvUsername.text.toString())
             },
             onFail = {
                 toast(getString(R.string.call_rejected))

@@ -19,13 +19,14 @@ class ImageFullFragment : BaseFragment<FragmentImageFullBinding>() {
     private val image by lazy { args.image }
 
     override fun setupFragmentView() {
+        showLoader()
         vb.run {
             toolbar.setNavigationOnClickListener {
                 parentFragmentManager.popBackStack()
             }
             ivAvatar.loadWithFresco(
                 image,
-                onSuccess = { showLoader() },
+                onSuccess = { goneLoader() },
                 onFail = {
                     ivAvatar.setImageResource(R.drawable.ic_error)
                     goneLoader()
