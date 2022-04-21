@@ -2,6 +2,7 @@ package kg.iaau.diploma.primeclinic.ui.main.chat.calling
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.opengl.GLSurfaceView
 import android.util.Log
@@ -77,9 +78,10 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
     }
 
     private fun endCall() {
-        val map = FirebaseHelper.getCallData("", "", accepted = false, declined = false)
-        ref.set(map, SetOptions.merge()).addOnSuccessListener {
+        val callData = FirebaseHelper.getCallData("", "", accepted = false, declined = false)
+        ref.set(callData, SetOptions.merge()).addOnSuccessListener {
             goBack()
+            ref.delete()
         }
     }
 
@@ -101,11 +103,12 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
             (mPublisher?.view as GLSurfaceView).setZOrderOnTop(true)
         }
         mSession.publish(mPublisher)
+        mp.stop()
     }
 
     override fun onDisconnected(p0: Session?) {
         Log.d("VideoChatActivity", "onDisconnected(): ")
-        endCall()
+        mp.stop()
     }
 
     override fun onStreamReceived(p0: Session?, p1: Stream?) {
@@ -122,37 +125,23 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
         if (mSubscriber != null) {
             mSubscriber = null
             vb.flContainer.removeAllViews()
-            mp.stop()
-            endCall()
         }
     }
 
     override fun onError(p0: Session?, p1: OpentokError?) {
         Log.d("VideoChatActivity", "onError(): $p1")
-        mp.stop()
-        endCall()
     }
 
     override fun onStreamCreated(p0: PublisherKit?, p1: Stream?) {
         Log.d("VideoChatActivity", "onStreamCreated(): ")
-        mp.stop()
     }
 
     override fun onStreamDestroyed(p0: PublisherKit?, p1: Stream?) {
         Log.d("VideoChatActivity", "onStreamDestroyed(): ")
-        mp.stop()
-        endCall()
     }
 
     override fun onError(p0: PublisherKit?, p1: OpentokError?) {
         Log.d("VideoChatActivity", "onError(): ")
-        mp.stop()
-        endCall()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        endCall()
     }
 
     companion object {
@@ -171,6 +160,7 @@ class VideoChatActivity : BaseActivity<ActivityVideoChatBinding>(), Session.Sess
 
         fun startActivity(context: Context, ref: String, username: String) {
             context.startActivity<VideoChatActivity> {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                 putExtra(REF, ref)
                 putExtra(USERNAME, username)
             }

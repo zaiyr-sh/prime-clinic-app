@@ -53,7 +53,7 @@ class CallingActivity : CoreActivity<ActivityCallingBinding, ChatVM>(ChatVM::cla
         FirebaseHelper.makeCall(userId,
             onSuccess = { ref ->
                 val callData = FirebaseHelper.getCallData(vm.userId.toString(), userId, accepted = false, declined = false)
-                ref.set(callData).addOnSuccessListener {
+                ref.set(callData, SetOptions.merge()).addOnSuccessListener {
                     addSnapListener(ref)
                     setEndCall(ref)
                 }
@@ -69,7 +69,7 @@ class CallingActivity : CoreActivity<ActivityCallingBinding, ChatVM>(ChatVM::cla
     private fun setEndCall(ref: DocumentReference) {
         vb.givCancel.setOnClickListener {
             val callData = FirebaseHelper.getCallData("", "", accepted = false, declined = true)
-            ref.set(callData).addOnSuccessListener {
+            ref.set(callData, SetOptions.merge()).addOnSuccessListener {
                 toast(getString(R.string.call_finished))
                 finish()
             }
@@ -82,12 +82,14 @@ class CallingActivity : CoreActivity<ActivityCallingBinding, ChatVM>(ChatVM::cla
             onSuccess = {
                 toast(getString(R.string.call_accepted))
                 mp.stop()
+                listener?.remove()
                 finish()
                 VideoChatActivity.startActivity(this, ref.path, vb.tvUsername.text.toString())
             },
             onFail = {
                 toast(getString(R.string.call_rejected))
                 mp.stop()
+                listener?.remove()
                 finish()
             }
         )
