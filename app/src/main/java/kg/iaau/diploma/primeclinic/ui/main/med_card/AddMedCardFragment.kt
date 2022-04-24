@@ -1,6 +1,7 @@
 package kg.iaau.diploma.primeclinic.ui.main.med_card
 
 import android.app.DatePickerDialog
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -63,6 +64,7 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
                     vm.setProfilePicture(uri)
                 }
             }
+            ccp.registerCarrierNumberEditText(etPhone)
             addBirthdateListener()
         }
     }
@@ -92,6 +94,8 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
             val patronymic = etPatronymic.text.toString()
             val birth = etBirthdate.text.toString()
             val phone = etPhone.text.toString()
+                .filterNot { it.isWhitespace() }
+                .convertPhoneNumberWithCode(vb.ccp.selectedCountryCode)
             if (!cbAgreement.isChecked && llCheckAgreement.isVisible) {
                 requireActivity().toast(getString(R.string.agreement_absent))
                 isDataValid = false
@@ -112,7 +116,7 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
                 etBirthdate.error  = getString(R.string.enter_valid_birthdate)
                 isDataValid = false
             }
-            if(phone.isPhoneNotFieldCorrectly) {
+            if(phone.isEmpty()) {
                 etPhone.error  = getString(R.string.enter_valid_phone_number)
                 isDataValid = false
             }
@@ -139,7 +143,7 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
                 vb.ivUserPicture.loadWithFresco(uri, onFail = {
                     vb.ivUserPicture.setActualImageResource(R.drawable.ic_photo)
                 })
-                vm.uploadMedCardImage(File(uri.path))
+                uploadImage(uri)
             }
         }
     }
@@ -149,15 +153,21 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
             etName.setText(medCard.firstName)
             etSurname.setText(medCard.lastName)
             etPatronymic.setText(medCard.patronymic)
-            etPhone.setText(medCard.medCardPhoneNumber)
+            ccp.fullNumber = medCard.medCardPhoneNumber
+            etPhone.setText(medCard.medCardPhoneNumber?.removePrefix(ccp.selectedCountryCodeWithPlus))
+            ccp.registerCarrierNumberEditText(etPhone)
             etBirthdate.text = medCard.birthDate
         }
     }
 
     private fun setupMedCardImage(medCardImage: MedCardImage) {
-        vb.ivUserPicture.loadWithFresco(medCardImage.image, onFail = {
-            vb.ivUserPicture.setActualImageResource(R.drawable.ic_photo)
-        })
+        vb.ivUserPicture.loadBase64Image(requireContext(), medCardImage.image, R.drawable.ic_photo)
+    }
+
+    private fun uploadImage(uri: Uri) {
+        uri.path?.let { path ->
+            vm.uploadMedCardImage(File(path).createFormData("imageFile"))
+        }
     }
 
     override fun showLoader() {
@@ -179,8 +189,9 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
     override fun notificationAction(event: Notification) {
         goneLoader()
         event.title?.let { view?.showSnackBar(requireContext(), getString(it)) }
-        if (event.title != R.string.med_card_created_unsuccessfully) {
-            findNavController().navigateUp()
+        when (event.title) {
+            R.string.med_card_photo_sent_unsuccessfully -> vb.ivUserPicture.setActualImageResource(R.drawable.ic_photo)
+            R.string.med_card_created_unsuccessfully -> findNavController().navigateUp()
         }
     }
 

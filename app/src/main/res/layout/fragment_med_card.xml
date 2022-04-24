@@ -106,15 +106,13 @@
                 app:layout_constraintStart_toStartOf="@+id/ll_header"
                 app:layout_constraintTop_toBottomOf="@+id/ll_header">
 
-                <com.facebook.drawee.view.SimpleDraweeView
+                <ImageView
                     android:id="@+id/iv_user"
                     android:layout_width="@dimen/size_80dp"
                     android:layout_height="@dimen/size_80dp"
                     android:adjustViewBounds="true"
-                    app:actualImageResource="@drawable/ic_photo"
-                    app:actualImageScaleType="centerCrop"
-                    app:failureImage="@drawable/ic_photo"
-                    app:failureImageScaleType="centerCrop" />
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_photo" />
 
             </androidx.cardview.widget.CardView>
 
@@ -161,7 +159,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/tv_birthday"
                 app:layout_constraintStart_toStartOf="@+id/tv_birthday"
                 app:layout_constraintTop_toBottomOf="@+id/tv_birthday"
-                tools:text="Whatsapp номер: +996707151654" />
+                tools:text="WhatsApp номер: +996700000691" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

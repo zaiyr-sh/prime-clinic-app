@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import kg.iaau.diploma.core.utils.loadWithFresco
+import kg.iaau.diploma.core.utils.loadBase64Image
 import kg.iaau.diploma.data.SpecialistCategory
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ListItemSpecialistsBinding
@@ -44,9 +44,7 @@ class ClinicSpecialistViewHolder(private val vb: ListItemSpecialistsBinding) : R
         vb.run {
             tvDescription.text = specialist.description
             tvTitle.text = specialist.name
-            ivSpecialist.loadWithFresco(specialist.image, onFail = {
-                ivSpecialist.setActualImageResource(R.color.teal)
-            })
+            ivSpecialist.loadBase64Image(itemView.context, specialist.image, R.drawable.shape_filled_dot)
         }
     }
 

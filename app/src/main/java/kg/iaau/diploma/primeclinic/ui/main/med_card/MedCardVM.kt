@@ -11,11 +11,7 @@ import kg.iaau.diploma.data.MedCard
 import kg.iaau.diploma.data.MedCardImage
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.repository.MedCardRepository
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.MultipartBody.Part.Companion.createFormData
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -47,7 +43,8 @@ class MedCardVM @Inject constructor(
             action = {
                 repository.uploadMedCard(medCard)
                 medCard.birthDate = birth
-                saveMedCardInDb(medCard)
+            },
+            success = {
                 event.postValue(CoreEvent.Notification(title = R.string.med_card_created_successfully))
             },
             fail = {
@@ -56,15 +53,14 @@ class MedCardVM @Inject constructor(
         )
     }
 
-    fun uploadMedCardImage(file: File) {
-        val filePart: MultipartBody.Part = createFormData(
-            "imageFile",
-            file.name,
-            file.asRequestBody("image/*".toMediaTypeOrNull())
-        )
+    fun uploadMedCardImage(file: MultipartBody.Part) {
+        _imageUriLiveData.value = null
         safeLaunch(
             action = {
-                repository.uploadMedCardImageById(filePart)
+                repository.uploadMedCardImageById(file)
+            },
+            fail = {
+                event.postValue(CoreEvent.Notification(title = R.string.med_card_created_unsuccessfully))
             }
         )
     }

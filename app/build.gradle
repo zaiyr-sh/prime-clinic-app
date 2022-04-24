@@ -55,6 +55,7 @@ dependencies {
     implementation libs.opentok
     implementation libs.fresco
     implementation libs.firebase.values()
+    implementation libs.compressor
 
     testImplementation libs.test.values()
 

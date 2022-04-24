@@ -29,16 +29,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.facebook.drawee.view.SimpleDraweeView
+            <ImageView
                 android:id="@+id/iv_specialist"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:adjustViewBounds="true"
-                app:actualImageScaleType="centerCrop"
-                app:actualImageResource="@color/teal"
-                app:failureImageScaleType="centerCrop"
-                app:failureImage="@color/teal"/>
+                android:scaleType="centerCrop"
+                android:src="@color/teal" />
 
         </androidx.cardview.widget.CardView>
 

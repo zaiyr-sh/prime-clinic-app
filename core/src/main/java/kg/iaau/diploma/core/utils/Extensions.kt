@@ -2,18 +2,23 @@ package kg.iaau.diploma.core.utils
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Animatable
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.provider.MediaStore
 import android.util.Base64
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.DrawableRes
 import androidx.annotation.Nullable
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
@@ -31,9 +36,15 @@ import kg.iaau.diploma.core.constants.DD_MM_YYYY
 import kg.iaau.diploma.core.constants.DD_MM_YYYY_HH_MM
 import kg.iaau.diploma.core.constants.YYYY_MM_DD
 import kg.iaau.diploma.core.constants.YYYY_MM_DD_T_HH_MM_SSS
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.MultipartBody.Part.*
+import okhttp3.RequestBody.Companion.asRequestBody
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 inline fun <reified T : Activity> Context.startActivity(noinline extra: Intent.() -> Unit = {}) {
     val intent = Intent(this, T::class.java)
@@ -105,10 +116,10 @@ val String.isPhoneNotFieldCorrectly: Boolean
 
 // Convert birth date to UTC format date
 fun String.convertToUTC(): String {
-    val day = substring(0,2)
-    val month = substring(3,5)
-    val year = substring(6)
-    return year+"-"+month+"-"+day+"T11:00:00.320Z"
+    val day = substring(8,10)
+    val month = substring(5,7)
+    val year = substring(0, 4)
+    return "$year-$month-$day"
 }
 
 fun String.convertBase64ToBitmap(): Bitmap {
@@ -119,6 +130,32 @@ fun String.convertBase64ToBitmap(): Bitmap {
 fun String.convertBase64ToDrawable(context: Context): Drawable {
     val bitmap = this.convertBase64ToBitmap()
     return BitmapDrawable(context.resources, bitmap)
+}
+
+fun Bitmap.convertBitmapToBase64(): String? {
+    val outputStream = ByteArrayOutputStream()
+    compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+    val byteArray: ByteArray = outputStream.toByteArray()
+    return Base64.encodeToString(byteArray, Base64.DEFAULT)
+}
+
+fun Resources.convertDrawableToBitmap(id: Int): Bitmap? {
+    return BitmapFactory.decodeResource(this, id)
+}
+
+fun Uri.convertUriToBitmap(cr: ContentResolver): Bitmap? {
+    return MediaStore.Images.Media.getBitmap(cr, this)
+}
+
+fun ImageView.loadBase64Image(context: Context, image: String?, @DrawableRes defaultResId: Int) {
+    if (image.isNullOrEmpty())
+        setImageDrawable(context.setDrawable(defaultResId))
+    else
+        setImageDrawable(image.convertBase64ToDrawable(context))
+}
+
+fun Context.setDrawable(@DrawableRes id: Int): Drawable? {
+    return ContextCompat.getDrawable(this, id)
 }
 
 fun String.formatForCurrentDate(): String {
@@ -182,7 +219,7 @@ fun SimpleDraweeView.loadWithFresco(
     setController(controller)
 }
 
-fun frescoListener(
+private fun frescoListener(
     onSuccess: ((imageInfo: ImageInfo?) -> Unit)?,
     onFail: ((throwable: Throwable) -> Unit)?
 ): BaseControllerListener<ImageInfo?> {
@@ -217,4 +254,12 @@ fun RecyclerView.scrollToLastItem() {
             }, 100)
         }
     }
+}
+
+fun File.createFormData(key: String): MultipartBody.Part {
+    return MultipartBody.Part.createFormData(
+        key,
+        name,
+        asRequestBody("multipart/form-data".toMediaTypeOrNull())
+    )
 }

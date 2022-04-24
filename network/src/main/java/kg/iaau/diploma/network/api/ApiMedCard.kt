@@ -10,13 +10,15 @@ interface ApiMedCard {
     @PUT("client/card/{id}")
     suspend fun uploadMedCardById(
         @Path("id") id: Long?,
-        @Body card: MedCard): MedCard
+        @Body card: MedCard
+    ): MedCard
 
     @Multipart
     @PUT("client/{id}")
     suspend fun uploadMedCardImageById(
         @Path("id") id: Long?,
-        @Part file: MultipartBody.Part): MedCard
+        @Part file: MultipartBody.Part
+    ): MedCard
 
     @GET("client/card/{id}")
     suspend fun getMedCardById(

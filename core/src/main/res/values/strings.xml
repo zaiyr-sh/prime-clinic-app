@@ -44,13 +44,13 @@
     <string name="surname_hint"><font fgcolor='#ED5168'>*</font>Фамилия</string>
     <string name="name_hint"><font fgcolor='#ED5168'>*</font>Имя</string>
     <string name="patronymic_hint">Отчество</string>
-    <string name="birth_hint"><font fgcolor='#ED5168'>*</font>Дата рождения (дд.мм.гггг)</string>
-    <string name="whatsapp_phone_hint">WhatsApp номер (+996)</string>
+    <string name="birth_hint"><font fgcolor='#ED5168'>*</font>Дата рождения (гггг.мм.дд)</string>
+    <string name="whatsapp_phone_hint">WhatsApp номер</string>
     <string name="processing_agreement_personal_data">Соглашение на обработку <font fgcolor='#00bdd0'><u>персональных данных</u></font></string>
     <string name="send">Отправить</string>
     <string name="edit">Редактрировать</string>
     <string name="agreement_absent">Отсутствует соглашение на обработку данных</string>
-    <string name="agreement">1. Правовые основания обработки персональных данных. Правовыми основаниями обработки персональных данных являются, в частности, глава 1, пункта 12 статьи 3 закона КР «Обработка персональных данных».\n\n2. Основные понятия и термины. Мобильное приложение системы управления очередью – программное обеспечение, предназначенное для работы на мобильных устройствах, обеспечивающее пользователю возможность использования систем управления очередью организаций — партнеров. Администратором мобильного приложения являются стдент Международного Университета Ала-Тоо Шаршеев Зайыр Буланович</string>
+    <string name="agreement">1. Правовые основания обработки персональных данных. Правовыми основаниями обработки персональных данных являются, в частности, глава 1, пункта 12 статьи 3 закона КР «Обработка персональных данных».\n\n2. Основные понятия и термины. Мобильное приложение системы управления очередью – программное обеспечение, предназначенное для работы на мобильных устройствах, обеспечивающее пользователю возможность использования систем управления очередью организаций — партнеров. Администратором мобильного приложения является стдент Международного Университета Ала-Тоо Шаршеев Зайыр Буланович</string>
     <string name="birth_date">Дата рождения: %s</string>
     <string name="whatsapp_number">WhatsApp номер: %s</string>
     <string name="undefined_phone_number">не указан</string>
@@ -127,8 +127,9 @@
     <string name="time_not_selected">Время не выбрано!</string>
     <string name="reservation_visit_successfully">Визит к врачу успешно забронирован!</string>
     <string name="reservation_visit_unsuccessfully">Визит к врачу не был успешно забронирован! Попробуйте позже.</string>
-    <string name="med_card_created_successfully">Медкарта успешно создана!</string>
+    <string name="med_card_created_successfully">Ваши данные были успешно сохранены!</string>
     <string name="med_card_created_unsuccessfully">Ошибка при отправки медкарты! Попробуйте еще раз.</string>
+    <string name="med_card_photo_sent_unsuccessfully">Ошибка при отправки фото! Попробуйте еще раз.</string>
 
 
 </resources>

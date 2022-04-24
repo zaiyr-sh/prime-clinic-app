@@ -33,19 +33,27 @@ class ProfilePictureBottomSheetFragment : CoreBottomSheetFragment<FragmentProfil
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setupPickingImageContract()
+        setupTakingImageContract()
+    }
+
+    private fun setupPickingImageContract() {
         pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { contentUri ->
             contentUri?.let { onItemSelected(it) }
             dismiss()
         }
+        requestPickImagePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+            if (it) pickImage.launch(MIMETYPE_IMAGES)
+            else dismiss()
+        }
+    }
+
+    private fun setupTakingImageContract() {
         takeImage = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
             if (isSuccess) {
                 imageUri?.let { uri -> onItemSelected(uri) }
                 dismiss()
             }
-        }
-        requestPickImagePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-            if (it) pickImage.launch(MIMETYPE_IMAGES)
-            else dismiss()
         }
         requestTakeImagePermissions = registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             permissions.entries.forEach {
@@ -69,7 +77,7 @@ class ProfilePictureBottomSheetFragment : CoreBottomSheetFragment<FragmentProfil
 
     private fun takeImage() {
         lifecycleScope.launchWhenStarted {
-            requireContext().getImageFileUri(BuildConfig.APPLICATION_ID, "profile_image_file").let { uri ->
+            requireContext().getImageFileUri(BuildConfig.APPLICATION_ID, "profile_image_file_").let { uri ->
                 imageUri = uri
                 takeImage.launch(uri)
             }

@@ -2,7 +2,6 @@ package kg.iaau.diploma.primeclinic.ui.main.med_card
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -19,14 +18,10 @@ class MedCardFragment : CoreFragment<FragmentMedCardBinding, MedCardVM>(MedCardV
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentMedCardBinding
         get() = FragmentMedCardBinding::inflate
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        super.onCreateView(inflater, container, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         vm.getMedCard()
         vm.getMedCardImageById()
-        return vb.root
     }
 
     override fun setupFragmentView() {
@@ -46,6 +41,7 @@ class MedCardFragment : CoreFragment<FragmentMedCardBinding, MedCardVM>(MedCardV
     }
 
     override fun observeLiveData() {
+        super.observeLiveData()
         vm.medCardLiveData.observe(viewLifecycleOwner) { medCard ->
             medCard?.let {
                 setupMedCardFields(it)
@@ -55,11 +51,6 @@ class MedCardFragment : CoreFragment<FragmentMedCardBinding, MedCardVM>(MedCardV
             medCardImage?.let {
                 setupMedCardImage(it)
             }
-        }
-        vm.imageUriLiveData.observe(viewLifecycleOwner) { imageUri ->
-            vb.ivUser.loadWithFresco(imageUri, onFail = {
-                vb.ivUser.setActualImageResource(R.drawable.ic_photo)
-            })
         }
     }
 
@@ -79,9 +70,7 @@ class MedCardFragment : CoreFragment<FragmentMedCardBinding, MedCardVM>(MedCardV
     }
 
     private fun setupMedCardImage(medCardImage: MedCardImage) {
-        vb.ivUser.loadWithFresco(medCardImage.image, onFail = {
-            vb.ivUser.setActualImageResource(R.drawable.ic_photo)
-        })
+        vb.ivUser.loadBase64Image(requireContext(), medCardImage.image, R.drawable.ic_photo)
     }
 
     override fun errorAction(event: CoreEvent.Error) {
