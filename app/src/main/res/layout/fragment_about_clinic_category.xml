@@ -82,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_marginStart="@dimen/size_16dp"
+                android:visibility="gone"
                 android:layout_marginEnd="@dimen/size_16dp"
                 android:paddingBottom="@dimen/size_4dp"
                 android:text="@string/our_specialists"
@@ -93,6 +94,7 @@
                 android:id="@+id/rv_specialists"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="gone"
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/list_item_doctor" />

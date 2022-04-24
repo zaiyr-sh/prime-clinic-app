@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kg.iaau.diploma.core.utils.convertBase64ToDrawable
+import kg.iaau.diploma.core.utils.loadBase64Image
 import kg.iaau.diploma.data.Doctor
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ListItemDoctorBinding
@@ -43,10 +43,7 @@ class DoctorViewHolder(private val vb: ListItemDoctorBinding) : RecyclerView.Vie
         vb.run {
             tvName.text = itemView.resources.getString(R.string.full_name, doctor.lastName, doctor.firstName, doctor.patronymic)
             tvExperience.text = doctor.position
-            if (doctor.image.isNullOrEmpty())
-                ivProfile.setImageDrawable(itemView.resources.getDrawable(R.drawable.shape_filled_dot, itemView.context.theme))
-            else
-                ivProfile.setImageDrawable(doctor.image?.convertBase64ToDrawable(itemView.context))
+            ivProfile.loadBase64Image(itemView.context, doctor.image, R.drawable.shape_filled_dot)
         }
     }
 

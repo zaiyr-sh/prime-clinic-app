@@ -38,13 +38,11 @@ import kg.iaau.diploma.core.constants.YYYY_MM_DD
 import kg.iaau.diploma.core.constants.YYYY_MM_DD_T_HH_MM_SSS
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.MultipartBody.Part.*
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 inline fun <reified T : Activity> Context.startActivity(noinline extra: Intent.() -> Unit = {}) {
     val intent = Intent(this, T::class.java)
@@ -127,9 +125,14 @@ fun String.convertBase64ToBitmap(): Bitmap {
     return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.size)
 }
 
-fun String.convertBase64ToDrawable(context: Context): Drawable {
-    val bitmap = this.convertBase64ToBitmap()
-    return BitmapDrawable(context.resources, bitmap)
+fun String.convertBase64ToDrawable(context: Context, @DrawableRes defaultResId: Int): Drawable? {
+    return when(isNullOrEmpty()) {
+        true -> context.setDrawable(defaultResId)
+        else -> {
+            val bitmap = this.convertBase64ToBitmap()
+            BitmapDrawable(context.resources, bitmap)
+        }
+    }
 }
 
 fun Bitmap.convertBitmapToBase64(): String? {
@@ -151,7 +154,7 @@ fun ImageView.loadBase64Image(context: Context, image: String?, @DrawableRes def
     if (image.isNullOrEmpty())
         setImageDrawable(context.setDrawable(defaultResId))
     else
-        setImageDrawable(image.convertBase64ToDrawable(context))
+        setImageDrawable(image.convertBase64ToDrawable(context, defaultResId))
 }
 
 fun Context.setDrawable(@DrawableRes id: Int): Drawable? {

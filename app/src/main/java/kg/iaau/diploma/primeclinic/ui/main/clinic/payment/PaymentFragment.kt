@@ -54,7 +54,7 @@ class PaymentFragment : Fragment() {
 
     private fun setupPaymentSteps(payment: Payment) {
         vb.run {
-            ivLogo.setImageDrawable(payment.logo?.convertBase64ToDrawable(requireActivity()))
+            ivLogo.setImageDrawable(payment.logo?.convertBase64ToDrawable(requireActivity(), R.drawable.shape_filled_dot))
             adapter.submitList(payment.paymentSteps)
         }
     }

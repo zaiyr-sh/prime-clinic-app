@@ -1,20 +1,14 @@
 package kg.iaau.diploma.primeclinic.ui.main.clinic.specialist
 
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.ui.CoreFragment
+import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.core.utils.CoreEvent.Error
-import kg.iaau.diploma.core.utils.setAnimateAlpha
-import kg.iaau.diploma.core.utils.setEnable
-import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.data.SpecialistCategory
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentAboutClinicCategoryBinding
@@ -55,14 +49,12 @@ class AboutClinicCategoryFragment : CoreFragment<FragmentAboutClinicCategoryBind
         vb.run {
             tvCategory.text = specialist?.name
             tvPositionDescription.text = specialist?.description
-            Glide.with(requireContext()).load(specialist?.image)
-                .into(object : CustomTarget<Drawable?>() {
-                    override fun onResourceReady(resource: Drawable, transition: Transition<in Drawable?>?) {
-                        toolbar.background = resource
-                    }
-                    override fun onLoadCleared(placeholder: Drawable?) {}
-                })
-            adapter.submitList(specialist?.doctors)
+            toolbar.background = specialist?.image?.convertBase64ToDrawable(requireContext(), R.drawable.ic_specialist)
+            if (!specialist?.doctors.isNullOrEmpty()) {
+                adapter.submitList(specialist?.doctors)
+                tvOurSpecialists.show()
+                rvSpecialists.show()
+            }
         }
     }
 

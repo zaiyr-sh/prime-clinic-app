@@ -56,7 +56,7 @@ class ChannelViewHolder(private val vb: ListItemChannelBinding) : RecyclerView.V
                     val name = it.getString("name")
                     val fatherName = it.getString("fatherName")
                     ivProfile.loadWithFresco(image, onFail = {
-                        ivProfile.setActualImageResource(R.drawable.shape_filled_dot)
+                        ivProfile.setActualImageResource(R.drawable.ic_doctor)
                     })
                     val fullName = "$name $fatherName"
                     tvName.text = fullName

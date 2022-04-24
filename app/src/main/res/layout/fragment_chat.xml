@@ -86,7 +86,7 @@
             android:layout_marginStart="@dimen/size_16dp"
             android:layout_marginTop="@dimen/size_12dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_doctor"
+            android:src="@drawable/ic_photo"
             android:visibility="gone" />
 
         <EditText

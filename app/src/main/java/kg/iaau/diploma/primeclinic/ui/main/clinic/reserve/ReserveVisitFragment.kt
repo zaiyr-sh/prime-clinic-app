@@ -60,7 +60,6 @@ class ReserveVisitFragment : Fragment() {
     }
 
     private fun observeLiveData() {
-        vm.setDate(null)
         vm.event.observe(viewLifecycleOwner) { event ->
             when (event) {
                 is CoreEvent.Loading -> showLoader()

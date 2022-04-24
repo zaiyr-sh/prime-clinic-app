@@ -92,6 +92,7 @@
         <entry key="core/src/main/res/drawable/shape_header.xml" value="0.21574074074074073" />
         <entry key="core/src/main/res/drawable/shape_message_typing.xml" value="0.1675" />
         <entry key="core/src/main/res/drawable/shape_msg_text.xml" value="0.1685185185185185" />
+        <entry key="core/src/main/res/drawable/shape_outline.xml" value="0.173" />
         <entry key="core/src/main/res/drawable/shape_payment.xml" value="0.25462962962962965" />
         <entry key="core/src/main/res/drawable/shape_received_message.xml" value="0.1725" />
         <entry key="core/src/main/res/drawable/shape_reserved_slot.xml" value="0.17407407407407408" />

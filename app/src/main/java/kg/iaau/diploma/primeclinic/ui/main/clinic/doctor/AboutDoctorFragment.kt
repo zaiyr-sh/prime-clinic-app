@@ -57,8 +57,12 @@ class AboutDoctorFragment : CoreFragment<FragmentAboutDoctorBinding, ClinicVM>(C
             tvPosition.text = doctor?.position
             tvBio.text = doctor?.bio ?: getString(R.string.absent_information)
             if (!doctor?.image.isNullOrEmpty())
-                ivProfile.setImageDrawable(doctor?.image?.convertBase64ToDrawable(requireContext()))
-            adapter.submitList(doctor?.information)
+                ivProfile.setImageDrawable(doctor?.image?.convertBase64ToDrawable(requireContext(), R.drawable.shape_filled_dot))
+            if (!doctor?.information.isNullOrEmpty()) {
+                adapter.submitList(doctor?.information)
+                tvEducation.show()
+                rvEducation.show()
+            }
         }
     }
 

@@ -132,7 +132,7 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
             val name = doc.getString("name")
             val fatherName = doc.getString("fatherName")
             toolbarLogo.loadWithFresco(image, onFail = {
-                toolbarLogo.setActualImageResource(R.drawable.shape_filled_dot)
+                toolbarLogo.setActualImageResource(R.drawable.ic_doctor)
             })
             toolbar.title = getString(R.string.name_with_patronymic, name, fatherName)
         }

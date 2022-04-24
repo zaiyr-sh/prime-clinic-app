@@ -84,7 +84,7 @@ class DateBottomSheetFragment : BottomSheetDialogFragment(), DateListener {
             } else {
                 rvTime.show()
                 ivEmpty.hide()
-                adapter.submitList(schedule)
+                adapter.submitList(schedule.distinctBy { it.start?.length })
             }
         }
     }

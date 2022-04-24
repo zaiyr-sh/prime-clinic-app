@@ -46,14 +46,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/abl_doctor">
 
-            <ImageView
-                android:id="@+id/iv_profile"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_profile"
                 android:layout_width="@dimen/size_70dp"
                 android:layout_height="@dimen/size_70dp"
-                android:background="@drawable/shape_outline"
-                android:src="@drawable/shape_filled_dot"
+                android:elevation="4dp"
+                app:cardCornerRadius="@dimen/size_50dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent" >
+
+                <ImageView
+                    android:id="@+id/iv_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape_outline"
+                    android:src="@drawable/shape_filled_dot" />
+
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/tv_name"
@@ -65,7 +74,7 @@
                 android:textSize="@dimen/size_18sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_profile"
+                app:layout_constraintStart_toEndOf="@id/cv_profile"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Максимова Вильгельмина Максимовна" />
 
@@ -79,7 +88,7 @@
                 android:textColor="@color/grey_dark"
                 android:textSize="@dimen/size_16sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_profile"
+                app:layout_constraintStart_toEndOf="@id/cv_profile"
                 app:layout_constraintTop_toBottomOf="@id/tv_name"
                 tools:text="Врач высшей категории \nСтаж 25 лет" />
 
@@ -130,6 +139,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/size_10dp"
+                android:visibility="gone"
                 android:text="@string/education"
                 android:textColor="@color/teal"
                 android:textSize="@dimen/size_22sp"
@@ -139,6 +149,7 @@
                 android:id="@+id/rv_education"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_marginTop="@dimen/size_4dp"
                 android:nestedScrollingEnabled="true"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
