@@ -88,8 +88,8 @@ class VideoChatActivity : AppCompatActivity(), Session.SessionListener,
     private fun endCall() {
         val callData = FirebaseHelper.getCallData("", "", accepted = false, declined = false)
         ref.set(callData, SetOptions.merge()).addOnSuccessListener {
-            goBack()
             ref.delete()
+            goBack()
         }
     }
 
@@ -149,6 +149,11 @@ class VideoChatActivity : AppCompatActivity(), Session.SessionListener,
 
     override fun onError(p0: PublisherKit?, p1: OpentokError?) {
         Log.d("VideoChatActivity", "onError(): ")
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        endCall()
     }
 
     companion object {
