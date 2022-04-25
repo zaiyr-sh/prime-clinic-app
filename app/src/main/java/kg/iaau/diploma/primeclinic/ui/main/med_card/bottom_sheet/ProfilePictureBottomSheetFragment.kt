@@ -8,23 +8,23 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.lifecycleScope
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.constants.MIMETYPE_IMAGES
 import kg.iaau.diploma.core.ui.CoreBottomSheetFragment
-import kg.iaau.diploma.core.utils.getImageFileUri
-import kg.iaau.diploma.primeclinic.BuildConfig
+import kg.iaau.diploma.core.utils.RealPath
+import kg.iaau.diploma.core.utils.getUriForFile
 import kg.iaau.diploma.primeclinic.databinding.FragmentProfilePictureBottomSheetBinding
 
 @AndroidEntryPoint
 class ProfilePictureBottomSheetFragment : CoreBottomSheetFragment<FragmentProfilePictureBottomSheetBinding>() {
 
-    private lateinit var onItemSelected: (Uri) -> Unit
+    private lateinit var onItemSelected: (Uri, String?) -> Unit
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentProfilePictureBottomSheetBinding
         get() = FragmentProfilePictureBottomSheetBinding::inflate
 
     private var imageUri: Uri? = null
+    private var imagePath: String? = null
 
     private lateinit var pickImage: ActivityResultLauncher<String>
     private lateinit var takeImage: ActivityResultLauncher<Uri>
@@ -39,7 +39,10 @@ class ProfilePictureBottomSheetFragment : CoreBottomSheetFragment<FragmentProfil
 
     private fun setupPickingImageContract() {
         pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { contentUri ->
-            contentUri?.let { onItemSelected(it) }
+            contentUri?.let { uri ->
+                imagePath = RealPath(requireContext()).getPath(uri)
+                onItemSelected(uri, imagePath)
+            }
             dismiss()
         }
         requestPickImagePermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -51,7 +54,7 @@ class ProfilePictureBottomSheetFragment : CoreBottomSheetFragment<FragmentProfil
     private fun setupTakingImageContract() {
         takeImage = registerForActivityResult(ActivityResultContracts.TakePicture()) { isSuccess ->
             if (isSuccess) {
-                imageUri?.let { uri -> onItemSelected(uri) }
+                imageUri?.let { uri -> onItemSelected(uri, imagePath) }
                 dismiss()
             }
         }
@@ -76,12 +79,10 @@ class ProfilePictureBottomSheetFragment : CoreBottomSheetFragment<FragmentProfil
     }
 
     private fun takeImage() {
-        lifecycleScope.launchWhenStarted {
-            requireContext().getImageFileUri(BuildConfig.APPLICATION_ID, "profile_image_file_").let { uri ->
-                imageUri = uri
-                takeImage.launch(uri)
-            }
+        imageUri = requireContext().getUriForFile { path ->
+            imagePath = path
         }
+        takeImage.launch(imageUri)
     }
 
     companion object {
@@ -91,7 +92,7 @@ class ProfilePictureBottomSheetFragment : CoreBottomSheetFragment<FragmentProfil
         )
 
         private val bottomSheet = ProfilePictureBottomSheetFragment()
-        fun show(supportFragmentManager: FragmentManager, onItemSelected: (uri: Uri) -> Unit) {
+        fun show(supportFragmentManager: FragmentManager, onItemSelected: (uri: Uri, path: String?) -> Unit) {
             bottomSheet.onItemSelected = onItemSelected
             bottomSheet.show(supportFragmentManager, bottomSheet.tag)
         }

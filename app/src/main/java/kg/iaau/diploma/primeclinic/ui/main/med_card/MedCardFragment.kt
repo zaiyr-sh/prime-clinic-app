@@ -21,7 +21,11 @@ class MedCardFragment : CoreFragment<FragmentMedCardBinding, MedCardVM>(MedCardV
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vm.getMedCard()
-        vm.getMedCardImageById()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        vm.getMedCard()
     }
 
     override fun setupFragmentView() {

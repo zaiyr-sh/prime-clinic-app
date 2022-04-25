@@ -1,7 +1,6 @@
 package kg.iaau.diploma.primeclinic.ui.main.med_card
 
 import android.app.DatePickerDialog
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,7 +39,6 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
         super.onCreateView(inflater, container, savedInstanceState)
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         vm.getMedCard()
-        vm.getMedCardImageById()
         return vb.root
     }
 
@@ -60,8 +58,8 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
                 AgreementBottomSheetFragment.show(requireActivity().supportFragmentManager)
             }
             ivUserPicture.setOnClickListener {
-                ProfilePictureBottomSheetFragment.show(requireActivity().supportFragmentManager) { uri ->
-                    vm.setProfilePicture(uri)
+                ProfilePictureBottomSheetFragment.show(requireActivity().supportFragmentManager) { uri, path ->
+                    vm.setProfilePicture(uri, path)
                 }
             }
             ccp.registerCarrierNumberEditText(etPhone)
@@ -143,7 +141,11 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
                 vb.ivUserPicture.loadWithFresco(uri, onFail = {
                     vb.ivUserPicture.setActualImageResource(R.drawable.ic_photo)
                 })
-                uploadImage(uri)
+            }
+        }
+        vm.imagePathLiveData.observe(viewLifecycleOwner) { imagePath ->
+            imagePath?.let { path ->
+                uploadImage(path)
             }
         }
     }
@@ -164,10 +166,8 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
         vb.ivUserPicture.loadBase64Image(requireContext(), medCardImage.image, R.drawable.ic_photo)
     }
 
-    private fun uploadImage(uri: Uri) {
-        uri.path?.let { path ->
-            vm.uploadMedCardImage(File(path).createFormData("imageFile"))
-        }
+    private fun uploadImage(path: String) {
+        vm.uploadMedCardImage(File(path).createFormData("imageFile"))
     }
 
     override fun showLoader() {

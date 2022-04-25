@@ -31,6 +31,10 @@ class MedCardVM @Inject constructor(
         get() = _imageUriLiveData
     private val _imageUriLiveData = MutableLiveData<Uri?>()
 
+    val imagePathLiveData: LiveData<String?>
+        get() = _imagePathLiveData
+    private val _imagePathLiveData = MutableLiveData<String?>()
+
     fun uploadMedCard(firstName: String, lastName: String, patronymic: String, birth: String, phone: String) {
         val medCard = MedCard(
             firstName = firstName,
@@ -55,12 +59,16 @@ class MedCardVM @Inject constructor(
 
     fun uploadMedCardImage(file: MultipartBody.Part) {
         _imageUriLiveData.value = null
+        _imagePathLiveData.value = null
         safeLaunch(
             action = {
                 repository.uploadMedCardImageById(file)
             },
+            success = {
+                event.postValue(CoreEvent.Notification(title = R.string.med_card_photo_sent_successfully))
+            },
             fail = {
-                event.postValue(CoreEvent.Notification(title = R.string.med_card_created_unsuccessfully))
+                event.postValue(CoreEvent.Notification(title = R.string.med_card_photo_sent_unsuccessfully))
             }
         )
     }
@@ -77,20 +85,14 @@ class MedCardVM @Inject constructor(
         safeLaunch(
             action = {
                 _medCardLiveData.postValue(repository.getMedCard())
-            }
-        )
-    }
-
-    fun getMedCardImageById() {
-        safeLaunch(
-            action = {
                 _medCardImageLiveData.postValue(repository.getMedCardImageById())
             }
         )
     }
 
-    fun setProfilePicture(imageUri: Uri) {
+    fun setProfilePicture(imageUri: Uri, path: String?) {
         _imageUriLiveData.value = imageUri
+        _imagePathLiveData.value = path
     }
 
 }

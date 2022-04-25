@@ -12,6 +12,7 @@ import android.graphics.drawable.Animatable
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Base64
 import android.view.View
@@ -249,6 +250,17 @@ fun Context.getImageFileUri(appId: String, fileName: String): Uri {
     return FileProvider.getUriForFile(this, "${appId}.provider", file)
 }
 
+fun Context.getUriForFile(onPath: ((absolutePath: String?) -> Unit)? = null): Uri? {
+    return FileProvider.getUriForFile(this, "kg.iaau.diploma.primeclinic.provider", createImageFile().also {
+        onPath?.invoke(it.absolutePath)
+    })
+}
+
+fun Context.createImageFile(): File {
+    val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+    return File.createTempFile("temp_image", ".jpg", storageDir)
+}
+
 fun RecyclerView.scrollToLastItem() {
     addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
         if (bottom < oldBottom) {
@@ -262,7 +274,7 @@ fun RecyclerView.scrollToLastItem() {
 fun File.createFormData(key: String): MultipartBody.Part {
     return MultipartBody.Part.createFormData(
         key,
-        name,
+        this.absolutePath,
         asRequestBody("multipart/form-data".toMediaTypeOrNull())
     )
 }

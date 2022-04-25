@@ -129,6 +129,7 @@
     <string name="reservation_visit_unsuccessfully">Визит к врачу не был успешно забронирован! Попробуйте позже.</string>
     <string name="med_card_created_successfully">Ваши данные были успешно сохранены!</string>
     <string name="med_card_created_unsuccessfully">Ошибка при отправки медкарты! Попробуйте еще раз.</string>
+    <string name="med_card_photo_sent_successfully">Ваше фото было успешно сохранено!</string>
     <string name="med_card_photo_sent_unsuccessfully">Ошибка при отправки фото! Попробуйте еще раз.</string>
 
 
