@@ -74,8 +74,11 @@ class ReserveVisitFragment : Fragment() {
         goneLoader()
         title?.let {
             view?.showSnackBar(requireContext(), getString(title))
-            if (it == R.string.reservation_visit_successfully)
+            if (it == R.string.reservation_visit_successfully) {
+                vm.setSlot(null)
+                vm.setDate(null)
                 findNavController().navigate(R.id.nav_payment_method)
+            }
         }
     }
 
