@@ -64,11 +64,6 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
         if (it) pickImage.launch(MIMETYPE_IMAGES)
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        requireActivity().toast(getString(R.string.chat_started))
-    }
-
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.chat_menu, menu)
@@ -120,9 +115,11 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
                         id,
                         doctorChatListener = { snapshot -> setupDoctorChat(snapshot) }
                     )
-                    UserType.ADMIN.name -> setHasOptionsMenu(false)
+                    UserType.ADMIN.name -> {
+                        setupChatMessages()
+                        setHasOptionsMenu(false)
+                    }
                 }
-                setupChatMessages()
             }
         )
     }
@@ -136,6 +133,7 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
                 toolbarLogo.setActualImageResource(R.drawable.ic_doctor)
             })
             toolbar.title = getString(R.string.name_with_patronymic, name, fatherName)
+            setupChatMessages()
         }
     }
 
@@ -198,6 +196,7 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
                 adapter.startListening()
                 adapter.registerAdapterDataObserver(observer)
                 goneLoader()
+                requireActivity().toast(getString(R.string.chat_started))
             }
             rvChats.scrollToLastItem()
         }
@@ -226,6 +225,22 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
                 putString(MessageType.IMAGE.type, image)
             }
         )
+    }
+
+    override fun showLoader() {
+        super.showLoader()
+        vb.clContainer.run {
+            setAnimateAlpha(0.5f)
+            setEnable(false)
+        }
+    }
+
+    override fun goneLoader() {
+        super.goneLoader()
+        vb.clContainer.run {
+            setAnimateAlpha(1f)
+            setEnable(true)
+        }
     }
 
     override fun onDestroyView() {
