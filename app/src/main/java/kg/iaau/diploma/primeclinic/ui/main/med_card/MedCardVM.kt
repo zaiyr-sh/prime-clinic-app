@@ -73,14 +73,6 @@ class MedCardVM @Inject constructor(
         )
     }
 
-    private fun saveMedCardInDb(medCard: MedCard) {
-        safeLaunch(
-            action = {
-                repository.saveMedCardInDb(medCard)
-            }
-        )
-    }
-
     fun getMedCard() {
         safeLaunch(
             action = {

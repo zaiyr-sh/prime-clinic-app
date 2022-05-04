@@ -18,9 +18,30 @@ class FaqVM @Inject constructor(private val repository: FaqRepository) : CoreVM(
     fun getFaq() {
         safeLaunch(
             action = {
-                _faqLiveData.postValue(repository.getFaq())
+                insertFaqs(repository.getFaq())
             }
         )
     }
+
+    private fun insertFaqs(faqs: List<Faq>) {
+        safeLaunch(
+            action = {
+                repository.insertFaqs(faqs)
+                getFaqFromDb()
+            },
+            fail = {
+                getFaqFromDb()
+            }
+        )
+    }
+
+    private fun getFaqFromDb() {
+        safeLaunch(
+            action = {
+                _faqLiveData.postValue(repository.getFaqFromDb())
+            }
+        )
+    }
+
 
 }

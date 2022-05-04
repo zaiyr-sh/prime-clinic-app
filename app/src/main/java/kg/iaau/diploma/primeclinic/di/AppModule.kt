@@ -12,7 +12,6 @@ import kg.iaau.diploma.core.constants.DATABASE_NAME
 import kg.iaau.diploma.local_storage.db.AboutDao
 import kg.iaau.diploma.local_storage.db.AppDatabase
 import kg.iaau.diploma.local_storage.db.FaqDao
-import kg.iaau.diploma.local_storage.db.MedCardDao
 import kg.iaau.diploma.local_storage.prefs.StoragePreferences
 import kg.iaau.diploma.network.api.*
 import kg.iaau.diploma.primeclinic.repository.*
@@ -42,10 +41,6 @@ object AppModule {
     @Singleton
     fun provideFaqDao(db: AppDatabase) = db.faqDao()
 
-    @Provides
-    @Singleton
-    fun provideMedCardDao(db: AppDatabase) = db.medCardDao()
-
     @Singleton
     @Provides
     fun providesStoragePreferences(@ApplicationContext context: Context) = StoragePreferences(context)
@@ -71,9 +66,8 @@ object AppModule {
     @Provides
     fun providesMedCardRepository(
         storagePreferences: StoragePreferences,
-        apiMedCard: ApiMedCard,
-        medCardDao: MedCardDao
-    ) = MedCardRepository(storagePreferences, apiMedCard, medCardDao)
+        apiMedCard: ApiMedCard
+    ) = MedCardRepository(storagePreferences, apiMedCard)
 
     @Singleton
     @Provides

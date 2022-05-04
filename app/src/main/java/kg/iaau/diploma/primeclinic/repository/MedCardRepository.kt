@@ -1,15 +1,13 @@
 package kg.iaau.diploma.primeclinic.repository
 
 import kg.iaau.diploma.data.MedCard
-import kg.iaau.diploma.local_storage.db.MedCardDao
 import kg.iaau.diploma.local_storage.prefs.StoragePreferences
 import kg.iaau.diploma.network.api.ApiMedCard
 import okhttp3.MultipartBody
 
 class MedCardRepository(
-    private val prefs: StoragePreferences,
-    private val apiMedCard: ApiMedCard,
-    private val medCardDao: MedCardDao
+    prefs: StoragePreferences,
+    private val apiMedCard: ApiMedCard
 ) {
 
     private val userId: Long? = prefs.id
@@ -20,10 +18,6 @@ class MedCardRepository(
 
     suspend fun getMedCard() = apiMedCard.getMedCardById(userId)
 
-    suspend fun saveMedCardInDb(medCard: MedCard) = medCardDao.saveMedCardInDb(medCard)
-
     suspend fun getMedCardImageById() = apiMedCard.getMedCardImageById(userId)
-
-    suspend fun getMedCardFromDb() = medCardDao.getMedCardFromDb()
 
 }
