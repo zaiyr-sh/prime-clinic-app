@@ -1,5 +1,6 @@
 package kg.iaau.diploma.core.utils
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ContentResolver
@@ -26,6 +27,12 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.bumptech.glide.request.transition.Transition
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.controller.BaseControllerListener
 import com.facebook.drawee.interfaces.DraweeController
@@ -278,3 +285,32 @@ fun File.createFormData(key: String): MultipartBody.Part {
         asRequestBody("multipart/form-data".toMediaTypeOrNull())
     )
 }
+
+@SuppressLint("CheckResult")
+fun Context.loadWithGlide(image: String?, onSuccess: ((resource: Drawable?) -> Unit)? = null, onFail: (() -> Unit)? = null) {
+    Glide.with(this).load(image)
+        .listener(object : RequestListener<Drawable> {
+            override fun onResourceReady(
+                resource: Drawable?,
+                model: Any?,
+                target: Target<Drawable>?,
+                dataSource: DataSource?,
+                isFirstResource: Boolean
+            ): Boolean {
+                onSuccess?.invoke(resource)
+                return false
+            }
+            override fun onLoadFailed(
+                e: GlideException?,
+                model: Any?,
+                target: Target<Drawable>?,
+                isFirstResource: Boolean
+            ): Boolean {
+                onFail?.invoke()
+                return false
+            }
+
+        })
+
+}
+

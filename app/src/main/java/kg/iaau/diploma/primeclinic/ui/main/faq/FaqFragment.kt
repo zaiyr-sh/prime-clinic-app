@@ -24,7 +24,10 @@ class FaqFragment : CoreFragment<FragmentFaqBinding, FaqVM>(FaqVM::class.java) {
     }
 
     override fun setupFragmentView() {
-        vb.rvFaq.adapter = adapter
+        vb.run {
+            rvFaq.adapter = adapter
+            swipeToRefresh.setOnRefreshListener { vm.getFaq() }
+        }
     }
 
     override fun observeLiveData() {
@@ -52,7 +55,8 @@ class FaqFragment : CoreFragment<FragmentFaqBinding, FaqVM>(FaqVM::class.java) {
     }
 
     override fun showLoader() {
-        super.showLoader()
+        if(!vb.swipeToRefresh.isRefreshing)
+            super.showLoader()
         vb.clContainer.run {
             setAnimateAlpha(0.5f)
             setEnable(false)
@@ -61,9 +65,12 @@ class FaqFragment : CoreFragment<FragmentFaqBinding, FaqVM>(FaqVM::class.java) {
 
     override fun goneLoader() {
         super.goneLoader()
-        vb.clContainer.run {
-            setAnimateAlpha(1f)
-            setEnable(true)
+        with(vb) {
+            clContainer.run {
+                setAnimateAlpha(1f)
+                setEnable(true)
+            }
+            swipeToRefresh.isRefreshing = false
         }
     }
 

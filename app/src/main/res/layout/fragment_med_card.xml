@@ -1,168 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cl_container"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:windowBackground"
-    tools:context="ui.main.med_card.MedCardFragment">
+    android:id="@+id/swipeToRefresh">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/abl_med_card"
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_container"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:elevation="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="?android:windowBackground"
+        tools:context="ui.main.med_card.MedCardFragment">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/abl_med_card"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="@string/medical_card"
-            app:titleTextAppearance="@style/ToolbarTheme" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_add_med_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/size_32dp"
-        android:layout_marginStart="@dimen/size_26dp"
-        android:layout_marginEnd="@dimen/size_26dp"
-        android:background="@drawable/shape_white"
-        android:gravity="center"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/abl_med_card">
-
-        <ImageView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size_34dp"
-            android:src="@drawable/ic_add" />
+            android:background="@color/white"
+            app:elevation="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size_8dp"
-            android:layout_marginBottom="@dimen/size_18dp"
-            android:textColor="@color/grey_dark"
-            android:text="@string/add_medical_card"
-            android:textSize="@dimen/size_14sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_med_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/size_10dp"
-        android:visibility="gone"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="@dimen/size_20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/abl_med_card">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_med_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <LinearLayout
-                android:id="@+id/ll_header"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/teal"
-                android:gravity="end|center"
-                android:paddingVertical="@dimen/size_8dp"
-                app:layout_constraintBottom_toTopOf="@+id/cv_image"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_height="?attr/actionBarSize"
+                app:title="@string/medical_card"
+                app:titleTextAppearance="@style/ToolbarTheme" />
 
-                <ImageButton
-                    android:id="@+id/ib_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/size_20dp"
-                    android:background="@drawable/ic_edit" />
-            </LinearLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_image"
+        <LinearLayout
+            android:id="@+id/ll_add_med_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/size_26dp"
+            android:layout_marginTop="@dimen/size_32dp"
+            android:layout_marginEnd="@dimen/size_26dp"
+            android:background="@drawable/shape_white"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/abl_med_card">
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_12dp"
-                android:layout_marginStart="@dimen/size_15dp"
-                android:elevation="@dimen/size_12dp"
-                android:shape="ring"
-                app:cardCornerRadius="@dimen/size_40dp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_name"
-                app:layout_constraintStart_toStartOf="@+id/ll_header"
-                app:layout_constraintTop_toBottomOf="@+id/ll_header">
-
-                <ImageView
-                    android:id="@+id/iv_user"
-                    android:layout_width="@dimen/size_80dp"
-                    android:layout_height="@dimen/size_80dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_photo" />
-
-            </androidx.cardview.widget.CardView>
+                android:layout_marginTop="@dimen/size_34dp"
+                android:src="@drawable/ic_add" />
 
             <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_12dp"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="@dimen/size_22sp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_birthday"
-                app:layout_constraintEnd_toEndOf="@+id/tv_birthday"
-                app:layout_constraintStart_toStartOf="@+id/tv_birthday"
-                app:layout_constraintTop_toBottomOf="@+id/cv_image"
-                tools:text="Steve Jobs" />
-
-            <TextView
-                android:id="@+id/tv_birthday"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size_15dp"
-                android:layout_marginTop="@dimen/size_10dp"
-                android:layout_marginEnd="@dimen/size_15dp"
-                android:maxLines="2"
-                android:textSize="@dimen/size_14sp"
+                android:layout_marginTop="@dimen/size_8dp"
+                android:layout_marginBottom="@dimen/size_18dp"
+                android:text="@string/add_medical_card"
                 android:textColor="@color/grey_dark"
-                app:layout_constraintBottom_toTopOf="@+id/tv_phone"
-                app:layout_constraintEnd_toEndOf="@+id/ll_header"
-                app:layout_constraintStart_toStartOf="@+id/ll_header"
-                app:layout_constraintTop_toBottomOf="@+id/tv_name"
-                tools:text="Дата рождения: 09.06.1988" />
-
-            <TextView
-                android:id="@+id/tv_phone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/size_10dp"
-                android:layout_marginBottom="@dimen/size_20dp"
-                android:maxLines="2"
                 android:textSize="@dimen/size_14sp"
-                android:textColor="@color/grey_dark"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/tv_birthday"
-                app:layout_constraintStart_toStartOf="@+id/tv_birthday"
-                app:layout_constraintTop_toBottomOf="@+id/tv_birthday"
-                tools:text="WhatsApp номер: +996700000691" />
+                android:textStyle="bold" />
+        </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_med_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/size_10dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/size_20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/abl_med_card">
 
-    </androidx.cardview.widget.CardView>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_med_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <LinearLayout
+                    android:id="@+id/ll_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/teal"
+                    android:gravity="end|center"
+                    android:paddingVertical="@dimen/size_8dp"
+                    app:layout_constraintBottom_toTopOf="@+id/cv_image"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageButton
+                        android:id="@+id/ib_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/size_20dp"
+                        android:background="@drawable/ic_edit" />
+                </LinearLayout>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/size_15dp"
+                    android:layout_marginTop="@dimen/size_12dp"
+                    android:elevation="@dimen/size_12dp"
+                    android:shape="ring"
+                    app:cardCornerRadius="@dimen/size_40dp"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_name"
+                    app:layout_constraintStart_toStartOf="@+id/ll_header"
+                    app:layout_constraintTop_toBottomOf="@+id/ll_header">
+
+                    <ImageView
+                        android:id="@+id/iv_user"
+                        android:layout_width="@dimen/size_80dp"
+                        android:layout_height="@dimen/size_80dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_photo" />
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_12dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_22sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_birthday"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_birthday"
+                    app:layout_constraintStart_toStartOf="@+id/tv_birthday"
+                    app:layout_constraintTop_toBottomOf="@+id/cv_image"
+                    tools:text="Steve Jobs" />
+
+                <TextView
+                    android:id="@+id/tv_birthday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/size_15dp"
+                    android:layout_marginTop="@dimen/size_10dp"
+                    android:layout_marginEnd="@dimen/size_15dp"
+                    android:maxLines="2"
+                    android:textColor="@color/grey_dark"
+                    android:textSize="@dimen/size_14sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_phone"
+                    app:layout_constraintEnd_toEndOf="@+id/ll_header"
+                    app:layout_constraintStart_toStartOf="@+id/ll_header"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_name"
+                    tools:text="Дата рождения: 09.06.1988" />
+
+                <TextView
+                    android:id="@+id/tv_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_10dp"
+                    android:layout_marginBottom="@dimen/size_20dp"
+                    android:maxLines="2"
+                    android:textColor="@color/grey_dark"
+                    android:textSize="@dimen/size_14sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/tv_birthday"
+                    app:layout_constraintStart_toStartOf="@+id/tv_birthday"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_birthday"
+                    tools:text="WhatsApp номер: +996700000691" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

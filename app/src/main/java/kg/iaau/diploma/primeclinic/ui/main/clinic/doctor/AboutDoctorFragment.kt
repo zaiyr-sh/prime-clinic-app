@@ -41,6 +41,8 @@ class AboutDoctorFragment : CoreFragment<FragmentAboutDoctorBinding, ClinicVM>(C
                     }
                 )
             }
+
+            swipeToRefresh.setOnRefreshListener { vm.getDoctorProfileById(id) }
         }
     }
 
@@ -72,7 +74,8 @@ class AboutDoctorFragment : CoreFragment<FragmentAboutDoctorBinding, ClinicVM>(C
     }
 
     override fun showLoader() {
-        super.showLoader()
+        if(!vb.swipeToRefresh.isRefreshing)
+            super.showLoader()
         vb.clContainer.run {
             setAnimateAlpha(0.5f)
             setEnable(false)
@@ -81,10 +84,14 @@ class AboutDoctorFragment : CoreFragment<FragmentAboutDoctorBinding, ClinicVM>(C
 
     override fun goneLoader() {
         super.goneLoader()
-        vb.clContainer.run {
-            setAnimateAlpha(1f)
-            setEnable(true)
+        with(vb) {
+            clContainer.run {
+                setAnimateAlpha(1f)
+                setEnable(true)
+            }
+            swipeToRefresh.isRefreshing = false
         }
     }
+
 
 }

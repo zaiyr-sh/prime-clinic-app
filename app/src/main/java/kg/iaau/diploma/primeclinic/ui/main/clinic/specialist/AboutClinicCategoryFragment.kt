@@ -35,6 +35,7 @@ class AboutClinicCategoryFragment : CoreFragment<FragmentAboutClinicCategoryBind
         vb.run {
             rvSpecialists.adapter = adapter
             toolbar.setNavigationOnClickListener { requireActivity().supportFragmentManager.popBackStack()  }
+            swipeToRefresh.setOnRefreshListener { vm.getSpecialistsCategoryDetailInfo(id) }
         }
     }
 
@@ -64,7 +65,8 @@ class AboutClinicCategoryFragment : CoreFragment<FragmentAboutClinicCategoryBind
     }
 
     override fun showLoader() {
-        super.showLoader()
+        if(!vb.swipeToRefresh.isRefreshing)
+            super.showLoader()
         vb.clContainer.run {
             setAnimateAlpha(0.5f)
             setEnable(false)
@@ -73,9 +75,12 @@ class AboutClinicCategoryFragment : CoreFragment<FragmentAboutClinicCategoryBind
 
     override fun goneLoader() {
         super.goneLoader()
-        vb.clContainer.run {
-            setAnimateAlpha(1f)
-            setEnable(true)
+        with(vb) {
+            clContainer.run {
+                setAnimateAlpha(1f)
+                setEnable(true)
+            }
+            swipeToRefresh.isRefreshing = false
         }
     }
 

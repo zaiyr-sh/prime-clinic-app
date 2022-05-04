@@ -54,11 +54,20 @@ class ClinicCategoryFragment : CoreFragment<FragmentClinicCategoryBinding, Clini
     }
 
     override fun setupFragmentView() {
-        vb.rvSpecialists.adapter = adapter
+        vb.run {
+            rvSpecialists.adapter = adapter
+            swipeToRefresh.setOnRefreshListener {
+                observeSpecialistCategoriesLiveData()
+            }
+        }
     }
 
     override fun observeLiveData() {
         super.observeLiveData()
+        observeSpecialistCategoriesLiveData()
+    }
+
+    private fun observeSpecialistCategoriesLiveData() {
         vm.getSpecialistCategories().observe(viewLifecycleOwner) { specialists ->
             lifecycleScope.launch {
                 adapter.submitData(specialists)
@@ -73,7 +82,8 @@ class ClinicCategoryFragment : CoreFragment<FragmentClinicCategoryBinding, Clini
     }
 
     override fun showLoader() {
-        super.showLoader()
+        if(!vb.swipeToRefresh.isRefreshing)
+            super.showLoader()
         vb.clContainer.run {
             setAnimateAlpha(0.5f)
             setEnable(false)
@@ -82,9 +92,12 @@ class ClinicCategoryFragment : CoreFragment<FragmentClinicCategoryBinding, Clini
 
     override fun goneLoader() {
         super.goneLoader()
-        vb.clContainer.run {
-            setAnimateAlpha(1f)
-            setEnable(true)
+        with(vb) {
+            clContainer.run {
+                setAnimateAlpha(1f)
+                setEnable(true)
+            }
+            swipeToRefresh.isRefreshing = false
         }
     }
 

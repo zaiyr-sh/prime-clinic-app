@@ -1,177 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/sv_container"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipeToRefresh"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true"
-    tools:context=".ui.main.clinic.doctor.AboutDoctorFragment">
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cl_container"
+    <ScrollView
+        android:id="@+id/sv_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/abl_doctor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            app:elevation="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:navigationIcon="@drawable/ic_arrow_back"
-                app:titleMarginStart="@dimen/size_16dp"
-                app:titleTextAppearance="@style/ToolbarTheme">
-
-            </androidx.appcompat.widget.Toolbar>
-
-        </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        tools:context=".ui.main.clinic.doctor.AboutDoctorFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_profile"
+            android:id="@+id/cl_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="@dimen/size_16dp"
-            android:paddingTop="@dimen/size_10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/abl_doctor">
+            android:layout_height="wrap_content">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cv_profile"
-                android:layout_width="@dimen/size_70dp"
-                android:layout_height="@dimen/size_70dp"
-                android:elevation="4dp"
-                app:cardCornerRadius="@dimen/size_50dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" >
-
-                <ImageView
-                    android:id="@+id/iv_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/shape_outline"
-                    android:src="@drawable/shape_filled_dot" />
-
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/tv_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size_15dp"
-                android:maxLines="2"
-                android:textColor="@color/black"
-                android:textSize="@dimen/size_18sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/cv_profile"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Максимова Вильгельмина Максимовна" />
-
-            <TextView
-                android:id="@+id/tv_position"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/size_15dp"
-                android:layout_marginTop="@dimen/size_10dp"
-                android:maxLines="2"
-                android:textColor="@color/grey_dark"
-                android:textSize="@dimen/size_16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/cv_profile"
-                app:layout_constraintTop_toBottomOf="@id/tv_name"
-                tools:text="Врач высшей категории \nСтаж 25 лет" />
-
-            <View
-                android:id="@+id/view"
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/abl_doctor"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/size_32dp"
-                android:background="@color/grey_light"
-                app:layout_constraintTop_toBottomOf="@id/tv_position"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                app:elevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:navigationIcon="@drawable/ic_arrow_back"
+                    app:titleMarginStart="@dimen/size_16dp"
+                    app:titleTextAppearance="@style/ToolbarTheme">
+
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_profile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="@dimen/size_16dp"
+                android:paddingTop="@dimen/size_10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/abl_doctor">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cv_profile"
+                    android:layout_width="@dimen/size_70dp"
+                    android:layout_height="@dimen/size_70dp"
+                    android:elevation="4dp"
+                    app:cardCornerRadius="@dimen/size_50dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" >
+
+                    <ImageView
+                        android:id="@+id/iv_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/shape_outline"
+                        android:src="@drawable/shape_filled_dot" />
+
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/size_15dp"
+                    android:maxLines="2"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/cv_profile"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Максимова Вильгельмина Максимовна" />
+
+                <TextView
+                    android:id="@+id/tv_position"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/size_15dp"
+                    android:layout_marginTop="@dimen/size_10dp"
+                    android:maxLines="2"
+                    android:textColor="@color/grey_dark"
+                    android:textSize="@dimen/size_16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/cv_profile"
+                    app:layout_constraintTop_toBottomOf="@id/tv_name"
+                    tools:text="Врач высшей категории \nСтаж 25 лет" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/size_32dp"
+                    android:background="@color/grey_light"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_position" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_doctor_info"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/size_20dp"
+                app:layout_constraintBottom_toTopOf="@id/btn_make_appointment"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cl_profile">
+
+                <TextView
+                    android:id="@+id/tv_about"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/size_10dp"
+                    android:text="@string/about_doctor"
+                    android:textColor="@color/teal"
+                    android:textSize="@dimen/size_22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_bio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="@dimen/size_10dp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/size_16sp"
+                    tools:text="Максимова Анеля Максимовна- врач терапевт, стаж 25 лет. Проводит диагностику и лечение органов сердечно-сосудистой, дыхательной, ЖКТ, урологической, эндокринной, иммунной систем, спирометрию" />
+
+                <TextView
+                    android:id="@+id/tv_education"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/size_10dp"
+                    android:text="@string/education"
+                    android:textColor="@color/teal"
+                    android:textSize="@dimen/size_22sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_education"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_4dp"
+                    android:nestedScrollingEnabled="true"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="2"
+                    tools:listitem="@layout/list_item_education" />
+
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_make_appointment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/size_70dp"
+                android:layout_marginTop="@dimen/size_12dp"
+                android:layout_marginBottom="@dimen/size_8dp"
+                android:paddingTop="@dimen/size_16dp"
+                android:paddingBottom="@dimen/size_16dp"
+                android:text="@string/enroll"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ll_doctor_info" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_doctor_info"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:paddingBottom="@dimen/size_20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/btn_make_appointment"
-            app:layout_constraintTop_toBottomOf="@+id/cl_profile"
-            android:orientation="vertical">
+    </ScrollView>
 
-            <TextView
-                android:id="@+id/tv_about"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/size_10dp"
-                android:text="@string/about_doctor"
-                android:textColor="@color/teal"
-                android:textSize="@dimen/size_22sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tv_bio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingHorizontal="@dimen/size_10dp"
-                android:textColor="@color/black"
-                android:textSize="@dimen/size_16sp"
-                tools:text="Максимова Анеля Максимовна- врач терапевт, стаж 25 лет. Проводит диагностику и лечение органов сердечно-сосудистой, дыхательной, ЖКТ, урологической, эндокринной, иммунной систем, спирометрию" />
-
-            <TextView
-                android:id="@+id/tv_education"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/size_10dp"
-                android:visibility="gone"
-                android:text="@string/education"
-                android:textColor="@color/teal"
-                android:textSize="@dimen/size_22sp"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_education"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginTop="@dimen/size_4dp"
-                android:nestedScrollingEnabled="true"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="2"
-                tools:listitem="@layout/list_item_education" />
-
-        </LinearLayout>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_make_appointment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/size_12dp"
-            android:layout_marginHorizontal="@dimen/size_70dp"
-            android:layout_marginBottom="@dimen/size_8dp"
-            android:paddingTop="@dimen/size_16dp"
-            android:paddingBottom="@dimen/size_16dp"
-            android:text="@string/enroll"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_doctor_info" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
