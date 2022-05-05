@@ -9,6 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.ui.CoreFragment
 import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.Doctor
+import kg.iaau.diploma.data.Interval
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentAboutDoctorBinding
 import kg.iaau.diploma.primeclinic.ui.main.clinic.ClinicVM
@@ -27,6 +28,7 @@ class AboutDoctorFragment : CoreFragment<FragmentAboutDoctorBinding, ClinicVM>(C
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vm.getDoctorProfileById(id)
+        vm.getScheduleByDoctorId(id)
     }
 
     override fun setupFragmentView() {
@@ -34,17 +36,24 @@ class AboutDoctorFragment : CoreFragment<FragmentAboutDoctorBinding, ClinicVM>(C
             toolbar.setNavigationOnClickListener { parentFragmentManager.popBackStack() }
             rvEducation.adapter = adapter
             btnMakeAppointment.setOnClickListener {
-                findNavController().navigate(
-                    R.id.nav_date,
-                    Bundle().apply {
-                        putLong("id", id)
-                    }
-                )
+                vm.doctorScheduleLiveData.observe(viewLifecycleOwner) { schedule ->
+                    navigateToChoosingDate(schedule)
+                }
             }
 
             swipeToRefresh.setOnRefreshListener { vm.getDoctorProfileById(id) }
         }
     }
+
+    private fun navigateToChoosingDate(schedule: List<Interval>?) {
+        findNavController().navigate(
+            R.id.nav_date,
+            Bundle().apply {
+                putParcelableArray("schedule", schedule?.toTypedArray())
+            }
+        )
+    }
+
 
     override fun observeLiveData() {
         super.observeLiveData()
@@ -58,8 +67,7 @@ class AboutDoctorFragment : CoreFragment<FragmentAboutDoctorBinding, ClinicVM>(C
             tvName.text = getString(R.string.full_name, doctor?.lastName, doctor?.firstName, doctor?.patronymic)
             tvPosition.text = doctor?.position
             tvBio.text = doctor?.bio ?: getString(R.string.absent_information)
-            if (!doctor?.image.isNullOrEmpty())
-                ivProfile.setImageDrawable(doctor?.image?.convertBase64ToDrawable(requireContext(), R.drawable.shape_filled_dot))
+            ivProfile.loadBase64Image(requireContext(), doctor?.image, R.drawable.shape_filled_dot)
             if (!doctor?.information.isNullOrEmpty()) {
                 adapter.submitList(doctor?.information)
                 tvEducation.show()

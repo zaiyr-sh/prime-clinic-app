@@ -5,9 +5,6 @@
     android:id="@+id/layoutBottomSheetCalendar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:windowBackground"
-    android:orientation="vertical"
-    app:behavior_hideable="true"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
     <LinearLayout
@@ -15,9 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_calendar"
-        android:clipToPadding="true"
-        android:orientation="vertical"
-        android:padding="16dp"
+        android:padding="@dimen/size_16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -86,18 +81,6 @@
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateTint="@color/teal"
-        android:progressTint="@color/teal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -2,16 +2,15 @@ package kg.iaau.diploma.primeclinic.ui.main.clinic.bottom_sheet
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.core.utils.gone
+import kg.iaau.diploma.core.ui.CoreBottomSheetFragment
 import kg.iaau.diploma.core.utils.hide
 import kg.iaau.diploma.core.utils.show
 import kg.iaau.diploma.core.utils.toast
+import kg.iaau.diploma.data.Interval
 import kg.iaau.diploma.data.Slot
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentCalendarBottomSheetBinding
@@ -20,40 +19,27 @@ import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.TimeAdapter
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.TimeListener
 
 @AndroidEntryPoint
-class TimeBottomSheetFragment : BottomSheetDialogFragment(), TimeListener {
+class TimeBottomSheetFragment : CoreBottomSheetFragment<FragmentCalendarBottomSheetBinding, ClinicVM>(ClinicVM::class.java), TimeListener {
 
-    private lateinit var vb: FragmentCalendarBottomSheetBinding
-    private val vm: ClinicVM by navGraphViewModels(R.id.main_navigation) { defaultViewModelProviderFactory }
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCalendarBottomSheetBinding
+        get() = FragmentCalendarBottomSheetBinding::inflate
+
     private val adapter = TimeAdapter(this)
+    private val args: TimeBottomSheetFragmentArgs by navArgs()
+    private val schedule: Interval by lazy { args.schedule }
+    private val date: Array<Slot> by lazy { args.date }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
-        setHasOptionsMenu(false)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        vb = FragmentCalendarBottomSheetBinding.inflate(inflater, container, false)
-        return vb.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupBottomSheetView()
-    }
-
-    private fun setupBottomSheetView() {
+    override fun setupFragmentView() {
         vb.run {
-            vb.progressBar.gone()
             tvHeader.text = getString(R.string.choose_time)
             rvTime.adapter = adapter
-            setupDate(vm.scheduleDate?.reservation?.filter { it.id == null })
+            setupDate(date.toMutableList())
             btnCancel.setOnClickListener { dismiss() }
             btnOk.setOnClickListener { checkChoosingTime() }
         }
     }
 
-    private fun setupDate(slots: List<Slot>?) {
+    private fun setupDate(slots: MutableList<Slot>) {
         vb.run {
             if(slots.isNullOrEmpty()) {
                 rvTime.hide()
@@ -68,11 +54,21 @@ class TimeBottomSheetFragment : BottomSheetDialogFragment(), TimeListener {
 
     private fun checkChoosingTime() {
         requireActivity().apply {
-            if (vm.slot != null)
-                findNavController().navigate(R.id.nav_reserve_visit)
-            else
-                toast(getString(R.string.time_not_selected))
+            when(vm.slot) {
+                null -> toast(getString(R.string.time_not_selected))
+                else -> navigateToReverseVisit(vm.slot)
+            }
         }
+    }
+
+    private fun navigateToReverseVisit(slot: Slot?) {
+        findNavController().navigate(
+            R.id.nav_reserve_visit,
+            Bundle().apply {
+                putParcelable("schedule", schedule)
+                putParcelable("slot", slot)
+            }
+        )
     }
 
     override fun onTimeClick(slot: Slot?): Boolean {

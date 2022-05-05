@@ -1,39 +1,31 @@
 package kg.iaau.diploma.primeclinic.ui.main.clinic.reserve
 
-import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
+import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
+import kg.iaau.diploma.core.ui.CoreFragment
 import kg.iaau.diploma.core.utils.*
+import kg.iaau.diploma.data.Interval
+import kg.iaau.diploma.data.Slot
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentReserveVisitBinding
 import kg.iaau.diploma.primeclinic.ui.main.clinic.ClinicVM
 
 @AndroidEntryPoint
-class ReserveVisitFragment : Fragment() {
+class ReserveVisitFragment : CoreFragment<FragmentReserveVisitBinding, ClinicVM>(ClinicVM::class.java) {
 
-    private lateinit var vb: FragmentReserveVisitBinding
-    private val vm: ClinicVM by navGraphViewModels(R.id.main_navigation) { defaultViewModelProviderFactory }
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentReserveVisitBinding
+        get() = FragmentReserveVisitBinding::inflate
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        vb = FragmentReserveVisitBinding.inflate(inflater, container, false)
-        return vb.root
-    }
+    private val args: ReserveVisitFragmentArgs by navArgs()
+    private val schedule: Interval by lazy { args.schedule }
+    private val slot: Slot by lazy { args.slot }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupFragmentView()
-        observeLiveData()
-    }
-
-    private fun setupFragmentView() {
+    override fun setupFragmentView() {
+        vm.setDate(schedule)
+        vm.setSlot(slot)
         vb.run {
             toolbar.setNavigationOnClickListener {
                 parentFragmentManager.popBackStack()
@@ -50,30 +42,19 @@ class ReserveVisitFragment : Fragment() {
             val phoneNumber = etPhone.text.toString()
                 .filterNot { it.isWhitespace() }
                 .convertPhoneNumberWithCode(vb.ccp.selectedCountryCode)
-            val comment = etComment.text.toString()
             if (phoneNumber.isPhoneNotFieldCorrectly) {
                 etPhone.error = getString(R.string.enter_valid_phone_number)
                 return
             }
+            val comment = etComment.text.toString()
             vm.reserveVisit(phoneNumber, comment)
         }
     }
 
-    private fun observeLiveData() {
-        vm.event.observe(viewLifecycleOwner) { event ->
-            when (event) {
-                is CoreEvent.Loading -> showLoader()
-                is CoreEvent.Success -> goneLoader()
-                is CoreEvent.Notification -> notificationAction(event.title)
-                is CoreEvent.Error -> errorAction(event)
-            }
-        }
-    }
-
-    private fun notificationAction(title: Int?) {
+    override fun notificationAction(event: CoreEvent.Notification) {
         goneLoader()
-        title?.let {
-            view?.showSnackBar(requireContext(), getString(title))
+        event.title?.let {
+            view?.showSnackBar(requireContext(), getString(it))
             if (it == R.string.reservation_visit_successfully) {
                 vm.setSlot(null)
                 vm.setDate(null)
@@ -82,25 +63,23 @@ class ReserveVisitFragment : Fragment() {
         }
     }
 
-    private fun errorAction(event: CoreEvent.Error) {
-        when (event.isNetworkError) {
-            true -> requireActivity().toast(getString(event.message))
-            else -> view?.showSnackBar(requireContext(), getString(R.string.reservation_visit_unsuccessfully))
-        }
-        goneLoader()
+    override fun errorAction(event: CoreEvent.Error) {
+        super.errorAction(event)
+        if (!event.isNetworkError)
+            view?.showSnackBar(requireContext(), getString(R.string.reservation_visit_unsuccessfully))
     }
 
-    private fun showLoader() {
+    override fun showLoader() {
+        super.showLoader()
         vb.run {
-            progressBar.show()
             clContainer.setAnimateAlpha(0.5f)
             btnBook.setEnable(false)
         }
     }
 
-    private fun goneLoader() {
+    override fun goneLoader() {
+        super.goneLoader()
         vb.run {
-            progressBar.gone()
             clContainer.setAnimateAlpha(1f)
             btnBook.setEnable(true)
         }

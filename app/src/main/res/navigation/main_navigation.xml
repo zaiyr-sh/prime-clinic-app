@@ -118,8 +118,8 @@
         android:label="LABEL"
         tools:layout="@layout/fragment_calendar_bottom_sheet">
         <argument
-            android:name="id"
-            app:argType="long" />
+            android:name="schedule"
+            app:argType="kg.iaau.diploma.data.Interval[]" />
         <action
             android:id="@+id/from_date_to_time"
             app:destination="@id/nav_time" />
@@ -130,6 +130,12 @@
         android:name="kg.iaau.diploma.primeclinic.ui.main.clinic.bottom_sheet.TimeBottomSheetFragment"
         android:label="LABEL"
         tools:layout="@layout/fragment_calendar_bottom_sheet">
+        <argument
+            android:name="schedule"
+            app:argType="kg.iaau.diploma.data.Interval" />
+        <argument
+            android:name="date"
+            app:argType="kg.iaau.diploma.data.Slot[]" />
         <action
             android:id="@+id/from_time_to_reserve_visit"
             app:destination="@id/nav_reserve_visit" />
@@ -140,6 +146,12 @@
         android:name="kg.iaau.diploma.primeclinic.ui.main.clinic.reserve.ReserveVisitFragment"
         android:label="LABEL"
         tools:layout="@layout/fragment_reserve_visit" >
+        <argument
+            android:name="schedule"
+            app:argType="kg.iaau.diploma.data.Interval" />
+        <argument
+            android:name="slot"
+            app:argType="kg.iaau.diploma.data.Slot" />
         <action
             android:id="@+id/from_reserve_visit_to_payment_method"
             app:destination="@id/nav_payment_method" />

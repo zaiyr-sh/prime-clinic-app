@@ -1,35 +1,19 @@
 package kg.iaau.diploma.core.ui
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kg.iaau.diploma.core.R
+import kg.iaau.diploma.core.utils.CoreEvent
+import kg.iaau.diploma.core.utils.toast
+import kg.iaau.diploma.core.vm.CoreVM
 
-abstract class CoreBottomSheetFragment<VB: ViewBinding> : BottomSheetDialogFragment() {
+abstract class CoreBottomSheetFragment<VB: ViewBinding, VM: CoreVM>(
+    private val mViewModelClass: Class<VM>
+) : BaseBottomSheetFragment<VB>() {
 
-    private var _vb: ViewBinding? = null
-    abstract val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> VB
-
-    @Suppress("UNCHECKED_CAST")
-    protected val vb: VB
-        get() = _vb as VB
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
-        setHasOptionsMenu(false)
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _vb = bindingInflater.invoke(inflater, container, false)
-        return requireNotNull(_vb).root
+    protected val vm by lazy {
+        ViewModelProvider(this)[mViewModelClass]
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -37,11 +21,26 @@ abstract class CoreBottomSheetFragment<VB: ViewBinding> : BottomSheetDialogFragm
         setupFragmentView()
     }
 
-    abstract fun setupFragmentView()
+    open fun observeLiveData() {
+        vm.event.observe(viewLifecycleOwner) { event ->
+            when (event) {
+                is CoreEvent.Loading -> showLoader()
+                is CoreEvent.Success -> successAction()
+                is CoreEvent.Error -> errorAction(event)
+                is CoreEvent.Notification -> notificationAction(event)
+            }
+        }
+    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _vb = null
+    open fun successAction() {
+        goneLoader()
+    }
+
+    open fun notificationAction(event: CoreEvent.Notification) {}
+
+    open fun errorAction(event: CoreEvent.Error) {
+        if (event.isNetworkError) requireActivity().toast(getString(event.message))
+        goneLoader()
     }
 
 }

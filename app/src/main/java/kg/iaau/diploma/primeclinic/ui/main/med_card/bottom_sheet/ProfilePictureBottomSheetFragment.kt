@@ -10,18 +10,18 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.FragmentManager
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.constants.MIMETYPE_IMAGES
-import kg.iaau.diploma.core.ui.CoreBottomSheetFragment
+import kg.iaau.diploma.core.ui.BaseBottomSheetFragment
 import kg.iaau.diploma.core.utils.RealPath
 import kg.iaau.diploma.core.utils.getUriForFile
 import kg.iaau.diploma.primeclinic.databinding.FragmentProfilePictureBottomSheetBinding
 
 @AndroidEntryPoint
-class ProfilePictureBottomSheetFragment : CoreBottomSheetFragment<FragmentProfilePictureBottomSheetBinding>() {
-
-    private lateinit var onItemSelected: (Uri, String?) -> Unit
+class ProfilePictureBottomSheetFragment : BaseBottomSheetFragment<FragmentProfilePictureBottomSheetBinding>() {
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentProfilePictureBottomSheetBinding
         get() = FragmentProfilePictureBottomSheetBinding::inflate
+
+    private lateinit var onItemSelected: (Uri, String?) -> Unit
 
     private var imageUri: Uri? = null
     private var imagePath: String? = null

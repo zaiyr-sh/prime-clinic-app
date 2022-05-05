@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.core.ui.CoreBottomSheetFragment
+import kg.iaau.diploma.core.ui.BaseBottomSheetFragment
 import kg.iaau.diploma.primeclinic.databinding.FragmentAgreementBottomSheetBinding
 
 @AndroidEntryPoint
-class AgreementBottomSheetFragment : CoreBottomSheetFragment<FragmentAgreementBottomSheetBinding>() {
+class AgreementBottomSheetFragment : BaseBottomSheetFragment<FragmentAgreementBottomSheetBinding>() {
 
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAgreementBottomSheetBinding =
         FragmentAgreementBottomSheetBinding::inflate

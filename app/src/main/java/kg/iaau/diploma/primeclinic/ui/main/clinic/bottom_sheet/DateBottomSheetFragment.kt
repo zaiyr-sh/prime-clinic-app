@@ -2,14 +2,14 @@ package kg.iaau.diploma.primeclinic.ui.main.clinic.bottom_sheet
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.navGraphViewModels
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kg.iaau.diploma.core.utils.*
+import kg.iaau.diploma.core.ui.CoreBottomSheetFragment
+import kg.iaau.diploma.core.utils.hide
+import kg.iaau.diploma.core.utils.show
+import kg.iaau.diploma.core.utils.toast
 import kg.iaau.diploma.data.Interval
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentCalendarBottomSheetBinding
@@ -18,65 +18,45 @@ import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.DateAdapter
 import kg.iaau.diploma.primeclinic.ui.main.clinic.adapter.DateListener
 
 @AndroidEntryPoint
-class DateBottomSheetFragment : BottomSheetDialogFragment(), DateListener {
+class DateBottomSheetFragment : CoreBottomSheetFragment<FragmentCalendarBottomSheetBinding, ClinicVM>(ClinicVM::class.java), DateListener {
 
-    private lateinit var vb: FragmentCalendarBottomSheetBinding
-    private val vm: ClinicVM by navGraphViewModels(R.id.main_navigation) { defaultViewModelProviderFactory }
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentCalendarBottomSheetBinding
+        get() = FragmentCalendarBottomSheetBinding::inflate
+
     private val adapter = DateAdapter(this)
     private val args: DateBottomSheetFragmentArgs by navArgs()
-    private val id: Long by lazy { args.id }
+    private val schedule: Array<Interval> by lazy { args.schedule }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
-        setHasOptionsMenu(false)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        vb = FragmentCalendarBottomSheetBinding.inflate(inflater, container, false)
-        vm.getScheduleByDoctorId(id)
-        return vb.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupBottomSheetView()
-        observeLiveData()
-    }
-
-    private fun setupBottomSheetView() {
+    override fun setupFragmentView() {
         vb.run {
             tvHeader.text = getString(R.string.choose_date)
             rvTime.adapter = adapter
             btnCancel.setOnClickListener { dismiss() }
             btnOk.setOnClickListener { checkChoosingDate() }
         }
+        setupDate(schedule)
     }
 
     private fun checkChoosingDate() {
         requireActivity().apply {
-            if (vm.scheduleDate != null) {
-                findNavController().navigate(R.id.nav_time)
-            } else {
-                toast(getString(R.string.date_not_selected))
+            when(vm.scheduleDate) {
+                null -> toast(getString(R.string.date_not_selected))
+                else -> navigateToChoosingTime(vm.scheduleDate)
             }
         }
     }
 
-    private fun observeLiveData() {
-        vm.doctorScheduleLiveData.observe(viewLifecycleOwner) { schedule ->
-            setupDate(schedule)
-        }
-        vm.event.observe(this) { event ->
-            when (event) {
-                is CoreEvent.Loading -> showLoader()
-                is CoreEvent.Success -> goneLoader()
-                is CoreEvent.Error -> errorAction(event)
+    private fun navigateToChoosingTime(scheduleDate: Interval?) {
+        findNavController().navigate(
+            R.id.nav_time,
+            Bundle().apply {
+                putParcelable("schedule", scheduleDate)
+                putParcelableArray("date", scheduleDate?.reservation?.filter { it.id == null }?.toTypedArray())
             }
-        }
+        )
     }
 
-    private fun setupDate(schedule: List<Interval>?) {
+    private fun setupDate(schedule: Array<Interval>?) {
         vb.run {
             if(schedule.isNullOrEmpty()) {
                 rvTime.hide()
@@ -89,27 +69,10 @@ class DateBottomSheetFragment : BottomSheetDialogFragment(), DateListener {
         }
     }
 
-    private fun errorAction(event: CoreEvent.Error) {
-        when (event.isNetworkError) {
-            true -> requireActivity().toast(getString(event.message))
-            else -> requireActivity().toast(getString(R.string.unexpected_error))
-        }
-        goneLoader()
-    }
-
-    private fun showLoader() {
-        vb.progressBar.show()
-    }
-
-    private fun goneLoader() {
-        vb.progressBar.gone()
-    }
-
     override fun onDateClick(interval: Interval?): Boolean {
         if (interval != null && vm.scheduleDate != null) return false
         else vm.setDate(interval)
         return true
     }
-
 
 }
