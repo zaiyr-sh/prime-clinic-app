@@ -88,8 +88,12 @@ class PaymentMethodBottomSheetFragment : BottomSheetDialogFragment(), PaymentLis
     }
 
     override fun onPaymentClick(payment: Payment) {
-        vm.setPaymentMethod(payment)
-        findNavController().navigate(R.id.nav_payment)
+        findNavController().navigate(
+            R.id.nav_payment,
+            Bundle().apply {
+                putParcelable("payment", payment)
+            }
+        )
     }
 
 }

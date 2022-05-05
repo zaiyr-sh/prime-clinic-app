@@ -108,10 +108,8 @@
         style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/size_35dp"
-        android:inputType="textCapSentences"
+        android:layout_marginBottom="@dimen/size_40dp"
         android:text="@string/book"
-        android:textSize="@dimen/size_18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

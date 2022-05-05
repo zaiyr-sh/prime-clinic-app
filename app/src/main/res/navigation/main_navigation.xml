@@ -159,7 +159,10 @@
         android:id="@+id/nav_payment"
         android:name="kg.iaau.diploma.primeclinic.ui.main.clinic.payment.PaymentFragment"
         android:label="LABEL"
-        tools:layout="@layout/fragment_payment" >
+        tools:layout="@layout/fragment_payment">
+        <argument
+            android:name="payment"
+            app:argType="kg.iaau.diploma.data.Payment" />
     </fragment>
 
 </navigation>
