@@ -15,8 +15,8 @@ import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationVM
 class RegisterActivity :
     CoreActivity<ActivityAuthorizationBinding, AuthorizationVM>(AuthorizationVM::class.java)  {
 
-    override val bindingInflater: (LayoutInflater) -> ActivityAuthorizationBinding =
-        ActivityAuthorizationBinding::inflate
+    override val bindingInflater: (LayoutInflater) -> ActivityAuthorizationBinding
+        get() = ActivityAuthorizationBinding::inflate
 
     override fun setupActivityView() {
         vb.apply {
@@ -34,7 +34,7 @@ class RegisterActivity :
     }
 
     private fun checkEditTextFilling() {
-        val (login, password) = editTextHandler()
+        val (login, password) = filterFields()
         vb.btnEnter.setEnable(login.isNotEmpty() && password.isNotEmpty())
     }
 
@@ -44,11 +44,11 @@ class RegisterActivity :
     }
 
     private fun register() {
-        val (login, password) = editTextHandler()
+        val (login, password) = filterFields()
         vm.register(login.convertPhoneNumberWithCode(vb.ccp.selectedCountryCode), password)
     }
 
-    private fun editTextHandler(): Array<String> {
+    private fun filterFields(): Array<String> {
         vb.apply {
             val login = etPhone.text.toString().filterNot { it.isWhitespace() }
             val password = etPassword.text.toString().filterNot { it.isWhitespace() }
@@ -58,7 +58,7 @@ class RegisterActivity :
 
     override fun successAction() {
         super.successAction()
-        val phone = editTextHandler()[0]
+        val phone = filterFields()[0]
         SmsCodeActivity.startActivity(this, phone)
     }
 

@@ -18,12 +18,14 @@ import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationVM
 @AndroidEntryPoint
 class PinActivity : CoreActivity<ActivityPinBinding, AuthorizationVM>(AuthorizationVM::class.java) {
 
-    override val bindingInflater: (LayoutInflater) -> ActivityPinBinding =
-        ActivityPinBinding::inflate
+    override val bindingInflater: (LayoutInflater) -> ActivityPinBinding
+        get() = ActivityPinBinding::inflate
 
     override fun setupActivityView() {
-        if (vm.isFirstTimePinCreating()) setupTvPin(R.string.pin_creation, false)
-        else if (vm.isUserSignIn()) setupTvPin(R.string.pin_enter, true)
+        if (vm.isFirstTimePinCreating())
+            setupTvPin(R.string.pin_creation, false)
+        else if (vm.isUserSignIn())
+            setupTvPin(R.string.pin_enter, true)
         vb.apply {
             btnZero.setOnClickListener { onEnterPin(0) }
             btnOne.setOnClickListener { onEnterPin(1) }
@@ -43,10 +45,10 @@ class PinActivity : CoreActivity<ActivityPinBinding, AuthorizationVM>(Authorizat
     private fun setupTvPin(@StringRes stringRes: Int, isRestorePinVisible: Boolean) {
         vb.apply {
             tvPin.text = getString(stringRes)
-            if(isRestorePinVisible)
-                tvRestorePin.show()
-            else
-                tvRestorePin.hide()
+            when(isRestorePinVisible) {
+                true -> tvRestorePin.show()
+                else -> tvRestorePin.hide()
+            }
         }
     }
 
@@ -77,7 +79,6 @@ class PinActivity : CoreActivity<ActivityPinBinding, AuthorizationVM>(Authorizat
         vm.savePin()
         startActivity(intent)
         finish()
-        return
     }
 
     private fun deleteLastDigit() {
@@ -117,7 +118,7 @@ class PinActivity : CoreActivity<ActivityPinBinding, AuthorizationVM>(Authorizat
 
     private fun restorePinWithTokens() {
         vm.restorePinWithTokens()
-        startActivity<AuthorizationActivity>()
+        AuthorizationActivity.startActivity(this)
         finish()
     }
 

@@ -15,8 +15,8 @@ import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationVM
 @AndroidEntryPoint
 class SmsCodeActivity : CoreActivity<ActivitySmsCodeBinding, AuthorizationVM>(AuthorizationVM::class.java) {
 
-    override val bindingInflater: (LayoutInflater) -> ActivitySmsCodeBinding =
-        ActivitySmsCodeBinding::inflate
+    override val bindingInflater: (LayoutInflater) -> ActivitySmsCodeBinding
+        get() = ActivitySmsCodeBinding::inflate
 
     private val phone by lazy { intent.getStringExtra(PHONE) }
 
