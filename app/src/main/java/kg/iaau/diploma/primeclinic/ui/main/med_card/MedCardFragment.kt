@@ -30,15 +30,13 @@ class MedCardFragment : CoreFragment<FragmentMedCardBinding, MedCardVM>(MedCardV
 
     override fun setupFragmentView() {
         vb.run {
-            llAddMedCard.setOnClickListener { openAddMedCardFragment() }
-            ibEdit.setOnClickListener { openAddMedCardFragment(true) }
-            swipeToRefresh.setOnRefreshListener {
-                vm.getMedCard()
-            }
+            llAddMedCard.setOnClickListener { navigateToAddMedCard() }
+            ibEdit.setOnClickListener { navigateToAddMedCard(true) }
+            swipeToRefresh.setOnRefreshListener { vm.getMedCard() }
         }
     }
 
-    private fun openAddMedCardFragment(isAgreementAccepted: Boolean = false) {
+    private fun navigateToAddMedCard(isAgreementAccepted: Boolean = false) {
         findNavController().navigate(
             R.id.nav_add_med_card,
             Bundle().apply {
@@ -67,11 +65,9 @@ class MedCardFragment : CoreFragment<FragmentMedCardBinding, MedCardVM>(MedCardV
             llAddMedCard.gone()
             tvName.text = getString(R.string.full_name, medCard.lastName, medCard.firstName, medCard.patronymic)
             tvBirthday.text = getString(R.string.birth_date, medCard.birthDate)
-            medCard.medCardPhoneNumber.let {
-                if(it.isNullOrEmpty())
-                    tvPhone.text = getString(R.string.whatsapp_number, getString(R.string.undefined_phone_number))
-                else
-                    tvPhone.text = getString(R.string.whatsapp_number, it)
+            when(medCard.medCardPhoneNumber.isNullOrEmpty()) {
+                true -> getString(R.string.whatsapp_number, getString(R.string.undefined_phone_number))
+                else -> getString(R.string.whatsapp_number, medCard.medCardPhoneNumber)
             }
         }
     }

@@ -8,10 +8,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.ui.CoreActivity
-import kg.iaau.diploma.core.utils.FirebaseHelper
-import kg.iaau.diploma.core.utils.loadWithFresco
-import kg.iaau.diploma.core.utils.startActivity
-import kg.iaau.diploma.core.utils.toast
+import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ActivityReceivingCallBinding
 import kg.iaau.diploma.primeclinic.ui.main.chat.ChatVM
@@ -34,9 +31,7 @@ class ReceivingCallActivity : CoreActivity<ActivityReceivingCallBinding, ChatVM>
                 val image = it.getString("image")
                 val name = it.getString("name")
                 val patronymic = it.getString("fatherName")
-                ivUser.loadWithFresco(image, onFail = {
-                    ivUser.setActualImageResource(R.drawable.shape_filled_dot)
-                })
+                ivUser.loadBase64Image(this@ReceivingCallActivity, image, R.drawable.ic_doctor)
                 tvUsername.text = getString(R.string.name_with_patronymic, name, patronymic)
             }
         }

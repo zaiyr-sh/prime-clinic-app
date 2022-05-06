@@ -57,16 +57,25 @@ class DateBottomSheetFragment : CoreBottomSheetFragment<FragmentCalendarBottomSh
     }
 
     private fun setupDate(schedule: Array<Interval>?) {
-        vb.run {
-            if(schedule.isNullOrEmpty()) {
-                rvTime.hide()
-                ivEmpty.show()
-            } else {
-                rvTime.show()
-                ivEmpty.hide()
-                adapter.submitList(schedule.distinctBy { it.start?.length })
-            }
+        when(schedule.isNullOrEmpty()) {
+            true -> hideTime()
+            else -> showTime(schedule)
         }
+    }
+
+    private fun hideTime() {
+        vb.run {
+            rvTime.hide()
+            ivEmpty.show()
+        }
+    }
+
+    private fun showTime(schedule: Array<Interval>) {
+       vb.run {
+           rvTime.show()
+           ivEmpty.hide()
+           adapter.submitList(schedule.distinctBy { it.start?.length })
+       }
     }
 
     override fun onDateClick(interval: Interval?): Boolean {

@@ -53,10 +53,9 @@ object AppModule {
     @Singleton
     @Provides
     fun providesAboutRepository(
-        storagePreferences: StoragePreferences,
         apiAbout: ApiAbout,
         aboutDao: AboutDao
-    ) = AboutRepository(storagePreferences, apiAbout, aboutDao)
+    ) = AboutRepository(apiAbout, aboutDao)
 
     @Singleton
     @Provides

@@ -43,5 +43,4 @@ class FaqVM @Inject constructor(private val repository: FaqRepository) : CoreVM(
         )
     }
 
-
 }

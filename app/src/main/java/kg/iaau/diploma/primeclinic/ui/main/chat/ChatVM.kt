@@ -3,7 +3,7 @@ package kg.iaau.diploma.primeclinic.ui.main.chat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kg.iaau.diploma.core.vm.CoreVM
 import kg.iaau.diploma.local_storage.prefs.StoragePreferences
-import kg.iaau.diploma.primeclinic.repository.ClinicRepository
+import kg.iaau.diploma.primeclinic.repository.AuthRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,7 +12,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ChatVM @Inject constructor(
     prefs: StoragePreferences,
-    val repository: ClinicRepository
+    val repository: AuthRepository
 ) : CoreVM() {
 
     val phone: String? = prefs.phone

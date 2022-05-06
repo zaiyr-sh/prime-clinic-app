@@ -32,7 +32,6 @@ import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-import com.bumptech.glide.request.transition.Transition
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.controller.BaseControllerListener
 import com.facebook.drawee.interfaces.DraweeController
@@ -159,7 +158,7 @@ fun Uri.convertUriToBitmap(cr: ContentResolver): Bitmap? {
 }
 
 fun ImageView.loadBase64Image(context: Context, image: String?, @DrawableRes defaultResId: Int) {
-    if (image.isNullOrEmpty())
+    if (image.isNullOrEmpty() || image.isNullOrBlank())
         setImageDrawable(context.setDrawable(defaultResId))
     else
         setImageDrawable(image.convertBase64ToDrawable(context, defaultResId))

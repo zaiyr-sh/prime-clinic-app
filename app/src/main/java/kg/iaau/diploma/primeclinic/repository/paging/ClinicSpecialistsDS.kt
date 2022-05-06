@@ -15,9 +15,9 @@ class ClinicSpecialistsDS(private var event: MutableLiveData<Event>, private val
     override fun getRefreshKey(state: PagingState<Int, SpecialistCategory>): Int? = null
 
     /**
-     * calls api if there is any error getting results then return the [LoadResult.Error]
-     * for successful response return the results using [LoadResult.Page] for some reason if the results
-     * are empty from service like in case of no more data from api then we can pass [null] to
+     * calls api if there is any error getting results then return the [ LoadResult.Error ]
+     * for successful response return the results using [ LoadResult.Page ] for some reason if the results
+     * are empty from service like in case of no more data from api then we can pass [ null ] to
      * send signal that source has reached the end of list
      */
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, SpecialistCategory> {

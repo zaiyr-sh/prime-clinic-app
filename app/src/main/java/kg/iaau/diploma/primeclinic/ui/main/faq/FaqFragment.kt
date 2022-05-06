@@ -33,19 +33,29 @@ class FaqFragment : CoreFragment<FragmentFaqBinding, FaqVM>(FaqVM::class.java) {
     override fun observeLiveData() {
         super.observeLiveData()
         vm.faqLiveData.observe(viewLifecycleOwner) { faqs ->
-            setupFragmentViewVisibility(faqs)
-            faqs?.let {
-                adapter.submitList(it)
-            }
+            setupFaqs(faqs)
         }
     }
 
-    private fun setupFragmentViewVisibility(faqs: List<Faq>?) {
+    private fun setupFaqs(faqs: List<Faq>?) {
+        when(faqs.isNullOrEmpty()) {
+            true -> hideFaqInfo()
+            else -> showFaqInfo(faqs)
+        }
+    }
+
+    private fun hideFaqInfo() {
         vb.run {
-            if (faqs.isNullOrEmpty())
-                ivEmpty.show()
-            else
-                ivEmpty.gone()
+            ivEmpty.show()
+            rvFaq.hide()
+        }
+    }
+
+    private fun showFaqInfo(faqs: List<Faq>?) {
+        vb.run {
+            adapter.submitList(faqs)
+            ivEmpty.gone()
+            rvFaq.show()
         }
     }
 

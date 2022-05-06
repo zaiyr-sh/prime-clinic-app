@@ -3,7 +3,6 @@ package kg.iaau.diploma.primeclinic.ui.main.med_card
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.view.isVisible
@@ -26,20 +25,16 @@ import java.util.*
 @AndroidEntryPoint
 class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(MedCardVM::class.java) {
 
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAddMedCardBinding =
-        FragmentAddMedCardBinding::inflate
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAddMedCardBinding
+        get() = FragmentAddMedCardBinding::inflate
 
     private val args: AddMedCardFragmentArgs by navArgs()
     private val isAgreementAccepted: Boolean by lazy { args.isAgreementAccepted }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        super.onCreateView(inflater, container, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         vm.getMedCard()
-        return vb.root
     }
 
     override fun setupFragmentView() {
@@ -48,12 +43,8 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
                 btnSendMedCard.text = getString(R.string.edit)
                 llCheckAgreement.gone()
             }
-            toolbar.setNavigationOnClickListener {
-                findNavController().navigateUp()
-            }
-            btnSendMedCard.setOnClickListener {
-                uploadMedCard()
-            }
+            toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
+            btnSendMedCard.setOnClickListener { uploadMedCard() }
             tvAgreement.setOnClickListener {
                 AgreementBottomSheetFragment.show(requireActivity().supportFragmentManager)
             }
@@ -63,11 +54,11 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
                 }
             }
             ccp.registerCarrierNumberEditText(etPhone)
-            addBirthdateListener()
+            setupBirthdateListener()
         }
     }
 
-    private fun addBirthdateListener() {
+    private fun setupBirthdateListener() {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)

@@ -129,9 +129,7 @@ class ChatFragment : CoreFragment<FragmentChatBinding, ChatVM>(ChatVM::class.jav
             val image = doc.getString("image")
             val name = doc.getString("name")
             val fatherName = doc.getString("fatherName")
-            toolbarLogo.loadWithFresco(image, onFail = {
-                toolbarLogo.setActualImageResource(R.drawable.ic_doctor)
-            })
+            toolbarLogo.loadBase64Image(requireContext(), image, R.drawable.ic_doctor)
             toolbar.title = getString(R.string.name_with_patronymic, name, fatherName)
             setupChatMessages()
         }

@@ -19,8 +19,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ClinicCategoryFragment : CoreFragment<FragmentClinicCategoryBinding, ClinicVM>(ClinicVM::class.java), ClinicSpecialistListener {
 
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentClinicCategoryBinding =
-        FragmentClinicCategoryBinding::inflate
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentClinicCategoryBinding
+        get() = FragmentClinicCategoryBinding::inflate
 
     private var adapter = ClinicSpecialistAdapter(this)
 
@@ -42,15 +42,17 @@ class ClinicCategoryFragment : CoreFragment<FragmentClinicCategoryBinding, Clini
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.exit -> {
-                requireContext().showDialog(R.string.exit_confirmation, {
-                    vm.logout()
-                    activity?.finishAffinity()
-                    AuthorizationActivity.startActivity(requireContext())
-                })
+                requireContext().showDialog(R.string.exit_confirmation, { logout() })
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun logout() {
+        vm.logout()
+        activity?.finishAffinity()
+        AuthorizationActivity.startActivity(requireContext())
     }
 
     override fun setupFragmentView() {

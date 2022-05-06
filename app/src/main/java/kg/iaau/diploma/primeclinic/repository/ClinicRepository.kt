@@ -15,7 +15,7 @@ import kg.iaau.diploma.network.api.ApiClinic
 import kg.iaau.diploma.primeclinic.repository.paging.ClinicSpecialistsDS
 
 class ClinicRepository(
-    private val prefs: StoragePreferences,
+    prefs: StoragePreferences,
     private val apiClinic: ApiClinic
 ) {
 
@@ -41,11 +41,5 @@ class ClinicRepository(
     suspend fun reserveVisit(reservation: Reservation) = apiClinic.reserveVisit(reservation)
 
     suspend fun getPaymentMethods() = apiClinic.getPaymentMethods()
-
-    fun restorePinWithTokens() {
-        prefs.token = ""
-        prefs.refreshToken = ""
-        prefs.pin = ""
-    }
 
 }

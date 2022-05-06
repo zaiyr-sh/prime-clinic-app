@@ -48,4 +48,5 @@ class AboutViewHolder (private val vb: ListItemAboutBinding) : RecyclerView.View
             return AboutViewHolder(vb)
         }
     }
+
 }

@@ -1,7 +1,10 @@
 package kg.iaau.diploma.primeclinic.ui.main.clinic.reserve
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,30 +27,35 @@ class ReserveVisitFragment : CoreFragment<FragmentReserveVisitBinding, ClinicVM>
     private val slot: Slot by lazy { args.slot }
 
     override fun setupFragmentView() {
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
+        vm.getPaymentMethods()
         vm.setDate(schedule)
         vm.setSlot(slot)
         vb.run {
-            toolbar.setNavigationOnClickListener {
-                parentFragmentManager.popBackStack()
-            }
+            etPhone.addTextChangedListener { validatePhoneNumber() }
+            toolbar.setNavigationOnClickListener { parentFragmentManager.popBackStack() }
             ccp.registerCarrierNumberEditText(etPhone)
-            btnBook.setOnClickListener {
-                bookVisit()
-            }
+            btnBook.setOnClickListener { reserveVisit() }
         }
     }
 
-    private fun bookVisit() {
+    private fun validatePhoneNumber() {
+        val phoneNumber = filterFields()[0]
+        vb.btnBook.setEnable(!phoneNumber.isPhoneNotFieldCorrectly)
+    }
+
+    private fun reserveVisit() {
+        val (phoneNumber, comment) = filterFields()
+        vm.reserveVisit(phoneNumber, comment)
+    }
+
+    private fun filterFields(): Array<String> {
         vb.run {
             val phoneNumber = etPhone.text.toString()
                 .filterNot { it.isWhitespace() }
                 .convertPhoneNumberWithCode(vb.ccp.selectedCountryCode)
-            if (phoneNumber.isPhoneNotFieldCorrectly) {
-                etPhone.error = getString(R.string.enter_valid_phone_number)
-                return
-            }
             val comment = etComment.text.toString()
-            vm.reserveVisit(phoneNumber, comment)
+            return arrayOf(phoneNumber, comment)
         }
     }
 
@@ -55,12 +63,18 @@ class ReserveVisitFragment : CoreFragment<FragmentReserveVisitBinding, ClinicVM>
         goneLoader()
         event.title?.let {
             view?.showSnackBar(requireContext(), getString(it))
-            if (it == R.string.reservation_visit_successfully) {
-                vm.setSlot(null)
-                vm.setDate(null)
-                findNavController().navigate(R.id.nav_payment_method)
-            }
+            if (it == R.string.reservation_visit_successfully)
+                navigateToPaymentMethod()
         }
+    }
+
+    private fun navigateToPaymentMethod() {
+        findNavController().navigate(
+            R.id.nav_payment_method,
+            Bundle().apply {
+                putParcelableArray("paymentMethods", vm.paymentMethodsLiveData.value?.toTypedArray())
+            }
+        )
     }
 
     override fun errorAction(event: CoreEvent.Error) {

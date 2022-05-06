@@ -162,6 +162,9 @@
         android:name="kg.iaau.diploma.primeclinic.ui.main.clinic.bottom_sheet.PaymentMethodBottomSheetFragment"
         android:label="LABEL"
         tools:layout="@layout/fragment_payment_method_bottom_sheet">
+        <argument
+            android:name="paymentMethods"
+            app:argType="kg.iaau.diploma.data.Payment[]" />
         <action
             android:id="@+id/from_payment_method_to_payment"
             app:destination="@id/nav_payment" />

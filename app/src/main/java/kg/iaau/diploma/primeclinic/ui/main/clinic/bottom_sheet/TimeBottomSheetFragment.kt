@@ -40,15 +40,24 @@ class TimeBottomSheetFragment : CoreBottomSheetFragment<FragmentCalendarBottomSh
     }
 
     private fun setupDate(slots: MutableList<Slot>) {
+        when(slots.isNullOrEmpty()) {
+            true -> hideTime()
+            else -> showTime(slots)
+        }
+    }
+
+    private fun hideTime() {
         vb.run {
-            if(slots.isNullOrEmpty()) {
-                rvTime.hide()
-                ivEmpty.show()
-            } else {
-                rvTime.show()
-                ivEmpty.hide()
-                adapter.submitList(slots)
-            }
+            rvTime.hide()
+            ivEmpty.show()
+        }
+    }
+
+    private fun showTime(slots: MutableList<Slot>) {
+        vb.run {
+            rvTime.show()
+            ivEmpty.hide()
+            adapter.submitList(slots)
         }
     }
 

@@ -15,22 +15,22 @@ import kg.iaau.diploma.primeclinic.ui.register.RegisterActivity
 class AuthorizationActivity :
     CoreActivity<ActivityAuthorizationBinding, AuthorizationVM>(AuthorizationVM::class.java) {
 
-    override val bindingInflater: (LayoutInflater) -> ActivityAuthorizationBinding =
-        ActivityAuthorizationBinding::inflate
+    override val bindingInflater: (LayoutInflater) -> ActivityAuthorizationBinding
+        get() = ActivityAuthorizationBinding::inflate
 
     override fun setupActivityView() {
         vb.apply {
             ccp.registerCarrierNumberEditText(etPhone)
             btnEnter.setEnable(false)
-            etPhone.addTextChangedListener { checkEditTextFilling() }
-            etPassword.addTextChangedListener { checkEditTextFilling() }
+            etPhone.addTextChangedListener { validateFields() }
+            etPassword.addTextChangedListener { validateFields() }
             tvSign.setOnClickListener { startRegisterActivity() }
             btnEnter.setOnClickListener { auth() }
         }
     }
 
-    private fun checkEditTextFilling() {
-        val (login, password) = editTextHandler()
+    private fun validateFields() {
+        val (login, password) = filterFields()
         vb.btnEnter.setEnable(login.isNotEmpty() && password.isNotEmpty())
     }
 
@@ -40,11 +40,11 @@ class AuthorizationActivity :
     }
 
     private fun auth() {
-        val (login, password) = editTextHandler()
+        val (login, password) = filterFields()
         vm.auth(login, password)
     }
 
-    private fun editTextHandler(): Array<String> {
+    private fun filterFields(): Array<String> {
         vb.apply {
             val login = etPhone.text.toString()
                 .filterNot { it.isWhitespace() }

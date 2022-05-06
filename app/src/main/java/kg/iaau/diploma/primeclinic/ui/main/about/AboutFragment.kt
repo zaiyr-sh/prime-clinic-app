@@ -18,7 +18,7 @@ class AboutFragment : CoreFragment<FragmentAboutBinding, AboutVM>(AboutVM::class
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAboutBinding
         get() = FragmentAboutBinding::inflate
 
-    private var aboutAdapter = AboutAdapter()
+    private var adapter = AboutAdapter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,20 +43,22 @@ class AboutFragment : CoreFragment<FragmentAboutBinding, AboutVM>(AboutVM::class
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.exit -> {
-                context?.showDialog(R.string.exit_confirmation, {
-                    vm.logout()
-                    activity?.finishAffinity()
-                    AuthorizationActivity.startActivity(requireContext())
-                })
+                context?.showDialog(R.string.exit_confirmation, { logout() })
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
+    private fun logout() {
+        vm.logout()
+        activity?.finishAffinity()
+        AuthorizationActivity.startActivity(requireContext())
+    }
+
     override fun setupFragmentView() {
         vb.run {
-            rvAbout.adapter = aboutAdapter
+            rvAbout.adapter = adapter
             swipeToRefresh.setOnRefreshListener { vm.getInfoAboutUs() }
         }
     }
@@ -64,19 +66,29 @@ class AboutFragment : CoreFragment<FragmentAboutBinding, AboutVM>(AboutVM::class
     override fun observeLiveData() {
         super.observeLiveData()
         vm.aboutInfoLiveData.observe(viewLifecycleOwner) { aboutInfo ->
-            setupFragmentViewVisibility(aboutInfo)
-            aboutInfo?.let {
-                aboutAdapter.submitList(it)
-            }
+            setupAboutInfo(aboutInfo)
         }
     }
 
-    private fun setupFragmentViewVisibility(aboutInfo: List<About>?) {
+    private fun setupAboutInfo(aboutInfo: List<About>?) {
+        when(aboutInfo.isNullOrEmpty()) {
+            true -> hideAboutInfo()
+            else -> showAboutInfo(aboutInfo)
+        }
+    }
+
+    private fun hideAboutInfo() {
         vb.run {
-            if (aboutInfo.isNullOrEmpty())
-                ivEmpty.show()
-            else
-                ivEmpty.gone()
+            ivEmpty.show()
+            rvAbout.hide()
+        }
+    }
+
+    private fun showAboutInfo(aboutInfo: List<About>) {
+        vb.run {
+            adapter.submitList(aboutInfo)
+            ivEmpty.gone()
+            rvAbout.show()
         }
     }
 

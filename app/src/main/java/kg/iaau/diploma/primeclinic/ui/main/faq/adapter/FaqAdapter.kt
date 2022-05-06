@@ -45,23 +45,35 @@ class FaqViewHolder(private val vb: ListItemFaqBinding) : RecyclerView.ViewHolde
     }
 
     companion object {
+
         fun from(parent: ViewGroup): FaqViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val vb = ListItemFaqBinding.inflate(layoutInflater, parent, false)
             return FaqViewHolder(vb).apply {
-                vb.run {
-                    clFaq.setOnClickListener {
-                        if(tvAnswer.isVisible){
-                            ivArrowDown.animate().rotationBy(90F).duration = 1
-                            tvAnswer.gone()
-                        }
-                        else{
-                            ivArrowDown.animate().rotationBy(-90F).duration = 1
-                            tvAnswer.show()
-                        }
-                    }
-                }
+                vb.clFaq.setOnClickListener { setupAnswer(vb) }
             }
         }
+
+        private fun setupAnswer(vb: ListItemFaqBinding) {
+            when(vb.tvAnswer.isVisible) {
+                true -> hideAnswer(vb)
+                else -> showAnswer(vb)
+            }
+        }
+
+        private fun hideAnswer(vb: ListItemFaqBinding) {
+            vb.run {
+                ivArrowDown.animate().rotationBy(90F).duration = 1
+                tvAnswer.gone()
+            }
+        }
+
+        private fun showAnswer(vb: ListItemFaqBinding) {
+            vb.run {
+                ivArrowDown.animate().rotationBy(-90F).duration = 1
+                tvAnswer.show()
+            }
+        }
+
     }
 }

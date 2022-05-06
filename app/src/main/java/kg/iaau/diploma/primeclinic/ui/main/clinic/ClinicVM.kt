@@ -7,11 +7,15 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kg.iaau.diploma.core.utils.CoreEvent
 import kg.iaau.diploma.core.vm.CoreVM
 import kg.iaau.diploma.data.*
+import kg.iaau.diploma.primeclinic.repository.AuthRepository
 import kg.iaau.diploma.primeclinic.repository.ClinicRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class ClinicVM @Inject constructor(val repository: ClinicRepository) : CoreVM() {
+class ClinicVM @Inject constructor(
+    val repository: ClinicRepository,
+    val authRepository: AuthRepository
+) : CoreVM() {
 
     val specialistLiveData: LiveData<SpecialistCategory?>
         get() = _specialistLiveData
@@ -36,10 +40,6 @@ class ClinicVM @Inject constructor(val repository: ClinicRepository) : CoreVM() 
     val paymentMethodsLiveData: LiveData<List<Payment>?>
         get() = _paymentMethodsLiveData
     private val _paymentMethodsLiveData = MutableLiveData<List<Payment>?>()
-
-    val paymentLiveData: LiveData<Payment?>
-        get() = _paymentLiveData
-    private val _paymentLiveData = MutableLiveData<Payment?>()
 
     fun getSpecialistCategories(): LiveData<PagingData<SpecialistCategory>> {
         return repository.getSpecialistCategories(event)
@@ -101,12 +101,8 @@ class ClinicVM @Inject constructor(val repository: ClinicRepository) : CoreVM() 
         )
     }
 
-    fun setPaymentMethod(payment: Payment) {
-        _paymentLiveData.postValue(payment)
-    }
-
     fun logout() {
-        repository.restorePinWithTokens()
+        authRepository.restorePinWithTokens()
     }
 
 }

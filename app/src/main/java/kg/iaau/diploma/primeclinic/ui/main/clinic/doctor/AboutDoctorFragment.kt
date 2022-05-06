@@ -40,7 +40,6 @@ class AboutDoctorFragment : CoreFragment<FragmentAboutDoctorBinding, ClinicVM>(C
                     navigateToChoosingDate(schedule)
                 }
             }
-
             swipeToRefresh.setOnRefreshListener { vm.getDoctorProfileById(id) }
         }
     }

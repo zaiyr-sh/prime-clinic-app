@@ -7,7 +7,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import kg.iaau.diploma.core.utils.formatForDate
-import kg.iaau.diploma.core.utils.loadWithFresco
+import kg.iaau.diploma.core.utils.loadBase64Image
 import kg.iaau.diploma.data.Chat
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ListItemChannelBinding
@@ -55,9 +55,7 @@ class ChannelViewHolder(private val vb: ListItemChannelBinding) : RecyclerView.V
                     val image = it.getString("image")
                     val name = it.getString("name")
                     val fatherName = it.getString("fatherName")
-                    ivProfile.loadWithFresco(image, onFail = {
-                        ivProfile.setActualImageResource(R.drawable.ic_doctor)
-                    })
+                    ivProfile.loadBase64Image(itemView.context, image, R.drawable.ic_doctor)
                     val fullName = "$name $fatherName"
                     tvName.text = fullName
                 }

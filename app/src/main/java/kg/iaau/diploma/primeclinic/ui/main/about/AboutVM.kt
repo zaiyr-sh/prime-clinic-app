@@ -6,10 +6,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kg.iaau.diploma.core.vm.CoreVM
 import kg.iaau.diploma.data.About
 import kg.iaau.diploma.primeclinic.repository.AboutRepository
+import kg.iaau.diploma.primeclinic.repository.AuthRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class AboutVM @Inject constructor(private val repository: AboutRepository) : CoreVM() {
+class AboutVM @Inject constructor(
+    private val repository: AboutRepository,
+    private val authRepository: AuthRepository
+) : CoreVM() {
 
     val aboutInfoLiveData: LiveData<List<About>?>
         get() = _aboutInfoLiveData
@@ -35,7 +39,7 @@ class AboutVM @Inject constructor(private val repository: AboutRepository) : Cor
         )
     }
 
-    fun getInfoAboutUsFromDb() {
+    private fun getInfoAboutUsFromDb() {
         safeLaunch(
             action = {
                 _aboutInfoLiveData.postValue(repository.getInfoAboutUsFromDb())
@@ -44,7 +48,7 @@ class AboutVM @Inject constructor(private val repository: AboutRepository) : Cor
     }
 
     fun logout() {
-        repository.restorePinWithTokens()
+        authRepository.restorePinWithTokens()
     }
 
 }

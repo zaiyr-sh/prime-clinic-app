@@ -10,8 +10,8 @@ import kg.iaau.diploma.primeclinic.databinding.FragmentAgreementBottomSheetBindi
 @AndroidEntryPoint
 class AgreementBottomSheetFragment : BaseBottomSheetFragment<FragmentAgreementBottomSheetBinding>() {
 
-    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAgreementBottomSheetBinding =
-        FragmentAgreementBottomSheetBinding::inflate
+    override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentAgreementBottomSheetBinding
+        get() = FragmentAgreementBottomSheetBinding::inflate
 
     override fun setupFragmentView() {
         vb.ibDismiss.setOnClickListener { dismiss() }
