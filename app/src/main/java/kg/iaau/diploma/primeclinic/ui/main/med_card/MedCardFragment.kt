@@ -65,7 +65,7 @@ class MedCardFragment : CoreFragment<FragmentMedCardBinding, MedCardVM>(MedCardV
             llAddMedCard.gone()
             tvName.text = getString(R.string.full_name, medCard.lastName, medCard.firstName, medCard.patronymic)
             tvBirthday.text = getString(R.string.birth_date, medCard.birthDate)
-            when(medCard.medCardPhoneNumber.isNullOrEmpty()) {
+            tvPhone.text = when(medCard.medCardPhoneNumber.isNullOrEmpty()) {
                 true -> getString(R.string.whatsapp_number, getString(R.string.undefined_phone_number))
                 else -> getString(R.string.whatsapp_number, medCard.medCardPhoneNumber)
             }

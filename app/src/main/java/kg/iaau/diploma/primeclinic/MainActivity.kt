@@ -9,11 +9,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.ui.CoreActivity
 import kg.iaau.diploma.core.utils.FirebaseHelper
 import kg.iaau.diploma.core.utils.startActivity
+import kg.iaau.diploma.core.utils.toast
+import kg.iaau.diploma.local_storage.prefs.StoragePreferences.Keys.IS_TOKEN_EXPIRED
+import kg.iaau.diploma.local_storage.prefs.liveData
 import kg.iaau.diploma.primeclinic.databinding.ActivityMainBinding
 import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationActivity
 import kg.iaau.diploma.primeclinic.ui.main.chat.ChatVM
 import kg.iaau.diploma.primeclinic.ui.main.chat.calling.ReceivingCallActivity
-import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class MainActivity : CoreActivity<ActivityMainBinding, ChatVM>(ChatVM::class.java) {
@@ -33,15 +35,16 @@ class MainActivity : CoreActivity<ActivityMainBinding, ChatVM>(ChatVM::class.jav
     }
 
     override fun observeLiveData() {
-        vm.getTokenUpdatingNotifyFlow().onEach { updated ->
-            updated?.let {
-                if(!it) {
-                    vm.logout()
-                    finishAffinity()
-                    AuthorizationActivity.startActivity(this)
-                }
-            }
+        vm.prefs.liveData(IS_TOKEN_EXPIRED, false).observe(this) { isExpired ->
+            if(isExpired) logout()
         }
+    }
+
+    private fun logout() {
+        vm.logout()
+        toast(getString(R.string.session_timed_out))
+        finishAffinity()
+        AuthorizationActivity.startActivity(this)
     }
 
     companion object {

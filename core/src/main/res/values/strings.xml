@@ -118,6 +118,7 @@
     <string name="exit_confirmation">Вы уверены что хотите выйти?</string>
     <string name="exit">Выход</string>
 
+    <string name="session_timed_out">Время сессии истекло! Необходимо заново войти.</string>
     <string name="please_wait">Пожалуйста, ожидайте…</string>
     <string name="success_registration_description">Вы успешно зарегестрировались! Теперь необходиом войти в приложение.</string>
     <string name="network_error">Сервис на данный момент недоступен! Попробуйте позже.</string>

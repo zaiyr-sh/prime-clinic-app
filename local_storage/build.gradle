@@ -36,6 +36,7 @@ dependencies {
     implementation project(path: ':data')
 
     implementation libs.room.values()
+    implementation libs.androidx.values()
 
     testImplementation libs.test.values()
 
