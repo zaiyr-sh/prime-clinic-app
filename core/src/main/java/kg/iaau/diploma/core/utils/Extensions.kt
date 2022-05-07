@@ -85,6 +85,13 @@ fun View.gone() {
     visibility = View.GONE
 }
 
+fun View.setVisible(isVisible: Boolean) {
+    visibility = when (isVisible) {
+        true -> View.VISIBLE
+        else -> View.GONE
+    }
+}
+
 fun View.setAnimateAlpha(value: Float) {
     animate().alpha(value)
 }
@@ -313,3 +320,11 @@ fun Context.loadWithGlide(image: String?, onSuccess: ((resource: Drawable?) -> U
 
 }
 
+fun Date.remainFromInDays(date2: Date): Long {
+    val diff: Long = time - date2.time
+    val seconds = diff / 1000
+    val minutes = seconds / 60
+    val hours = minutes / 60
+    val days = hours / 24
+    return days
+}

@@ -8,9 +8,12 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
 import kg.iaau.diploma.core.utils.formatForDate
 import kg.iaau.diploma.core.utils.loadBase64Image
+import kg.iaau.diploma.core.utils.remainFromInDays
+import kg.iaau.diploma.core.utils.setVisible
 import kg.iaau.diploma.data.Chat
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ListItemChannelBinding
+import java.util.*
 
 class ChannelAdapter(options: FirestoreRecyclerOptions<Chat>, private var listener: ChannelListener) :
     FirestoreRecyclerAdapter<Chat, ChannelViewHolder>(options) {
@@ -30,6 +33,7 @@ class ChannelViewHolder(private val vb: ListItemChannelBinding) : RecyclerView.V
 
     fun bind(chat: Chat) {
         vb.run {
+            setupChannelVisibility(chat)
             tvTime.text = chat.lastMessageTime?.toDate()?.formatForDate()
             tvMessage.text = when (chat.lastMessageSenderId) {
                 chat.adminId -> itemView.context.getString(R.string.doctor_message, getMessage(chat))
@@ -37,6 +41,15 @@ class ChannelViewHolder(private val vb: ListItemChannelBinding) : RecyclerView.V
                 else -> ""
             }
             setFullName(chat.adminId)
+        }
+    }
+
+    private fun setupChannelVisibility(chat: Chat) {
+        val chatStartedDate = chat.chatStartedTime?.toDate()
+        val currentDate = Date()
+        when(chatStartedDate == null) {
+            true -> vb.clContainer.setVisible(false)
+            else -> vb.clContainer.setVisible(currentDate.remainFromInDays(chatStartedDate) <= 1)
         }
     }
 
