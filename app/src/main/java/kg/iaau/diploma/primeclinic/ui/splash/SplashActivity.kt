@@ -5,6 +5,8 @@ import android.os.Looper
 import android.view.LayoutInflater
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.ui.CoreActivity
+import kg.iaau.diploma.primeclinic.BuildConfig
+import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ActivitySplashBinding
 import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationActivity
 import kg.iaau.diploma.primeclinic.ui.authorization.AuthorizationVM
@@ -17,6 +19,7 @@ class SplashActivity : CoreActivity<ActivitySplashBinding, AuthorizationVM>(Auth
         get() = ActivitySplashBinding::inflate
 
     override fun setupActivityView() {
+        vb.appVersion.text = getString(R.string.app_version, BuildConfig.VERSION_NAME)
         Handler(Looper.getMainLooper()).postDelayed({
             if (vm.isUserSignIn())
                 PinActivity.startActivity(this)
