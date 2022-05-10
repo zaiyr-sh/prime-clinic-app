@@ -46,7 +46,7 @@
         <entry key="app/src/main/res/layout/list_item_pay_step.xml" value="0.23529411764705882" />
         <entry key="app/src/main/res/layout/list_item_payment.xml" value="0.375" />
         <entry key="app/src/main/res/layout/list_item_receive_message.xml" value="0.1585144927536232" />
-        <entry key="app/src/main/res/layout/list_item_received_message.xml" value="0.17753623188405798" />
+        <entry key="app/src/main/res/layout/list_item_received_message.xml" value="0.375" />
         <entry key="app/src/main/res/layout/list_item_sent_message.xml" value="0.25" />
         <entry key="app/src/main/res/layout/list_item_slot.xml" value="0.375" />
         <entry key="app/src/main/res/layout/list_item_specialists.xml" value="0.3047091412742382" />
