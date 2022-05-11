@@ -6,10 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.google.firebase.firestore.FirebaseFirestore
-import kg.iaau.diploma.core.utils.formatForDate
-import kg.iaau.diploma.core.utils.loadBase64Image
-import kg.iaau.diploma.core.utils.remainFromInDays
-import kg.iaau.diploma.core.utils.setVisible
+import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.Chat
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.ListItemChannelBinding
@@ -33,23 +30,36 @@ class ChannelViewHolder(private val vb: ListItemChannelBinding) : RecyclerView.V
 
     fun bind(chat: Chat) {
         vb.run {
-            setupChannelVisibility(chat)
             tvTime.text = chat.lastMessageTime?.toDate()?.formatForDate()
             tvMessage.text = when (chat.lastMessageSenderId) {
                 chat.adminId -> itemView.context.getString(R.string.doctor_message, getMessage(chat))
                 chat.clientId -> itemView.context.getString(R.string.your_message, getMessage(chat))
                 else -> ""
             }
-            setFullName(chat.adminId)
+            setupUser(chat.adminId)
+            setupChannelEnabling(chat)
         }
     }
 
-    private fun setupChannelVisibility(chat: Chat) {
+    private fun setupChannelEnabling(chat: Chat) {
         val chatStartedDate = chat.chatTime?.toDate()
         val currentDate = Date()
         when(chatStartedDate == null) {
-            true -> vb.clContainer.setVisible(false)
-            else -> vb.clContainer.setVisible(currentDate.remainFromInDays(chatStartedDate) == 0L)
+            true -> setChatEnabled(false)
+            else -> setChatEnabled(currentDate.remainFromInDays(chatStartedDate) == 0L)
+        }
+    }
+
+    private fun setChatEnabled(isEnabled: Boolean) {
+        vb.run {
+            when (isEnabled) {
+                true -> clContainer.setEnable(true)
+                false -> {
+                    tvMessage.text = itemView.context.getString(R.string.chat_not_available)
+                    tvMessage.setTextColor(itemView.context.setColor(R.color.red))
+                    clContainer.setEnable(false)
+                }
+            }
         }
     }
 
@@ -60,17 +70,20 @@ class ChannelViewHolder(private val vb: ListItemChannelBinding) : RecyclerView.V
         }
     }
 
-    private fun setFullName(adminId: String?) {
+    private fun setupUser(adminId: String?) {
         val db = FirebaseFirestore.getInstance()
         vb.run {
             adminId?.let { id ->
                 db.collection("doctors").document(id).get().addOnSuccessListener {
                     val image = it.getString("image")
-                    val name = it.getString("name")
-                    val fatherName = it.getString("fatherName")
+                    val name = it.getString("name") ?: ""
+                    val fatherName = it.getString("fatherName") ?: ""
                     ivProfile.loadBase64Image(itemView.context, image, R.drawable.ic_doctor)
                     val fullName = "$name $fatherName"
-                    tvName.text = fullName
+                    tvName.text = when (fullName.isFullyEmpty()) {
+                        true -> itemView.context.getString(R.string.name_not_set)
+                        else -> fullName
+                    }
                 }
             }
         }

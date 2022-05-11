@@ -100,6 +100,8 @@
 
     <string name="administrator">Администратор</string>
     <string name="doctor">Доктор</string>
+    <string name="name_not_set">Имя не задано</string>
+    <string name="chat_not_available">Чат недоступен! Запишитесь снова.</string>
     <string name="your_message">Вы: %s</string>
     <string name="doctor_message">Доктор: %s</string>
     <string name="admin_message">Админ: %s</string>
