@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kg.iaau.diploma.core.utils.gone
 import kg.iaau.diploma.core.utils.show
+import kg.iaau.diploma.core.utils.toHtml
 import kg.iaau.diploma.data.Faq
 import kg.iaau.diploma.primeclinic.databinding.ListItemFaqBinding
 
@@ -40,7 +41,7 @@ class FaqViewHolder(private val vb: ListItemFaqBinding) : RecyclerView.ViewHolde
     fun bind(faq: Faq) {
         vb.run {
             tvQuestion.text = faq.question
-            tvAnswer.text = faq.answer
+            tvAnswer.text = faq.answer.toHtml()
         }
     }
 

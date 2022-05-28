@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.Spanned
 import android.util.Base64
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -26,6 +27,7 @@ import androidx.annotation.Nullable
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -336,3 +338,8 @@ fun Context.setColor(@ColorRes resId: Int): Int {
 }
 
 fun String?.isFullyEmpty() = isNullOrEmpty() || isNullOrBlank()
+
+fun String?.toHtml(): Spanned? {
+    if (this.isNullOrEmpty()) return null
+    return HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT)
+}
