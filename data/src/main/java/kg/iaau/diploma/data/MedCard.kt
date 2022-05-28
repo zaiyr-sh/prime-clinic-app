@@ -12,7 +12,18 @@ class MedCard(
     var patronymic: String? = null,
     var birthDate: String? = null,
     var medCardPhoneNumber: String? = null
-)
+) {
+
+    fun isNullOrEmpty(): Boolean {
+        return id == null
+                && firstName.isNullOrEmpty()
+                && lastName.isNullOrEmpty()
+                && patronymic.isNullOrEmpty()
+                && birthDate.isNullOrEmpty()
+                && medCardPhoneNumber.isNullOrEmpty()
+    }
+
+}
 
 class MedCardImage(
     var id: Int? = null,

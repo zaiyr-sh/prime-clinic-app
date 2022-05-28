@@ -46,9 +46,9 @@ class SmsCodeActivity : CoreActivity<ActivitySmsCodeBinding, AuthorizationVM>(Au
 
     override fun successAction() {
         super.successAction()
-        vb.clContainer.showSnackBar(this, getString(R.string.success_registration_description))
         vm.savePhoneNumber(phone)
         initFirebaseAuth()
+        toast(getString(R.string.success_registration_description))
         AuthorizationActivity.startActivity(this)
         finish()
     }

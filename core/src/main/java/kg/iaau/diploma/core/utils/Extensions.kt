@@ -135,8 +135,9 @@ fun String.convertToUTC(): String {
     return "$year-$month-$day"
 }
 
-fun String.convertBase64ToBitmap(): Bitmap {
+fun String.convertBase64ToBitmap(): Bitmap? {
     val imageAsBytes = Base64.decode(toByteArray(), Base64.DEFAULT)
+    if (imageAsBytes.isEmpty()) return null
     return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.size)
 }
 

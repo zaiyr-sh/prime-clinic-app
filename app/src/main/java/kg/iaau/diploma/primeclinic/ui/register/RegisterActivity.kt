@@ -64,7 +64,16 @@ class RegisterActivity :
 
     override fun errorAction(event: CoreEvent.Error) {
         super.errorAction(event)
-        if (!event.isNetworkError) toast(getString(R.string.auth_error))
+        if (!event.isNetworkError) {
+            checkErrorBody(event.errorBody?.string())
+        }
+    }
+
+    private fun checkErrorBody(errorBody: String?) {
+        when (errorBody.isNullOrEmpty()) {
+            true -> toast(getString(R.string.auth_error))
+            else -> toast(errorBody)
+        }
     }
 
     override fun showLoader() {

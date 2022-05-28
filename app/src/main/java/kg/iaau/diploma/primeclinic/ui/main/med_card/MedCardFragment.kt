@@ -49,7 +49,7 @@ class MedCardFragment : CoreFragment<FragmentMedCardBinding, MedCardVM>(MedCardV
         super.observeLiveData()
         vm.medCardLiveData.observe(viewLifecycleOwner) { medCard ->
             medCard?.let {
-                setupMedCardFields(it)
+                if(!medCard.isNullOrEmpty()) setupMedCardFields(it)
             }
         }
         vm.medCardImageLiveData.observe(viewLifecycleOwner) { medCardImage ->
