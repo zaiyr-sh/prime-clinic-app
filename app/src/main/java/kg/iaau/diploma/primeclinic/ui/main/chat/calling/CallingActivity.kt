@@ -83,7 +83,7 @@ class CallingActivity : CoreActivity<ActivityCallingBinding, ChatVM>(ChatVM::cla
     }
 
     private fun setEndCall() {
-        vb.givCancel.setOnClickListener {
+        vb.givCancel.setOnSingleClickListener {
             endCall()
         }
     }

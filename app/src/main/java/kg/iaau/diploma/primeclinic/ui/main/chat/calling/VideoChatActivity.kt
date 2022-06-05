@@ -57,7 +57,6 @@ class VideoChatActivity : AppCompatActivity(), Session.SessionListener,
         mp?.start()
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vb = ActivityVideoChatBinding.inflate(layoutInflater)
@@ -65,7 +64,6 @@ class VideoChatActivity : AppCompatActivity(), Session.SessionListener,
         setupActivityView()
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
     private fun setupActivityView() {
         requestPermissions.launch(permissions)
         ref = FirebaseFirestore.getInstance().document(refPath)
@@ -167,11 +165,9 @@ class VideoChatActivity : AppCompatActivity(), Session.SessionListener,
         private var TOKEN =
             "T1==cGFydG5lcl9pZD00NzUxMDE5MSZzaWc9YjAxMDcxODE4ZTM1M2IxZTg0MzdjNDUxMTNlMGNjZGMzZTBhYWFkYTpzZXNzaW9uX2lkPTJfTVg0ME56VXhNREU1TVg1LU1UWTFORFF3TlRFNE5UVTVPWDVKYW00MFVXOXVSa3RGWVhobE5qSTFiRlJEVkVJME4xcC1mZyZjcmVhdGVfdGltZT0xNjU0NDA1MjM2Jm5vbmNlPTAuOTAwMDM4MzE5Njc3NTAxNyZyb2xlPXB1Ymxpc2hlciZleHBpcmVfdGltZT0xNjU2OTk3MjM1JmluaXRpYWxfbGF5b3V0X2NsYXNzX2xpc3Q9"
 
-        @RequiresApi(Build.VERSION_CODES.S)
         private val permissions = arrayOf(
             Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CAMERA,
-            Manifest.permission.BLUETOOTH_CONNECT
+            Manifest.permission.CAMERA
         )
         private const val REF = "ref"
         private const val USERNAME = "username"

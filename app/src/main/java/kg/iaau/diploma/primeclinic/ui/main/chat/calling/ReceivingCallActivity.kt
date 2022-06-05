@@ -48,7 +48,7 @@ class ReceivingCallActivity : CoreActivity<ActivityReceivingCallBinding, ChatVM>
         ref = FirebaseFirestore.getInstance().collection("users").document(vm.userId.toString())
             .collection("call").document("calling")
         vb.run {
-            givAccept.setOnClickListener {
+            givAccept.setOnSingleClickListener {
                 val map = mutableMapOf<String, Boolean>().apply {
                     this["accepted"] = true
                 }
@@ -58,7 +58,7 @@ class ReceivingCallActivity : CoreActivity<ActivityReceivingCallBinding, ChatVM>
                     VideoChatActivity.startActivity(this@ReceivingCallActivity, ref.path, tvUsername.text.toString())
                 }
             }
-            givCancel.setOnClickListener {
+            givCancel.setOnSingleClickListener {
                 endCall()
             }
         }

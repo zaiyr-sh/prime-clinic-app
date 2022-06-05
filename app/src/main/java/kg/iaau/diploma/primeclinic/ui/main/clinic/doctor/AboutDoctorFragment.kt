@@ -41,7 +41,7 @@ class AboutDoctorFragment : CoreFragment<FragmentAboutDoctorBinding, ClinicVM>(C
         vb.run {
             toolbar.setNavigationOnClickListener { parentFragmentManager.popBackStack() }
             rvEducation.adapter = adapter
-            btnMakeAppointment.setOnClickListener {
+            btnMakeAppointment.setOnSingleClickListener {
                 vm.doctorScheduleLiveData.observe(viewLifecycleOwner) { schedule ->
                     navigateToChoosingDate(schedule)
                 }

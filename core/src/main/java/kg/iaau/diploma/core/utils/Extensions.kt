@@ -343,3 +343,10 @@ fun String?.toHtml(): Spanned? {
     if (this.isNullOrEmpty()) return null
     return HtmlCompat.fromHtml(this, HtmlCompat.FROM_HTML_MODE_COMPACT)
 }
+
+fun View.setOnSingleClickListener(onClick: (View) -> Unit) {
+    val safeClickListener = SingleClickListener {
+        onClick(it)
+    }
+    setOnClickListener(safeClickListener)
+}

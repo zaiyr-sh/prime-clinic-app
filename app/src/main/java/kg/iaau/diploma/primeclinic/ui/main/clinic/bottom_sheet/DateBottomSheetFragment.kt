@@ -7,10 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.ui.CoreBottomSheetFragment
-import kg.iaau.diploma.core.utils.formatForCurrentDate
-import kg.iaau.diploma.core.utils.hide
-import kg.iaau.diploma.core.utils.show
-import kg.iaau.diploma.core.utils.toast
+import kg.iaau.diploma.core.utils.*
 import kg.iaau.diploma.data.Interval
 import kg.iaau.diploma.primeclinic.R
 import kg.iaau.diploma.primeclinic.databinding.FragmentCalendarBottomSheetBinding
@@ -33,7 +30,7 @@ class DateBottomSheetFragment : CoreBottomSheetFragment<FragmentCalendarBottomSh
             tvHeader.text = getString(R.string.choose_date)
             rvTime.adapter = adapter
             btnCancel.setOnClickListener { dismiss() }
-            btnOk.setOnClickListener { checkChoosingDate() }
+            btnOk.setOnSingleClickListener { checkChoosingDate() }
         }
         setupDate(schedule)
     }
