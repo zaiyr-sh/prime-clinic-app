@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import dagger.hilt.android.AndroidEntryPoint
 import kg.iaau.diploma.core.ui.CoreBottomSheetFragment
+import kg.iaau.diploma.core.utils.formatForCurrentDate
 import kg.iaau.diploma.core.utils.hide
 import kg.iaau.diploma.core.utils.show
 import kg.iaau.diploma.core.utils.toast
@@ -74,7 +75,7 @@ class DateBottomSheetFragment : CoreBottomSheetFragment<FragmentCalendarBottomSh
        vb.run {
            rvTime.show()
            ivEmpty.hide()
-           adapter.submitList(schedule.distinctBy { it.start?.length })
+           adapter.submitList(schedule.distinctBy { it.start?.formatForCurrentDate() })
        }
     }
 

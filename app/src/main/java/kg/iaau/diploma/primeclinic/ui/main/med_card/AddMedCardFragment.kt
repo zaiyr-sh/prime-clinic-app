@@ -33,7 +33,6 @@ class AddMedCardFragment : CoreFragment<FragmentAddMedCardBinding, MedCardVM>(Me
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         vm.getMedCard()
     }
 

@@ -31,6 +31,12 @@ class AboutDoctorFragment : CoreFragment<FragmentAboutDoctorBinding, ClinicVM>(C
         vm.getScheduleByDoctorId(id)
     }
 
+    override fun onResume() {
+        super.onResume()
+        vm.getDoctorProfileById(id)
+        vm.getScheduleByDoctorId(id)
+    }
+
     override fun setupFragmentView() {
         vb.run {
             toolbar.setNavigationOnClickListener { parentFragmentManager.popBackStack() }

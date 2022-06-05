@@ -34,41 +34,34 @@ object AppModule {
     }
 
     @Provides
-    @Singleton
     fun provideAboutDao(db: AppDatabase) = db.aboutDao()
 
     @Provides
-    @Singleton
     fun provideFaqDao(db: AppDatabase) = db.faqDao()
 
     @Singleton
     @Provides
     fun providesStoragePreferences(@ApplicationContext context: Context) = StoragePreferences(context)
 
-    @Singleton
     @Provides
     fun providesAuthRepository(storagePreferences: StoragePreferences, apiAuth: ApiAuth) =
         AuthRepository(storagePreferences, apiAuth)
 
-    @Singleton
     @Provides
     fun providesAboutRepository(
         apiAbout: ApiAbout,
         aboutDao: AboutDao
     ) = AboutRepository(apiAbout, aboutDao)
 
-    @Singleton
     @Provides
     fun providesFaqRepository(apiFaq: ApiFaq, faqDao: FaqDao) = FaqRepository(apiFaq, faqDao)
 
-    @Singleton
     @Provides
     fun providesMedCardRepository(
         storagePreferences: StoragePreferences,
         apiMedCard: ApiMedCard
     ) = MedCardRepository(storagePreferences, apiMedCard)
 
-    @Singleton
     @Provides
     fun providesClinicRepository(storagePreferences: StoragePreferences, apiClinic: ApiClinic) =
         ClinicRepository(storagePreferences, apiClinic)

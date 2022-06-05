@@ -3,7 +3,6 @@ package kg.iaau.diploma.primeclinic.ui.main.clinic.reserve
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -27,11 +26,11 @@ class ReserveVisitFragment : CoreFragment<FragmentReserveVisitBinding, ClinicVM>
     private val slot: Slot by lazy { args.slot }
 
     override fun setupFragmentView() {
-        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING)
         vm.getPaymentMethods()
         vm.setDate(schedule)
         vm.setSlot(slot)
         vb.run {
+            btnBook.setEnable(false)
             etPhone.addTextChangedListener { validatePhoneNumber() }
             toolbar.setNavigationOnClickListener { parentFragmentManager.popBackStack() }
             ccp.registerCarrierNumberEditText(etPhone)
@@ -87,7 +86,6 @@ class ReserveVisitFragment : CoreFragment<FragmentReserveVisitBinding, ClinicVM>
         super.showLoader()
         vb.run {
             clContainer.setAnimateAlpha(0.5f)
-            btnBook.setEnable(false)
         }
     }
 
@@ -95,7 +93,6 @@ class ReserveVisitFragment : CoreFragment<FragmentReserveVisitBinding, ClinicVM>
         super.goneLoader()
         vb.run {
             clContainer.setAnimateAlpha(1f)
-            btnBook.setEnable(true)
         }
     }
 
