@@ -3,6 +3,7 @@ package kg.iaau.diploma.primeclinic.ui.main.clinic.reserve
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -18,12 +19,22 @@ import kg.iaau.diploma.primeclinic.ui.main.clinic.ClinicVM
 @AndroidEntryPoint
 class ReserveVisitFragment : CoreFragment<FragmentReserveVisitBinding, ClinicVM>(ClinicVM::class.java) {
 
+
     override val bindingInflater: (LayoutInflater, ViewGroup?, Boolean) -> FragmentReserveVisitBinding
         get() = FragmentReserveVisitBinding::inflate
 
+    private var originalMode : Int? = null
     private val args: ReserveVisitFragmentArgs by navArgs()
     private val schedule: Interval by lazy { args.schedule }
     private val slot: Slot by lazy { args.slot }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        originalMode = activity?.window?.attributes?.softInputMode
+        activity?.window?.setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING
+        )
+    }
 
     override fun setupFragmentView() {
         vm.getPaymentMethods()
@@ -94,6 +105,16 @@ class ReserveVisitFragment : CoreFragment<FragmentReserveVisitBinding, ClinicVM>
         vb.run {
             clContainer.setAnimateAlpha(1f)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        originalMode?.let { activity?.window?.setSoftInputMode(it) }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        originalMode?.let { activity?.window?.setSoftInputMode(it) }
     }
 
 }
