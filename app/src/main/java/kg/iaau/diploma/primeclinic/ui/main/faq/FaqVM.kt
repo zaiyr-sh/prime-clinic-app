@@ -27,6 +27,8 @@ class FaqVM @Inject constructor(private val repository: FaqRepository) : CoreVM(
         safeLaunch(
             action = {
                 repository.insertFaqs(faqs)
+            },
+            success = {
                 getFaqFromDb()
             },
             fail = {

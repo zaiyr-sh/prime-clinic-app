@@ -31,6 +31,8 @@ class AboutVM @Inject constructor(
         safeLaunch(
             action = {
                 repository.insertAboutUsInfo(aboutInfo)
+            },
+            success = {
                 getInfoAboutUsFromDb()
             },
             fail = {
